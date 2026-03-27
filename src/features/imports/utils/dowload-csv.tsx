@@ -1,0 +1,18 @@
+export const downloadCsv = (content: string, filename: string) => {
+  const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+
+  if (link.download !== undefined) {
+    link.href = url;
+    link.setAttribute('download', filename);
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
+  }
+
+  URL.revokeObjectURL(url);
+};
