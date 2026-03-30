@@ -4,7 +4,13 @@ import { useFilePickerContext } from '../../hooks';
 import { useDropzone } from '@/shared/hooks/use-dropzone';
 import { cn } from '@/shared/utils';
 
-export function FilePickerDrag({ children, className }: { children?: ReactNode, className?: string }) {
+export function FilePickerDrag({
+  children,
+  className
+}: {
+  children?: ReactNode;
+  className?: string;
+}) {
   const [{ files }, { addFiles }] = useFilePickerContext();
 
   const handleDrop = useCallback(
@@ -25,7 +31,10 @@ export function FilePickerDrag({ children, className }: { children?: ReactNode, 
       {...dropzoneProps}
       data-dragging={isDragging || undefined}
       data-files={files.length > 0 || undefined}
-      className={cn("relative flex min-h-56 flex-col items-center overflow-hidden rounded-xl border-2 border-muted-foreground/50 border-dashed  p-4 transition-colors not-data-[files]:justify-center has-[input:focus]:border-ring has-[input:focus]:ring-[3px] has-[input:focus]:ring-ring/50 data-[dragging=true]:bg-accent/50", className)}
+      className={cn(
+        'relative flex min-h-56 flex-col items-center overflow-hidden rounded-xl border-2 border-muted-foreground/50 border-dashed  p-4 transition-colors not-data-[files]:justify-center has-[input:focus]:border-ring has-[input:focus]:ring-[3px] has-[input:focus]:ring-ring/50 data-[dragging=true]:bg-accent/50',
+        className
+      )}
     >
       {children}
     </div>

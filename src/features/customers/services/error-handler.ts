@@ -1,6 +1,9 @@
 import { AxiosError } from 'axios';
 
-export function handleCustomerError(error: Error | unknown, action: string): never {
+export function handleCustomerError(
+  error: Error | unknown,
+  action: string
+): never {
   console.error(`Erro em Customer Service [${action}]:`, error);
 
   let message = 'Ocorreu um erro inesperado na operação.';

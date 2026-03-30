@@ -1,4 +1,10 @@
-import { ClipboardMinus, Home, LayoutDashboard, Upload, Users } from 'lucide-react';
+import {
+  ClipboardMinus,
+  Home,
+  LayoutDashboard,
+  Upload,
+  Users
+} from 'lucide-react';
 import type { NavItem } from './nav-items';
 
 export const Navlinks: NavItem[] = [

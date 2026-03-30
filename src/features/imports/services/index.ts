@@ -7,7 +7,7 @@ import { handleImportError } from './error-handler';
 export async function getFiles(): Promise<PaginatedImports> {
   try {
     const { data } = await httpClient.get<GetUploadedFilesResponseDTO>(
-      `/files?PageFilter.Page=1&PageFilter.PageSize=500`,
+      `/files?PageFilter.Page=1&PageFilter.PageSize=500`
     );
     return ImportMapper.toPaginatedImports(data);
   } catch (error) {
@@ -15,18 +15,19 @@ export async function getFiles(): Promise<PaginatedImports> {
   }
 }
 
-export async function uploadFile({ file, type }: UploadFileParams): Promise<void> {
+export async function uploadFile({
+  file,
+  type
+}: UploadFileParams): Promise<void> {
   try {
     const formData = new FormData();
-    
+
     formData.append('File', file);
     formData.append('Type', type);
 
-    await httpClient.post(
-      '/files/import',
-      formData,
-      { headers: { 'Content-Type': 'multipart/form-data' } },
-    );
+    await httpClient.post('/files/import', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
   } catch (error) {
     handleImportError(error, 'uploadFile');
   }

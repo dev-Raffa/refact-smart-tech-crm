@@ -4,6 +4,7 @@ export * from './debounce';
 export * from './decode-jwt';
 export * from './cn';
 export * from './formaters/format-bytes';
+export * from './formaters/format-data';
 export * from './masks/mask-decimal';
 export * from './masks/mask-money';
 export * from './masks/mask-phone';

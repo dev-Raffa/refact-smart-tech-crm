@@ -1,12 +1,29 @@
-export interface LeadCustomerMarketing {
+import type { LeadCltSteps, LeadPublicServantSteps } from '../consts/steps';
+
+export interface LeadMarketing {
   source: string;
   audience: string;
 }
 
+export interface LeadChat {
+  chatId: string;
+  contactId: string;
+  channelId: string;
+}
+export interface LeadDetails {
+  id: string;
+  customer: LeadCustomer;
+  publicServantDetails: LeadPublicServantDetails;
+  marketing: LeadMarketing;
+  chat?: LeadChat;
+  payslip?: string;
+  history: FlowStep[];
+}
+
 export interface LeadCustomer {
   name: string;
-  cpf: string | null;
-  marketingDetails?: LeadCustomerMarketing;
+  cpf: string;
+  phoneNumbers: string[] | string;
 }
 
 export interface LeadOperatorTeam {
@@ -21,20 +38,28 @@ export interface LeadOperator {
   teamDetails?: LeadOperatorTeam;
 }
 
+export type LeadPublicServantFlowName = keyof typeof LeadPublicServantSteps;
+export type LeadCltFlowName = keyof typeof LeadCltSteps;
+
 export interface LeadLastFlow {
   bank: string;
-  flowName: string;
+  flowName: LeadPublicServantFlowName | LeadCltFlowName;
   cadence: string;
-  status: string;
+  status: LeadLastFlowExecutionStatus;
   needsHumanHelp: boolean;
   user: string;
   receivingAssistance: boolean;
   executedAt: string;
   attempt: number;
+  technicalResponseDetails?: {
+    error: string;
+    description: string;
+    jsonReturned: string;
+  };
 }
 
 export interface LeadPublicServantDetails {
-  governmentLevel?: string;
+  governamentLevel?: string;
   cityHall?: string;
   state?: string;
 }
@@ -42,12 +67,13 @@ export interface LeadPublicServantDetails {
 export type LeadProduct = 'Inss' | 'Clt';
 
 export type LeadStage =
+  | 'None'
   | 'NewLead'
-  | 'InNegotiation'
-  | 'Proposal'
-  | 'FollowUp'
-  | 'Sale'
-  | 'Disqualified';
+  | 'Negotiation'
+  | 'Digitation'
+  | 'Signature'
+  | 'Payed'
+  | 'EmptyBalance';
 
 export interface Lead {
   id: string;
@@ -58,12 +84,16 @@ export interface Lead {
   finalizationReason: string;
   products: LeadProduct[];
   customer: LeadCustomer;
+  marketing: LeadMarketing;
   operator?: LeadOperator;
-  lastFlow?: LeadLastFlow;
-  publicServantDetails?: LeadPublicServantDetails;
+  lastFlow: LeadLastFlow;
+  publicServantDetails: LeadPublicServantDetails;
 }
 
-export type LeadLastFlowExecutionStatus = 'RunSuccessfully' | 'RunningNow' | 'RunFailed';
+export type LeadLastFlowExecutionStatus =
+  | 'RunSuccessfully'
+  | 'RunningNow'
+  | 'RunFailed';
 
 export interface GetLeadsParams {
   products?: LeadProduct[];
@@ -111,11 +141,20 @@ export interface MoveLeadParams {
 }
 
 export interface FlowStep {
-  name: string;
-  description: string;
-  executedAt: string;
+  bank: string;
+  flowName: string;
+  cadence: string;
   status: LeadLastFlowExecutionStatus;
+  needsHumanHelp: boolean;
   user?: string;
+  receivingAssistance: boolean;
+  executedAt: string;
+  attempt: number;
+  technicalResponseDetails?: {
+    error: string;
+    description: string;
+    jsonReturned: string;
+  };
 }
 
 export interface PartnerInformations {
@@ -130,7 +169,6 @@ export interface ApprovedBankRequest {
 }
 
 export interface CreateInssLeadRequest {
-
   name: string;
   cpf: string;
   phoneNumber: string;
@@ -175,12 +213,9 @@ export interface SetApprovedBankParams {
 
 export interface ChangeOperatorParams {
   leadId: string;
-  operator: { 
-    id: string; 
-    name: string; 
-    username: string; 
+  operator: {
+    id: string;
+    name: string;
+    username: string;
   };
 }
-
-
-

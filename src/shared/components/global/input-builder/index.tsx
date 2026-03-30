@@ -19,7 +19,6 @@ interface InputBuilderProps extends ComponentProps<'input'> {
   inputType: InputType;
 }
 
-
 const INPUT_STRATEGIES: Record<InputType, React.ElementType> = {
   [InputType.Money]: InputMoney,
   [InputType.Percent]: InputPercent,

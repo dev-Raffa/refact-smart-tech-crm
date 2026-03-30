@@ -11,13 +11,14 @@ export const useAuthGuard = () => {
     if (!expiresAt) return;
     hasWarnedRef.current = false;
 
-    const timeUntilWarning = (expiresAt - Date.now()) - (5 * 60 * 1000);
-    
+    const timeUntilWarning = expiresAt - Date.now() - 5 * 60 * 1000;
+
     if (timeUntilWarning <= 0) return;
 
     const timeoutId = setTimeout(() => {
       toast.warning('Sua sessão expira em 5 minutos', {
-        description: 'Salve seu trabalho ou sua sessão será encerrada automaticamente.'
+        description:
+          'Salve seu trabalho ou sua sessão será encerrada automaticamente.'
       });
       hasWarnedRef.current = true;
     }, timeUntilWarning);
@@ -38,12 +39,17 @@ export const useAuthGuard = () => {
   useEffect(() => {
     const handleServerSessionExpired = () => {
       toast.error('Sua sessão expirou', {
-        description: 'Sua autenticação foi rejeitada pelo servidor. Faça login novamente.'
+        description:
+          'Sua autenticação foi rejeitada pelo servidor. Faça login novamente.'
       });
     };
 
     window.addEventListener('on-session-expired', handleServerSessionExpired);
-    return () => window.removeEventListener('on-session-expired', handleServerSessionExpired);
+    return () =>
+      window.removeEventListener(
+        'on-session-expired',
+        handleServerSessionExpired
+      );
   }, []);
 
   return { status };

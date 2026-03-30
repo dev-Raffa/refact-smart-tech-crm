@@ -5,16 +5,13 @@ import { useAuthStore } from '@/features/auth/store';
 export const bootstrapApp = () => {
   const getToken = () => useAuthStore.getState().token;
 
-  setupHttpClientInterceptors(
-    getToken,
-    () => {
-      const isLoggingOut = useAuthStore.getState().status === 'unauthenticated';
-      if (!isLoggingOut) {
-        window.dispatchEvent(new CustomEvent('on-session-expired'));
-        useAuthStore.getState().logout();
-      }
+  setupHttpClientInterceptors(getToken, () => {
+    const isLoggingOut = useAuthStore.getState().status === 'unauthenticated';
+    if (!isLoggingOut) {
+      window.dispatchEvent(new CustomEvent('on-session-expired'));
+      useAuthStore.getState().logout();
     }
-  );
+  });
 
   setupAuthInterceptors(getToken);
 };

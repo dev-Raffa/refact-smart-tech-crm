@@ -2,7 +2,7 @@ import {
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
-  getSortedRowModel,
+  getSortedRowModel
 } from '@tanstack/react-table';
 import {
   DataTable,
@@ -17,15 +17,18 @@ import { useImportsQuery } from '../../hooks/use-queries';
 
 export function ImportsTable() {
   const { data, isPending } = useImportsQuery();
-  
-  const tableOptions = useMemo(() => ({
-    data: data?.items ?? [],
-    columns: importsColumns,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-  }), [data]);
+
+  const tableOptions = useMemo(
+    () => ({
+      data: data?.items ?? [],
+      columns: importsColumns,
+      getCoreRowModel: getCoreRowModel(),
+      getSortedRowModel: getSortedRowModel(),
+      getFilteredRowModel: getFilteredRowModel(),
+      getPaginationRowModel: getPaginationRowModel()
+    }),
+    [data]
+  );
 
   if (isPending) return <ImportsSkeleton />;
 
@@ -41,7 +44,8 @@ export function ImportsTable() {
 
         <div className="flex flex-col items-center justify-between gap-4 py-4 md:flex-row">
           <div className="text-sm text-muted-foreground whitespace-nowrap">
-            Importados um total de <strong>{data?.items.length}</strong> arquivo(s).
+            Importados um total de <strong>{data?.items.length}</strong>{' '}
+            arquivo(s).
           </div>
           <div className="flex w-full justify-end">
             <PaginationControllers />

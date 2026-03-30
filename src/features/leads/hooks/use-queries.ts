@@ -2,11 +2,12 @@ import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { LeadService } from '../services';
 import type { GetLeadsParams } from '../types/lead.model';
 
-export function useLeadsQuery(params: GetLeadsParams) {
+export function useLeadsQuery(params: GetLeadsParams, enabled = true) {
   return useQuery({
     queryKey: ['leads', params],
     queryFn: () => LeadService.getLeads(params),
     placeholderData: keepPreviousData,
+    enabled
   });
 }
 
@@ -14,7 +15,7 @@ export function useLeadFlowStepsQuery(leadId: string) {
   return useQuery({
     queryKey: ['leads', leadId, 'flow-steps'],
     queryFn: () => LeadService.getFlowSteps(leadId),
-    enabled: !!leadId,
+    enabled: !!leadId
   });
 }
 
@@ -22,22 +23,22 @@ export function useLeadCustomerDetailsQuery(leadId: string) {
   return useQuery({
     queryKey: ['leads', leadId, 'customer'],
     queryFn: () => LeadService.getCustomerDetails(leadId),
-    enabled: !!leadId,
+    enabled: !!leadId
   });
 }
 
-export function useLeadPublicServantDetailsQuery(leadId: string) {
+export function useOperatorsByRoleQuery(kind: string) {
   return useQuery({
-    queryKey: ['leads', leadId, 'public-servant-details'],
-    queryFn: () => LeadService.getPublicServantDetails(leadId),
-    enabled: !!leadId,
+    queryKey: ['operators', 'by-role', kind],
+    queryFn: () => LeadService.getOperatorsByRole(kind),
+    staleTime: 1000 * 60 * 10 // 10 minutes
   });
 }
 
-export function useLeadPartnerInformationsQuery(leadId: string) {
+export function useLeadPaySlipUrlQuery(name: string) {
   return useQuery({
-    queryKey: ['leads', leadId, 'partner-informations'],
-    queryFn: () => LeadService.getPartnerInformations(leadId),
-    enabled: !!leadId,
+    queryKey: ['leads', name, 'pay-slip-url'],
+    queryFn: () => LeadService.getPaySlipUrl(name),
+    enabled: !!name
   });
 }

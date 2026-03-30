@@ -39,5 +39,5 @@ export interface TokenClaims {
 }
 
 export interface SSOAuthotize {
-  token: string
+  token: string;
 }

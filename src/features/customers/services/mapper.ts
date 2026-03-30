@@ -1,5 +1,15 @@
-import type { CustomerDTO, GetCustomersResponseDTO, GetCustomersQueryParams, ExportCustomersRequestDTO } from '../types/customer.dto';
-import type { Customer, PaginatedCustomers, GetCustomersParams, ExportCustomersParams } from '../types/customer.model';
+import type {
+  CustomerDTO,
+  GetCustomersResponseDTO,
+  GetCustomersQueryParams,
+  ExportCustomersRequestDTO
+} from '../types/customer.dto';
+import type {
+  Customer,
+  PaginatedCustomers,
+  GetCustomersParams,
+  ExportCustomersParams
+} from '../types/customer.model';
 
 export class CustomerMapper {
   static toModel(dto: CustomerDTO): Customer {
@@ -30,7 +40,7 @@ export class CustomerMapper {
       number: dto.number,
       district: dto.district,
       rg: dto.rg,
-      documentFileName: dto.documentFileName,
+      documentFileName: dto.documentFileName
     };
   }
 
@@ -40,7 +50,7 @@ export class CustomerMapper {
       pageSize: dto.pageSize,
       totalPages: dto.totalPages,
       totalResults: dto.totalResults,
-      results: dto.results.map(CustomerMapper.toModel),
+      results: dto.results.map(CustomerMapper.toModel)
     };
   }
 
@@ -72,7 +82,7 @@ export class CustomerMapper {
       number: model.number,
       district: model.district,
       rg: model.rg,
-      documentFileName: model.documentFileName,
+      documentFileName: model.documentFileName
     };
   }
 
@@ -86,26 +96,33 @@ export class CustomerMapper {
     return `${day}-${month}-${year}`;
   }
 
-  static toGetCustomersQueryParams(params: GetCustomersParams): GetCustomersQueryParams {
+  static toGetCustomersQueryParams(
+    params: GetCustomersParams
+  ): GetCustomersQueryParams {
     const query: GetCustomersQueryParams = {};
 
     if (params.cpf) query.Cpfs = params.cpf;
     if (params.name) query.Names = params.name;
     if (params.phone) query.Phones = params.phone;
     if (params.origin) query.CreationOrigin = params.origin;
-    if (params.startDate) query.CreationDateStart = CustomerMapper.formatApiDate(params.startDate);
-    if (params.endDate) query.CreationDateEnd = CustomerMapper.formatApiDate(params.endDate);
+    if (params.startDate)
+      query.CreationDateStart = CustomerMapper.formatApiDate(params.startDate);
+    if (params.endDate)
+      query.CreationDateEnd = CustomerMapper.formatApiDate(params.endDate);
     if (params.page !== undefined) query['PageFilter.Page'] = params.page;
-    if (params.pageSize !== undefined) query['PageFilter.PageSize'] = params.pageSize;
+    if (params.pageSize !== undefined)
+      query['PageFilter.PageSize'] = params.pageSize;
 
     return query;
   }
 
-  static toExportCustomersDTO(params: ExportCustomersParams): ExportCustomersRequestDTO {
+  static toExportCustomersDTO(
+    params: ExportCustomersParams
+  ): ExportCustomersRequestDTO {
     return {
       creationOrigin: params.origin as any,
       creationDateStart: CustomerMapper.formatApiDate(params.startDate) || '',
-      creationDateEnd: CustomerMapper.formatApiDate(params.endDate) || '',
+      creationDateEnd: CustomerMapper.formatApiDate(params.endDate) || ''
     };
   }
 }

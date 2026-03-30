@@ -2,7 +2,10 @@ import axios from 'axios';
 import { env } from '@/configs/env';
 
 export const httpClient = axios.create({
-  baseURL: env.VITE_GATEWAY_API
+  baseURL: env.VITE_GATEWAY_API,
+  paramsSerializer: {
+    indexes: null
+  }
 });
 
 export const setupHttpClientInterceptors = (

@@ -39,7 +39,7 @@ const buttonVariants = cva(
 export type TButton = React.ComponentProps<'button'> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
-  }
+  };
 
 function Button({
   className,

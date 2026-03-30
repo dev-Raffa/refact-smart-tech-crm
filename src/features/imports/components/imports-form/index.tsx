@@ -3,14 +3,14 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormMessage,
+  FormMessage
 } from '@/shared/components/ui/form';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from '@/shared/components/ui/select';
 import {
   FilePicker,
@@ -18,7 +18,7 @@ import {
   FilePickerInput,
   FilePickerEmpty,
   FilePickerError,
-  FilePickerButton,
+  FilePickerButton
 } from '@/shared/components/global/file-picker';
 
 import { FilesIcon } from 'lucide-react';
@@ -30,7 +30,10 @@ export function ImportsForm() {
   return (
     <div className="w-full max-w-xl xl:flex-1">
       <Form {...form}>
-        <form onSubmit={onSubmit} className="flex flex-col items-center justify-center border rounded-2xl shadow p-4 py-6 border-dashed">
+        <form
+          onSubmit={onSubmit}
+          className="flex flex-col items-center justify-center border rounded-2xl shadow p-4 py-6 border-dashed"
+        >
           <div className="flex flex-col items-center space-x-3">
             <div className="flex size-12 items-center justify-center rounded-full bg-foreground">
               <FilesIcon className="size-5 text-background" />
@@ -44,7 +47,7 @@ export function ImportsForm() {
               </p>
             </div>
           </div>
-          
+
           {!fileType && (
             <FormField
               control={form.control}
@@ -52,10 +55,7 @@ export function ImportsForm() {
               render={({ field }) => (
                 <FormItem>
                   <div className="flex items-center flex-col space-y-3">
-                    <Select
-                      onValueChange={field.onChange}
-                      value={field.value}
-                    >
+                    <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
                         <SelectTrigger className="w-xs">
                           <SelectValue placeholder="Selecione o tipo de arquivo" />
@@ -72,35 +72,41 @@ export function ImportsForm() {
               )}
             />
           )}
-          {
-            fileType && (
-              <FormField
-                control={form.control}
-                name="files"
-                render={({ field }) => (
-                  <FormItem className="w-xs" >
-                    <FormControl>
-                      <FilePicker
-                        files={field.value}
-                        onFilesChange={field.onChange}
-                        maxFiles={1}
-                        accept=".csv,.xls,.xlsx"
-                        multiple={false}
-                      >
-                        <FilePickerEmpty className='w-full h-fit p-0'>
-                          <FilePickerButton label="Selecionar arquivo" className='w-full' variant="default" />
-                        </FilePickerEmpty>
-                        <FilePickerContent showPrimaryFile={false} showRemoveFileButton={false} className='border-none md:grid-cols-1 py-2' />
-                        <FilePickerInput />
-                        <FilePickerError />
-                      </FilePicker>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            )
-          }
+          {fileType && (
+            <FormField
+              control={form.control}
+              name="files"
+              render={({ field }) => (
+                <FormItem className="w-xs">
+                  <FormControl>
+                    <FilePicker
+                      files={field.value}
+                      onFilesChange={field.onChange}
+                      maxFiles={1}
+                      accept=".csv,.xls,.xlsx"
+                      multiple={false}
+                    >
+                      <FilePickerEmpty className="w-full h-fit p-0">
+                        <FilePickerButton
+                          label="Selecionar arquivo"
+                          className="w-full"
+                          variant="default"
+                        />
+                      </FilePickerEmpty>
+                      <FilePickerContent
+                        showPrimaryFile={false}
+                        showRemoveFileButton={false}
+                        className="border-none md:grid-cols-1 py-2"
+                      />
+                      <FilePickerInput />
+                      <FilePickerError />
+                    </FilePicker>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
         </form>
       </Form>
     </div>

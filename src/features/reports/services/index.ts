@@ -4,12 +4,15 @@ import { ReportMapper } from './mapper';
 
 export class ReportService {
   static async getReport({ type, theme }: GetReportParams): Promise<Report> {
-    const { data } = await httpClient.get<ReportUrlResponseDTO>('/reports/url', {
-      params: {
-        ReportType: type,
-        ReportTheme: theme,
-      },
-    });
+    const { data } = await httpClient.get<ReportUrlResponseDTO>(
+      '/reports/url',
+      {
+        params: {
+          ReportType: type,
+          ReportTheme: theme
+        }
+      }
+    );
 
     return ReportMapper.toDomain(data);
   }

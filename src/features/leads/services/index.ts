@@ -1,45 +1,62 @@
 import { httpClient } from '@/infra/api/gateway-api';
 
-import type { LeadDTO } from '../types/lead.dto';
+import type {
+  LeadDTO,
+  LeadOperatorDTO,
+  LeadCustomerDetailsDTO,
+  getFlowStepsResponse
+} from '../types/lead.dto';
 import type { PaginatedResponse } from '@/shared/types/paginated-response';
-import type { 
-  Lead, 
-  GetLeadsParams, 
-  MoveLeadParams, 
-  FlowStep, 
-  PartnerInformations, 
+import type {
+  Lead,
+  GetLeadsParams,
+  MoveLeadParams,
+  FlowStep,
+  LeadOperator,
   CreateInssLeadRequest,
   CreateCltLeadRequest,
   UploadLeadDocumentParams,
   SetApprovedBankParams,
-  ChangeOperatorParams
+  ChangeOperatorParams,
+  LeadDetails
 } from '../types/lead.model';
 
 import { LeadMapper } from './mapper';
 import { handleLeadError } from './error-handler';
 
 export class LeadService {
-  public static async getLeads(params: GetLeadsParams): Promise<PaginatedResponse<Lead>> {
+  public static async getLeads(
+    params: GetLeadsParams
+  ): Promise<PaginatedResponse<Lead>> {
     try {
-      const { data } = await httpClient.get<PaginatedResponse<LeadDTO>>('/simulations', {
-        params: LeadMapper.toQueryParams(params),
-      });
+      const { data } = await httpClient.get<PaginatedResponse<LeadDTO>>(
+        '/simulations',
+        {
+          params: LeadMapper.toQueryParams(params)
+        }
+      );
 
       return {
         ...data,
-        results: LeadMapper.toModelList(data.results),
+        results: LeadMapper.toModelList(data.results)
       };
     } catch (error) {
       handleLeadError(error, 'getLeads');
     }
   }
 
-  public static async moveLead({ leadId, targetStage }: MoveLeadParams): Promise<void> {
+  public static async moveLead({
+    leadId,
+    targetStage
+  }: MoveLeadParams): Promise<void> {
     try {
-      await httpClient.post('/simulations/common/enqueue-update-simulation-stage', {
-        simulationRequest: { simulationId: leadId },
-        stageName: targetStage,
-      });
+      await httpClient.post(
+        '/simulations/common/enqueue-update-simulation-stage',
+        {
+          simulationRequest: { simulationId: leadId },
+          stageName: targetStage
+        }
+      );
     } catch (error) {
       handleLeadError(error, 'moveLead');
     }
@@ -47,43 +64,50 @@ export class LeadService {
 
   public static async getFlowSteps(leadId: string): Promise<FlowStep[]> {
     try {
-      const { data } = await httpClient.get<FlowStep[]>(`/simulations/flow-steps?simulationId=${leadId}`);
-      return data;
-
+      const { data } = await httpClient.get<getFlowStepsResponse>(
+        `/simulations/flow-steps?simulationId=${leadId}`
+      );
+      return LeadMapper.toFlowStepModelList(data.flowSteps);
     } catch (error) {
       handleLeadError(error, 'getFlowSteps');
     }
   }
 
-  public static async getCustomerDetails(leadId: string): Promise<any> {
+  public static async getCustomerDetails(leadId: string): Promise<LeadDetails> {
     try {
-      const { data } = await httpClient.get(`/simulations/${leadId}/customer`);
-      return data;
+      const { data } = await httpClient.get<LeadCustomerDetailsDTO>(
+        `/simulations/${leadId}/customer`
+      );
+
+      const { data: history } = await httpClient.get<getFlowStepsResponse>(
+        `/simulations/flow-steps?simulationId=${leadId}`
+      );
+
+      return LeadMapper.toLeadDetailsModel(data, history.flowSteps || []);
     } catch (error) {
       handleLeadError(error, 'getCustomerDetails');
     }
   }
 
-  public static async getPublicServantDetails(leadId: string): Promise<any> {
+  public static async setReceivingAssistanceFlag(
+    leadId: string
+  ): Promise<void> {
     try {
-      const { data } = await httpClient.get(`/simulations/${leadId}/public-servant-details`);
-      return data;
-    } catch (error) {
-      handleLeadError(error, 'getPublicServantDetails');
-    }
-  }
-
-  public static async setReceivingAssistanceFlag(leadId: string): Promise<void> {
-    try {
-      await httpClient.post('/simulations/common/enqueue-set-receiving-assistance-flag', {
-        simulationId: leadId,
-      });
+      await httpClient.post(
+        '/simulations/common/enqueue-set-receiving-assistance-flag',
+        {
+          simulationId: leadId
+        }
+      );
     } catch (error) {
       handleLeadError(error, 'setReceivingAssistanceFlag');
     }
   }
 
-  public static async setApprovedBank({ leadId, data }: SetApprovedBankParams): Promise<void> {
+  public static async setApprovedBank({
+    leadId,
+    data
+  }: SetApprovedBankParams): Promise<void> {
     try {
       await httpClient.post(`/simulations/${leadId}/approved-bank`, data);
     } catch (error) {
@@ -91,20 +115,17 @@ export class LeadService {
     }
   }
 
-  public static async changeBankApproved({ leadId, data }: SetApprovedBankParams): Promise<void> {
+  public static async changeBankApproved({
+    leadId,
+    data
+  }: SetApprovedBankParams): Promise<void> {
     try {
-      await httpClient.patch(`/simulations/${leadId}/change-approved-bank`, data);
+      await httpClient.patch(
+        `/simulations/${leadId}/change-approved-bank`,
+        data
+      );
     } catch (error) {
       handleLeadError(error, 'changeBankApproved');
-    }
-  }
-
-  public static async getPartnerInformations(leadId: string): Promise<PartnerInformations> {
-    try {
-      const { data } = await httpClient.get<PartnerInformations>(`/simulations/${leadId}/partner-informations`);
-      return data;
-    } catch (error) {
-      handleLeadError(error, 'getPartnerInformations');
     }
   }
 
@@ -116,9 +137,14 @@ export class LeadService {
     }
   }
 
-  public static async createInssLead(data: CreateInssLeadRequest): Promise<string> {
+  public static async createInssLead(
+    data: CreateInssLeadRequest
+  ): Promise<string> {
     try {
-      const { data: leadId } = await httpClient.post<string>('/simulations', data);
+      const { data: leadId } = await httpClient.post<string>(
+        '/simulations',
+        data
+      );
       return leadId;
     } catch (error) {
       handleLeadError(error, 'createInssLead');
@@ -133,11 +159,14 @@ export class LeadService {
     }
   }
 
-  public static async uploadLeadDocument({ leadId, file }: UploadLeadDocumentParams): Promise<void> {
+  public static async uploadLeadDocument({
+    leadId,
+    file
+  }: UploadLeadDocumentParams): Promise<void> {
     try {
       const formData = new FormData();
-      const formattedId = leadId.includes('-') 
-        ? leadId 
+      const formattedId = leadId.includes('-')
+        ? leadId
         : leadId.replace(/^(.{8})(.{4})(.{4})(.{4})(.{12})$/, '$1-$2-$3-$4-$5');
 
       formData.append('File', file);
@@ -145,27 +174,62 @@ export class LeadService {
 
       await httpClient.post('/files/import/document', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+          'Content-Type': 'multipart/form-data'
+        }
       });
     } catch (error) {
       handleLeadError(error, 'uploadLeadDocument');
     }
   }
 
-  public static async changeOperator({ leadId, operator }: ChangeOperatorParams): Promise<void> {
+  public static async getPaySlipUrl(leadId: string): Promise<string> {
     try {
-      await httpClient.patch(`/simulations/${leadId}/change-operator`, operator, {
-        headers: {
-          'Content-Type': 'application/json-patch+json',
-        },
-      });
+      const { data } = await httpClient.get<string>(
+        `/documents/${encodeURIComponent(leadId)}`
+      );
+
+      return data;
+    } catch (error: any) {
+      console.error('Erro ao buscar contra-cheque:', error);
+      throw new Error(
+        error.response?.data?.message ||
+          'Falha ao buscar contra-cheque do cliente.'
+      );
+    }
+  }
+
+  public static async changeOperator({
+    leadId,
+    operator
+  }: ChangeOperatorParams): Promise<void> {
+    try {
+      await httpClient.patch(
+        `/simulations/${leadId}/change-operator`,
+        operator,
+        {
+          headers: {
+            'Content-Type': 'application/json-patch+json'
+          }
+        }
+      );
     } catch (error) {
       handleLeadError(error, 'changeOperator');
     }
   }
+
+  public static async getOperatorsByRole(
+    kind: string
+  ): Promise<LeadOperator[]> {
+    try {
+      const { data } = await httpClient.get<LeadOperatorDTO[]>(
+        '/daily-operation/based-on-role',
+        {
+          params: { Kind: kind }
+        }
+      );
+      return LeadMapper.toOperatorModelList(data);
+    } catch (error) {
+      handleLeadError(error, 'getOperatorsByRole');
+    }
+  }
 }
-
-
-
-

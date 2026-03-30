@@ -4,8 +4,8 @@ import { getFileIcon } from '../get-file-icon';
 export const getFilePreview = (
   file:
     | {
-      file: File | { type: string; name: string; src: string };
-    }
+        file: File | { type: string; name: string; src: string };
+      }
     | undefined
 ) => {
   if (!file) return;
@@ -21,25 +21,23 @@ export const getFilePreview = (
     />
   );
 
-  return (
-    fileType?.startsWith('image/') ? (
-      <div className="flex aspect-square items-center justify-center overflow-hidden rounded-t-[inherit] bg-accent">
-        {file.file instanceof File ? (
-          (() => {
-            const previewUrl = URL.createObjectURL(file.file);
-            return renderImage(previewUrl);
-          })()
-        ) : file.file.src ? (
-          renderImage(file.file.src)
-        ) : (
-          <ImageIcon className="size-5 opacity-60" />
-        )}
-      </div>
-    ) : (
-      <div className="flex w-full py-1 gap-2 items-center justify-center overflow-hidden rounded-t-[inherit] bg-accent">
-        {getFileIcon(file)}
-        <p className="text-xs text-muted-foreground">{fileName}</p>
-      </div>
-    )
+  return fileType?.startsWith('image/') ? (
+    <div className="flex aspect-square items-center justify-center overflow-hidden rounded-t-[inherit] bg-accent">
+      {file.file instanceof File ? (
+        (() => {
+          const previewUrl = URL.createObjectURL(file.file);
+          return renderImage(previewUrl);
+        })()
+      ) : file.file.src ? (
+        renderImage(file.file.src)
+      ) : (
+        <ImageIcon className="size-5 opacity-60" />
+      )}
+    </div>
+  ) : (
+    <div className="flex w-full py-1 gap-2 items-center justify-center overflow-hidden rounded-t-[inherit] bg-accent">
+      {getFileIcon(file)}
+      <p className="text-xs text-muted-foreground">{fileName}</p>
+    </div>
   );
 };

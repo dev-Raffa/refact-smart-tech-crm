@@ -7,11 +7,11 @@ export function CustomersSkeleton() {
     <div className="w-full">
       <Card className="mt-4 flex flex-col space-y-3 border-x-0">
         <div className="flex justify-between items-center py-6 px-4">
-          <Skeleton className="w-1/4 h-4" /> 
-          <Skeleton className="w-1/6 h-4" /> 
-          <Skeleton className="w-1/6 h-4" /> 
-          <Skeleton className="w-1/6 h-4" /> 
-          <Skeleton className="w-1/6 h-4" /> 
+          <Skeleton className="w-1/4 h-4" />
+          <Skeleton className="w-1/6 h-4" />
+          <Skeleton className="w-1/6 h-4" />
+          <Skeleton className="w-1/6 h-4" />
+          <Skeleton className="w-1/6 h-4" />
         </div>
         <Separator />
         <div className="flex flex-col space-y-5 p-6">

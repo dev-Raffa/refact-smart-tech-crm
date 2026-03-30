@@ -8,26 +8,22 @@ import type { Customer } from '../../types/customer.model';
 export const columns: ColumnDef<Customer>[] = [
   {
     accessorKey: 'id',
-    header: "",
-    size:5,
+    header: '',
+    size: 5,
     enableResizing: false,
-    cell: () => (
-      <div className="text-xs w-5">
-      </div>
-    ),
+    cell: () => <div className="text-xs w-5"></div>
   },
   {
     accessorKey: 'name',
-    header: () => (
-      <div className="w-full text-sm ">
-        Nome
-      </div>
-    ),
+    header: () => <div className="w-full text-sm ">Nome</div>,
     cell: ({ row }) => {
       const fullName: string = row.getValue('name');
 
       return (
-        <div className="max-w-32 w-fit text-[13px] pr-12 lowercase 2xl:max-w-36 2xl:text-sm" title={fullName}>
+        <div
+          className="max-w-32 w-fit text-[13px] pr-12 lowercase 2xl:max-w-36 2xl:text-sm"
+          title={fullName}
+        >
           {fullName}
         </div>
       );
@@ -42,11 +38,7 @@ export const columns: ColumnDef<Customer>[] = [
       const document: string = row.getValue('cpf');
       const replaceDocument = maskDocument(document);
 
-      return (
-        <div className="text-xs truncate">
-          {replaceDocument}
-        </div>
-      );
+      return <div className="text-xs truncate">{replaceDocument}</div>;
     },
     size: 150,
     enableResizing: false
@@ -55,19 +47,13 @@ export const columns: ColumnDef<Customer>[] = [
     accessorKey: 'phoneNumber1',
     size: 150,
     enableResizing: false,
-    header: () => (
-      <div className="text-sm">Telefone</div>
-    ),
+    header: () => <div className="text-sm">Telefone</div>,
     cell: ({ row }) => {
       const phoneNumber: string = row.getValue('phoneNumber1');
       const replacePhoneNumber = maskPhone(phoneNumber);
 
-      return (
-        <div className="text-xs truncate">
-          {replacePhoneNumber}
-        </div>
-      );
-    },
+      return <div className="text-xs truncate">{replacePhoneNumber}</div>;
+    }
   },
   {
     accessorKey: 'creationDate',
@@ -82,33 +68,28 @@ export const columns: ColumnDef<Customer>[] = [
     cell: ({ row }) => {
       const creationDate: string = row.getValue('creationDate');
 
-      if (!creationDate) return <div className="text-xs text-gray-400">N/A</div>;
+      if (!creationDate)
+        return <div className="text-xs text-gray-400">N/A</div>;
 
       return (
         <div className="text-xs truncate">
-          {format(new Date(creationDate), `dd/MM/yyyy - HH:mm`, { locale: ptBR })}
+          {format(new Date(creationDate), `dd/MM/yyyy - HH:mm`, {
+            locale: ptBR
+          })}
         </div>
       );
-    },
+    }
   },
   {
     accessorKey: 'creationOrigin',
     size: 150,
     enableResizing: false,
-    header: () => (
-      <div className="text-sm">
-        Prospecção
-      </div>
-    ),
+    header: () => <div className="text-sm">Prospecção</div>,
     cell: ({ row }) => {
       const origin: string = row.getValue('creationOrigin');
       const customerOrigin: string = origin === 'Api' ? 'Marketing' : 'Base';
 
-      return (
-        <div className="text-xs truncate lowercase">
-          {customerOrigin}
-        </div>
-      );
-    },
-  },
+      return <div className="text-xs truncate lowercase">{customerOrigin}</div>;
+    }
+  }
 ];

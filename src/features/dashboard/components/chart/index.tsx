@@ -25,7 +25,10 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/shared/components/ui/select';
-import { ToggleGroup, ToggleGroupItem } from '@/shared/components/ui/toggle-group';
+import {
+  ToggleGroup,
+  ToggleGroupItem
+} from '@/shared/components/ui/toggle-group';
 
 export const description = 'An interactive area chart';
 

@@ -6,7 +6,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from '@/shared/components/ui/select';
 
 type FilterType = 'name' | 'cpf' | 'phone';
@@ -20,8 +20,15 @@ interface TextSearchFilterProps {
   onFilterChange: (type: FilterType, value: string | null) => void;
 }
 
-export function TextSearchFilter({ filters, onFilterChange }: TextSearchFilterProps) {
-  const initialType: FilterType = filters.cpf ? 'cpf' : filters.phone ? 'phone' : 'name';
+export function TextSearchFilter({
+  filters,
+  onFilterChange
+}: TextSearchFilterProps) {
+  const initialType: FilterType = filters.cpf
+    ? 'cpf'
+    : filters.phone
+      ? 'phone'
+      : 'name';
   const initialValue = filters[initialType] ?? '';
 
   const [filterType, setFilterType] = useState<FilterType>(initialType);
@@ -38,7 +45,8 @@ export function TextSearchFilter({ filters, onFilterChange }: TextSearchFilterPr
   }, [inputValue]);
 
   useEffect(() => {
-    const normalizedValue = debouncedValue.trim() === '' ? null : debouncedValue.trim();
+    const normalizedValue =
+      debouncedValue.trim() === '' ? null : debouncedValue.trim();
     onFilterChange(filterType, normalizedValue);
   }, [debouncedValue, filterType, onFilterChange]);
 
@@ -56,7 +64,10 @@ export function TextSearchFilter({ filters, onFilterChange }: TextSearchFilterPr
 
   return (
     <div className="flex items-center w-full max-w-sm">
-      <Select value={filterType} onValueChange={(value) => handleTypeChange(value as FilterType)}>
+      <Select
+        value={filterType}
+        onValueChange={(value) => handleTypeChange(value as FilterType)}
+      >
         <SelectTrigger className="w-[120px] rounded-r-none border-r-0 focus:ring-0 focus:ring-offset-0 bg-muted/20">
           <SelectValue placeholder="Filtrar por" />
         </SelectTrigger>
@@ -66,13 +77,17 @@ export function TextSearchFilter({ filters, onFilterChange }: TextSearchFilterPr
           <SelectItem value="phone">Telefone</SelectItem>
         </SelectContent>
       </Select>
-      
+
       <div className="relative flex-1">
         <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input
           type="text"
           placeholder={`Buscar por ${
-            filterType === 'name' ? 'nome' : filterType === 'cpf' ? 'CPF' : 'telefone'
+            filterType === 'name'
+              ? 'nome'
+              : filterType === 'cpf'
+                ? 'CPF'
+                : 'telefone'
           }...`}
           className="rounded-l-none pl-9 focus-visible:ring-1 focus-visible:ring-offset-0"
           value={inputValue}

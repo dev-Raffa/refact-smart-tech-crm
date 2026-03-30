@@ -1,5 +1,30 @@
-import type { LeadDTO } from '../types/lead.dto';
-import type { Lead, LeadProduct, LeadStage, GetLeadsParams } from '../types/lead.model';
+import { parse, startOfDay, endOfDay } from 'date-fns';
+import type {
+  LeadDTO,
+  LeadCustomerDTO,
+  FlowStepDTO,
+  PartnerInformationsDTO,
+  LeadOperatorDTO,
+  LeadCustomerDetailsDTO
+} from '../types/lead.dto';
+import type {
+  Lead,
+  LeadProduct,
+  LeadStage,
+  GetLeadsParams,
+  LeadCustomer,
+  FlowStep,
+  PartnerInformations,
+  LeadOperator,
+  LeadDetails,
+  LeadLastFlow,
+  LeadLastFlowExecutionStatus,
+  LeadPublicServantFlowName,
+  LeadCltFlowName
+} from '../types/lead.model';
+import { translateGovernamentLevel } from '../utils/translate-governamental-level';
+import { normalizeServantOrigin } from '../utils/normalize-servant-origin';
+import { getCustomerProneNumbers } from '../utils/get-customer-prone-number';
 
 export class LeadMapper {
   public static toModel(dto: LeadDTO): Lead {
@@ -11,39 +36,54 @@ export class LeadMapper {
       approvedBank: dto.approvedBank,
       finalizationReason: dto.finalizationReason,
       products: dto.products as LeadProduct[],
-      customer: {
-        name: dto.customer.name,
-        cpf: dto.customer.cpf,
-        marketingDetails: dto.customer.marketingDetails ?? undefined,
-      },
+      customer: LeadMapper.toCustomerModel(dto.customer),
+      marketing: dto.customer.marketingDetails
+        ? {
+            source: dto.customer.marketingDetails.source,
+            audience: dto.customer.marketingDetails.audience
+          }
+        : {
+            source: 'NÃO INFORMADO',
+            audience: 'NÃO INFORMADO'
+          },
       operator: dto.operator
         ? {
-          id: dto.operator.id,
-          name: dto.operator.name,
-          username: dto.operator.username,
-          teamDetails: dto.operator.teamDetails ?? undefined,
-        }
+            id: dto.operator.id,
+            name: dto.operator.name,
+            username: dto.operator.username,
+            teamDetails: dto.operator.teamDetails ?? undefined
+          }
         : undefined,
       lastFlow: dto.lastFlow
         ? {
-          bank: dto.lastFlow.bank,
-          flowName: dto.lastFlow.flowName,
-          cadence: dto.lastFlow.cadence,
-          status: dto.lastFlow.status,
-          needsHumanHelp: dto.lastFlow.needsHumanHelp,
-          user: dto.lastFlow.user ?? '',
-          receivingAssistance: dto.lastFlow.receivingAssistance,
-          executedAt: dto.lastFlow.executedAt,
-          attempt: dto.lastFlow.attempt,
-        }
-        : undefined,
+            bank: dto.lastFlow.bank,
+            flowName: dto.lastFlow.flowName as
+              | LeadPublicServantFlowName
+              | LeadCltFlowName,
+            cadence: dto.lastFlow.cadence,
+            status: dto.lastFlow.status as LeadLastFlowExecutionStatus,
+            needsHumanHelp: dto.lastFlow.needsHumanHelp,
+            user: dto.lastFlow.user ?? '',
+            receivingAssistance: dto.lastFlow.receivingAssistance,
+            executedAt: dto.lastFlow.executedAt,
+            attempt: dto.lastFlow.attempt,
+            technicalResponseDetails:
+              dto.lastFlow.technicalResponseDetails ?? undefined
+          }
+        : ({} as LeadLastFlow),
       publicServantDetails: dto.publicServantDetails
         ? {
-          governmentLevel: dto.publicServantDetails.governmentLevel ?? undefined,
-          cityHall: dto.publicServantDetails.cityHall ?? undefined,
-          state: dto.publicServantDetails.state ?? undefined,
-        }
-        : undefined,
+            governamentLevel: translateGovernamentLevel(
+              dto.publicServantDetails.governmentLevel
+            ),
+            cityHall: normalizeServantOrigin(dto.publicServantDetails.cityHall),
+            state: normalizeServantOrigin(dto.publicServantDetails.state)
+          }
+        : {
+            governamentLevel: 'Não informado',
+            cityHall: 'Não informado',
+            state: 'Não informado'
+          }
     };
   }
 
@@ -54,7 +94,7 @@ export class LeadMapper {
   public static toQueryParams(params: GetLeadsParams): Record<string, unknown> {
     const query: Record<string, unknown> = {
       'pageFilter.page': params.page,
-      'pageFilter.pageSize': params.pageSize,
+      'pageFilter.pageSize': params.pageSize
     };
 
     if (params.stages && params.stages.length > 0) {
@@ -66,7 +106,10 @@ export class LeadMapper {
     if (params.source) query.source = params.source;
     if (params.audience) query.audience = params.audience;
 
-    if (params.withConversationStatus && params.withConversationStatus !== 'All') {
+    if (
+      params.withConversationStatus &&
+      params.withConversationStatus !== 'All'
+    ) {
       query.withConversationStatus = params.withConversationStatus;
     }
 
@@ -96,7 +139,8 @@ export class LeadMapper {
 
     if (params.withCadence) query.withLastFlowStepExecutedOnCadence = true;
     if (params.includeFinalized) query.withLastFlowStepConversationEnded = true;
-    if (params.includeNeedAssistence) query.withLastFlowStepExecutedNeedHumanHelp = true;
+    if (params.includeNeedAssistence)
+      query.withLastFlowStepExecutedNeedHumanHelp = true;
 
     if (params.includeDataprevFailed) {
       query.lastFlowName = 'GeneratingDataPrevLink';
@@ -151,14 +195,109 @@ export class LeadMapper {
     if (params.name) query.name = params.name;
     if (params.proposalNumber) query.proposalNumber = params.proposalNumber;
 
-    if (params.withReceivingAssistance) query.withLastFlowStepExecutedReceivingAssistance = true;
-    if (params.withCpfInAuthorizationQueue) query.withLastFlowStepExecutedCpfInAuthorizationQueue = true;
+    if (params.withReceivingAssistance)
+      query.withLastFlowStepExecutedReceivingAssistance = true;
+    if (params.withCpfInAuthorizationQueue)
+      query.withLastFlowStepExecutedCpfInAuthorizationQueue = true;
 
-    if (params.dateIni) query.dateIni = params.dateIni;
-    if (params.dateEnd) query.dateEnd = params.dateEnd;
+    if (params.dateIni) {
+      const date = parse(params.dateIni, 'yyyy-MM-dd', new Date());
+      query.dateIni = startOfDay(date).toISOString();
+    }
+
+    if (params.dateEnd) {
+      const date = parse(params.dateEnd, 'yyyy-MM-dd', new Date());
+      query.dateEnd = endOfDay(date).toISOString();
+    }
 
     return query;
   }
 
+  public static toCustomerModel(dto: LeadCustomerDTO): LeadCustomer {
+    return {
+      name: dto.name,
+      cpf: dto.cpf ?? 'Não informado',
+      phoneNumbers: getCustomerProneNumbers(dto.phoneNumber1, dto.phoneNumber2)
+    };
+  }
 
+  public static toLeadDetailsModel(
+    dto: LeadCustomerDetailsDTO,
+    history: FlowStepDTO[]
+  ): LeadDetails {
+    return {
+      id: dto.customer.id,
+      customer: this.toCustomerModel(dto.customer),
+      publicServantDetails: dto.customer.publicServantDetails
+        ? {
+            governamentLevel: translateGovernamentLevel(
+              dto.customer.publicServantDetails.governmentLevel
+            ),
+            cityHall: dto.customer.publicServantDetails.cityHall,
+            state: dto.customer.publicServantDetails.state
+          }
+        : {
+            governamentLevel: 'Não informado',
+            cityHall: 'Não informado',
+            state: 'Não informado'
+          },
+      marketing: dto.customer.marketingDetails
+        ? dto.customer.marketingDetails
+        : {
+            source: 'Não informado',
+            audience: 'Não informado'
+          },
+      chat: dto.customer.huggyDetails
+        ? {
+            chatId: dto.customer.huggyDetails.chatId,
+            contactId: dto.customer.huggyDetails.contactId,
+            channelId: dto.customer.huggyDetails.channelId
+          }
+        : undefined,
+      payslip: dto.customer.documentFileName ?? undefined,
+      history: history.map(LeadMapper.toFlowStepModel)
+    };
+  }
+
+  public static toFlowStepModel(dto: FlowStepDTO): FlowStep {
+    return {
+      bank: dto.bank,
+      flowName: dto.flowName,
+      cadence: dto.cadence,
+      status: dto.status as LeadLastFlowExecutionStatus,
+      needsHumanHelp: dto.needsHumanHelp,
+      user: dto.user ?? undefined,
+      receivingAssistance: dto.receivingAssistance,
+      executedAt: dto.executedAt,
+      attempt: dto.attempt,
+      technicalResponseDetails: dto.technicalResponseDetails ?? undefined
+    };
+  }
+
+  public static toFlowStepModelList(dtos: FlowStepDTO[]): FlowStep[] {
+    return dtos.map(LeadMapper.toFlowStepModel);
+  }
+
+  public static toPartnerInformationsModel(
+    dto: PartnerInformationsDTO
+  ): PartnerInformations {
+    return {
+      bankName: dto.bankName,
+      status: dto.status,
+      updatedAt: dto.updatedAt
+    };
+  }
+
+  public static toOperatorModel(dto: LeadOperatorDTO): LeadOperator {
+    return {
+      id: dto.id,
+      name: dto.name,
+      username: dto.username,
+      teamDetails: dto.teamDetails ?? undefined
+    };
+  }
+
+  public static toOperatorModelList(dtos: LeadOperatorDTO[]): LeadOperator[] {
+    return dtos.map(LeadMapper.toOperatorModel);
+  }
 }

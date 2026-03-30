@@ -27,8 +27,6 @@ export interface IBoardColumnFilters {
 }
 
 export interface IBoardColumnHeader {
-  title: string;
-  count?: number;
-  badge?: ReactNode;
+  children: ReactNode;
   className?: string;
 }

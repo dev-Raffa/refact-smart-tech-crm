@@ -19,13 +19,20 @@ interface CustomersFiltersProps {
   };
 }
 
-export function CustomersFilters({ filters, setFilters, actions }: CustomersFiltersProps) {
-  const handleTextFilterChange = (type: 'name' | 'cpf' | 'phone', value: string | null) => {
+export function CustomersFilters({
+  filters,
+  setFilters,
+  actions
+}: CustomersFiltersProps) {
+  const handleTextFilterChange = (
+    type: 'name' | 'cpf' | 'phone',
+    value: string | null
+  ) => {
     setFilters({
       name: type === 'name' ? value : null,
       cpf: type === 'cpf' ? value : null,
       phone: type === 'phone' ? value : null,
-      page: '1',
+      page: '1'
     });
   };
 
@@ -33,12 +40,20 @@ export function CustomersFilters({ filters, setFilters, actions }: CustomersFilt
     setFilters({ origin, page: '1' });
   };
 
-  const handlePeriodChange = (startDate: string | null, endDate: string | null) => {
+  const handlePeriodChange = (
+    startDate: string | null,
+    endDate: string | null
+  ) => {
     setFilters({ startDate, endDate, page: '1' });
   };
 
   const hasActiveFilters = Boolean(
-    filters.cpf || filters.name || filters.phone || filters.origin || filters.startDate || filters.endDate
+    filters.cpf ||
+      filters.name ||
+      filters.phone ||
+      filters.origin ||
+      filters.startDate ||
+      filters.endDate
   );
 
   return (
@@ -48,10 +63,7 @@ export function CustomersFilters({ filters, setFilters, actions }: CustomersFilt
         onFilterChange={handleTextFilterChange}
       />
 
-      <PeriodFilter
-        filters={filters}
-        onFilterChange={handlePeriodChange}
-      />
+      <PeriodFilter filters={filters} onFilterChange={handlePeriodChange} />
 
       <OriginFilter
         origin={filters.origin}

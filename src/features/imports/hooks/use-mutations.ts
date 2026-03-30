@@ -10,6 +10,6 @@ export function useUploadFileMutation() {
     meta: { successMessage: 'Arquivo importado com sucesso!' },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['imports'] });
-    },
+    }
   });
 }

@@ -2,7 +2,12 @@ import type { IBoardItem } from '../../types';
 import { cn } from '@/shared/utils';
 import { useBoard } from '../../hook/use-board';
 
-export function BoardItem({ id, draggable = true, children, className }: IBoardItem) {
+export function BoardItem({
+  id,
+  draggable = true,
+  children,
+  className
+}: IBoardItem) {
   const { getItemProps } = useBoard();
   const { onDragStart, onDragEnd } = getItemProps(id);
 

@@ -3,7 +3,7 @@ import { authService } from '../services';
 import { useAuthStore } from '../store';
 
 export const useLogin = () => {
-  const {setSession} = useAuthStore();
+  const { setSession } = useAuthStore();
 
   return useMutation({
     mutationFn: authService.login,
@@ -16,30 +16,30 @@ export const useLogin = () => {
   });
 };
 
-export const UseAuthorizeSSO = ()=>{
-  const {setSession} = useAuthStore();
-  
+export const UseAuthorizeSSO = () => {
+  const { setSession } = useAuthStore();
+
   return useMutation({
     mutationFn: authService.authorizeSSO,
-    meta:{
+    meta: {
       successMessage: 'Login realizado com sucesso!'
     },
-    onSuccess: (session)=>{
-      setSession(session)
+    onSuccess: (session) => {
+      setSession(session);
     }
-  })
-}
+  });
+};
 
-export const useLogout = ()=>{
-  const {logout} =  useAuthStore()
+export const useLogout = () => {
+  const { logout } = useAuthStore();
 
   return useMutation({
     mutationFn: authService.logout,
     meta: {
       successMessage: 'Logout realizado com sucesso'
     },
-    onSuccess: ()=>{
-      logout()
+    onSuccess: () => {
+      logout();
     }
-  })
-}
+  });
+};

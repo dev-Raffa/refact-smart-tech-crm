@@ -61,7 +61,9 @@ export function FilePickerContent({
               </Button>
             )}
 
-            {showRemoveFileButton && <FilePickerRemoveFileButton id={file.id} />}
+            {showRemoveFileButton && (
+              <FilePickerRemoveFileButton id={file.id} />
+            )}
           </div>
         </div>
       ))}

@@ -1,17 +1,20 @@
 import {
   Popover,
   PopoverContent,
-  PopoverTrigger,
+  PopoverTrigger
 } from '@/shared/components/ui/popover';
 import {
   Building2Icon,
   ChevronDownIcon,
   FileCheckIcon,
-  UsersIcon,
+  UsersIcon
 } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { Card } from '@/shared/components/ui/card';
-import { CUSTOMERS_CSV, AGREEMENT_CSV } from '@/features/imports/consts/templates';
+import {
+  CUSTOMERS_CSV,
+  AGREEMENT_CSV
+} from '@/features/imports/consts/templates';
 import { downloadCsv } from '@/features/imports/utils/dowload-csv';
 
 export function UploadFileTemplate() {
@@ -31,7 +34,11 @@ export function UploadFileTemplate() {
 
         <Popover>
           <PopoverTrigger asChild>
-            <Button type="button" size="sm" className="h-8 flex items-center gap-1 text-xs tracking-wide w-3xs">
+            <Button
+              type="button"
+              size="sm"
+              className="h-8 flex items-center gap-1 text-xs tracking-wide w-3xs"
+            >
               Escolha o template
               <ChevronDownIcon className="size-4" />
             </Button>
@@ -45,7 +52,9 @@ export function UploadFileTemplate() {
                   size="sm"
                   variant="ghost"
                   className="text-xs px-2"
-                  onClick={() => downloadCsv(CUSTOMERS_CSV, 'template-clientes.csv')}
+                  onClick={() =>
+                    downloadCsv(CUSTOMERS_CSV, 'template-clientes.csv')
+                  }
                 >
                   <span className="flex items-center gap-2 text-sm font-medium">
                     <UsersIcon className="size-4" />
@@ -59,7 +68,9 @@ export function UploadFileTemplate() {
                   size="sm"
                   variant="ghost"
                   className="text-xs"
-                  onClick={() => downloadCsv(AGREEMENT_CSV, 'template-convenio.csv')}
+                  onClick={() =>
+                    downloadCsv(AGREEMENT_CSV, 'template-convenio.csv')
+                  }
                 >
                   <span className="flex items-center gap-2 text-sm font-medium px-2">
                     <Building2Icon className="size-4" />

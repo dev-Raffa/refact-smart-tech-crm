@@ -1,7 +1,7 @@
 import {
   DataTable,
   DataTableContent,
-  PaginationControllers,
+  PaginationControllers
 } from '@/shared/components/global/datatable';
 
 import { useCustomersTable } from './use-customers-table';
@@ -16,7 +16,7 @@ export function CustomersTable() {
     totalResults,
     filters,
     setFilters,
-    actions,
+    actions
   } = useCustomersTable();
 
   return (

@@ -8,9 +8,13 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from '@/shared/components/ui/select';
-import { Popover, PopoverContent, PopoverTrigger } from '@/shared/components/ui/popover';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from '@/shared/components/ui/popover';
 import { Button } from '@/shared/components/ui/button';
 import { Calendar } from '@/shared/components/ui/calendar';
 import type { DateRange } from 'react-day-picker';
@@ -27,7 +31,7 @@ interface PeriodFilterProps {
 export function PeriodFilter({ filters, onFilterChange }: PeriodFilterProps) {
   const getPresetFromDates = (start: string | null, end: string | null) => {
     if (!start && !end) return 'all';
-    
+
     // Simplistic check to map back to preset
     if (start && end) {
       const todayStr = format(new Date(), 'yyyy-MM-dd');
@@ -51,7 +55,7 @@ export function PeriodFilter({ filters, onFilterChange }: PeriodFilterProps) {
     if (filters.startDate && filters.endDate) {
       return {
         from: new Date(filters.startDate),
-        to: new Date(filters.endDate),
+        to: new Date(filters.endDate)
       };
     }
     return undefined;
@@ -63,7 +67,7 @@ export function PeriodFilter({ filters, onFilterChange }: PeriodFilterProps) {
     if (filters.startDate && filters.endDate) {
       setDateRange({
         from: new Date(filters.startDate),
-        to: new Date(filters.endDate),
+        to: new Date(filters.endDate)
       });
     } else {
       setDateRange(undefined);

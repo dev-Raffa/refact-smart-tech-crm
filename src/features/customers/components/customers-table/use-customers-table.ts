@@ -4,7 +4,7 @@ import {
   getCoreRowModel,
   type PaginationState,
   type OnChangeFn,
-  type TableOptions,
+  type TableOptions
 } from '@tanstack/react-table';
 import { useCustomersQuery } from '../../hooks/use-queries';
 import { columns } from './columns';
@@ -21,7 +21,7 @@ export function useCustomersTable() {
     phone: searchParams.get('phone'),
     origin: searchParams.get('origin'),
     startDate: searchParams.get('startDate'),
-    endDate: searchParams.get('endDate'),
+    endDate: searchParams.get('endDate')
   };
 
   const setFilterStates = (updates: Record<string, string | number | null>) => {
@@ -44,13 +44,13 @@ export function useCustomersTable() {
     phone: filterStates.phone ?? undefined,
     origin: filterStates.origin ?? undefined,
     startDate: filterStates.startDate ?? undefined,
-    endDate: filterStates.endDate ?? undefined,
+    endDate: filterStates.endDate ?? undefined
   });
 
   const paginationState: PaginationState = useMemo(
     () => ({
-      pageIndex: filterStates.page - 1, // TanStack table always uses 0-index internally
-      pageSize: filterStates.pageSize,
+      pageIndex: filterStates.page - 1,
+      pageSize: filterStates.pageSize
     }),
     [filterStates.page, filterStates.pageSize]
   );
@@ -58,13 +58,21 @@ export function useCustomersTable() {
   const onPaginationChange: OnChangeFn<PaginationState> = (updater) => {
     if (typeof updater === 'function') {
       const newState = updater(paginationState);
-      setFilterStates({ page: newState.pageIndex + 1, pageSize: newState.pageSize });
+      setFilterStates({
+        page: newState.pageIndex + 1,
+        pageSize: newState.pageSize
+      });
     } else {
-      setFilterStates({ page: updater.pageIndex + 1, pageSize: updater.pageSize });
+      setFilterStates({
+        page: updater.pageIndex + 1,
+        pageSize: updater.pageSize
+      });
     }
   };
 
-  const tableOptions: Omit<TableOptions<Customer>, 'getCoreRowModel'> & { getCoreRowModel: any } = useMemo(
+  const tableOptions: Omit<TableOptions<Customer>, 'getCoreRowModel'> & {
+    getCoreRowModel: any;
+  } = useMemo(
     () => ({
       data: data?.results ?? [],
       columns,
@@ -72,9 +80,9 @@ export function useCustomersTable() {
       manualPagination: true,
       pageCount: data?.totalPages ?? -1,
       state: {
-        pagination: paginationState,
+        pagination: paginationState
       },
-      onPaginationChange,
+      onPaginationChange
     }),
     [data, paginationState, onPaginationChange]
   );
@@ -88,9 +96,9 @@ export function useCustomersTable() {
         phone: null,
         origin: null,
         startDate: null,
-        endDate: null,
+        endDate: null
       });
-    },
+    }
   };
 
   return {
@@ -100,6 +108,6 @@ export function useCustomersTable() {
     totalResults: data?.totalResults ?? 0,
     filters: filterStates,
     setFilters: setFilterStates,
-    actions,
+    actions
   };
 }

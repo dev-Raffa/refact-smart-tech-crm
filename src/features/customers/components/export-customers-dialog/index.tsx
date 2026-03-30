@@ -9,7 +9,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
+  AlertDialogTrigger
 } from '@/shared/components/ui/alert-dialog';
 import { Button } from '@/shared/components/ui/button';
 import { useExportCustomersMutation } from '../../hooks/use-mutations';
@@ -19,7 +19,10 @@ interface ExportCustomersDialogProps {
   totalResults: number;
 }
 
-export function ExportCustomersDialog({ filters, totalResults }: ExportCustomersDialogProps) {
+export function ExportCustomersDialog({
+  filters,
+  totalResults
+}: ExportCustomersDialogProps) {
   const { mutateAsync, isPending } = useExportCustomersMutation();
   const [open, setOpen] = useState(false);
 
@@ -36,7 +39,11 @@ export function ExportCustomersDialog({ filters, totalResults }: ExportCustomers
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <Button variant="outline" className="gap-2" disabled={totalResults === 0}>
+        <Button
+          variant="outline"
+          className="gap-2"
+          disabled={totalResults === 0}
+        >
           <DownloadCloud className="h-4 w-4" />
           Exportar
         </Button>
@@ -45,8 +52,9 @@ export function ExportCustomersDialog({ filters, totalResults }: ExportCustomers
         <AlertDialogHeader>
           <AlertDialogTitle>Exportar Clientes</AlertDialogTitle>
           <AlertDialogDescription>
-            Você está prestes a exportar <strong>{totalResults}</strong> cliente(s) para um arquivo Excel com base nos filtros atuais.
-            A exportação será processada pelo servidor. Deseja continuar?
+            Você está prestes a exportar <strong>{totalResults}</strong>{' '}
+            cliente(s) para um arquivo Excel com base nos filtros atuais. A
+            exportação será processada pelo servidor. Deseja continuar?
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

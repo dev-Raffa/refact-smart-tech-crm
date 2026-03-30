@@ -25,18 +25,17 @@ export interface JwtPayloadDTO {
   extension_UserType: string;
 }
 
-
 export interface RoleAccess {
   roles: string[];
 }
 
 export interface ResourceAccess {
-  "proposals-api"?: RoleAccess;
-  "customers-api"?: RoleAccess;
-  "workoperations-api"?: RoleAccess;
-  "conversations-api"?: RoleAccess;
-  "feijuca-auth-api"?: RoleAccess;
-  "account"?: RoleAccess;
+  'proposals-api'?: RoleAccess;
+  'customers-api'?: RoleAccess;
+  'workoperations-api'?: RoleAccess;
+  'conversations-api'?: RoleAccess;
+  'feijuca-auth-api'?: RoleAccess;
+  account?: RoleAccess;
 }
 
 export interface JwtTokenDTO {
@@ -50,7 +49,7 @@ export interface JwtTokenDTO {
   azp: string;
   session_state: string;
   acr: string;
-  "allowed-origins": string[];
+  'allowed-origins': string[];
   realm_access: RoleAccess;
   resource_access: ResourceAccess;
   scope: string;

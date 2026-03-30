@@ -8,7 +8,7 @@ export function useMoveLeadMutation() {
     meta: { successMessage: 'Lead movido com sucesso!' },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['leads'] });
-    },
+    }
   });
 }
 
@@ -19,7 +19,7 @@ export function useCreateInssLeadMutation() {
     meta: { successMessage: 'Lead criado com sucesso!' },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['leads'] });
-    },
+    }
   });
 }
 
@@ -30,7 +30,7 @@ export function useCreateCltLeadMutation() {
     meta: { successMessage: 'Lead criado com sucesso!' },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['leads'] });
-    },
+    }
   });
 }
 
@@ -40,8 +40,10 @@ export function useUploadLeadDocumentMutation() {
     mutationFn: LeadService.uploadLeadDocument,
     meta: { successMessage: 'Documento enviado com sucesso!' },
     onSuccess: (_, { leadId }) => {
-      queryClient.invalidateQueries({ queryKey: ['leads', leadId, 'flow-steps'] });
-    },
+      queryClient.invalidateQueries({
+        queryKey: ['leads', leadId, 'flow-steps']
+      });
+    }
   });
 }
 
@@ -52,7 +54,7 @@ export function useSetReceivingAssistanceFlagMutation() {
     meta: { successMessage: 'Status de assistência atualizado.' },
     onSuccess: (_, leadId) => {
       queryClient.invalidateQueries({ queryKey: ['leads', leadId] });
-    },
+    }
   });
 }
 
@@ -63,7 +65,7 @@ export function useSetApprovedBankMutation() {
     meta: { successMessage: 'Banco aprovado com sucesso!' },
     onSuccess: (_, { leadId }) => {
       queryClient.invalidateQueries({ queryKey: ['leads', leadId] });
-    },
+    }
   });
 }
 
@@ -74,7 +76,7 @@ export function useChangeBankApprovedMutation() {
     meta: { successMessage: 'Banco alterado com sucesso!' },
     onSuccess: (_, { leadId }) => {
       queryClient.invalidateQueries({ queryKey: ['leads', leadId] });
-    },
+    }
   });
 }
 
@@ -85,7 +87,7 @@ export function useDeleteSimulationMutation() {
     meta: { successMessage: 'Lead removido.' },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['leads'] });
-    },
+    }
   });
 }
 
@@ -96,7 +98,26 @@ export function useChangeOperatorMutation() {
     meta: { successMessage: 'Operador alterado com sucesso!' },
     onSuccess: (_, { leadId }) => {
       queryClient.invalidateQueries({ queryKey: ['leads', leadId] });
-      queryClient.invalidateQueries({ queryKey: ['leads'] }); // Also invalidate main list
+      queryClient.invalidateQueries({ queryKey: ['leads'] });
+    }
+  });
+}
+
+export function useOpenHuggyChatMutation() {
+  return useMutation({
+    mutationFn: async (leadId: string) => {
+      const customerDetails = await LeadService.getCustomerDetails(leadId);
+      if (!customerDetails || !customerDetails.chat?.chatId) {
+        throw new Error('Chat não encontrado para este cliente');
+      }
+      return customerDetails.chat.chatId;
     },
+    onSuccess: (chatId) => {
+      window.open(
+        `https://www.huggy.app/panel/attendance/inbox/?chat=${chatId}`,
+        '_blank',
+        'noopener,noreferrer'
+      );
+    }
   });
 }

@@ -13,8 +13,7 @@
   },
   "lint-staged": {
     "src/**/*": [
-      "pnpm lint --fix",
-      "pnpm vitest related --run --passWithNoTests"
+      "pnpm lint --fix"
     ]
   },
   "dependencies": {

@@ -11,6 +11,6 @@ export const useReport = (type: ReportType, theme?: string) => {
     queryFn: () =>
       ReportService.getReport({ type, theme }).catch(handleReportError),
     staleTime: 0,
-    enabled: !!type,
+    enabled: !!type
   });
 };

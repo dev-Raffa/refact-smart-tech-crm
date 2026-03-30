@@ -8,7 +8,7 @@ interface OriginFilterProps {
 const ORIGIN_OPTIONS = [
   { value: 'ALL', label: 'Todas as Origens' },
   { value: 'Api', label: 'Marketing' },
-  { value: 'FileImportation', label: 'Base' },
+  { value: 'FileImportation', label: 'Base' }
 ];
 
 export function OriginFilter({ origin, onFilterChange }: OriginFilterProps) {

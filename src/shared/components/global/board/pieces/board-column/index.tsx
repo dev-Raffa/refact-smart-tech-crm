@@ -17,16 +17,21 @@ export function BoardColumn({
   onDrop,
   children,
   isDropDisabled = false,
-  className,
+  className
 }: IBoardColumnProps) {
-  const { dropzoneProps, isActiveDropTarget } = useBoardColumn({ id, onDrop, isDropDisabled });
+  const { dropzoneProps, isActiveDropTarget } = useBoardColumn({
+    id,
+    onDrop,
+    isDropDisabled
+  });
 
   return (
     <div
       {...dropzoneProps}
       className={cn(
         'flex flex-col w-72 min-w-[18rem] flex-shrink-0 rounded-lg border bg-muted/10 transition-colors duration-150',
-        isActiveDropTarget && 'border-primary ring-2 ring-primary/20 bg-primary/5',
+        isActiveDropTarget &&
+          'border-primary ring-2 ring-primary/20 bg-primary/5',
         isDropDisabled && 'opacity-60 cursor-not-allowed',
         className
       )}

@@ -9,7 +9,8 @@ export function CustomersPage() {
         <div className="flex flex-col gap-2 pb-2">
           <h2 className="text-2xl font-semibold">Minha base de clientes</h2>
           <p className="text-muted-foreground">
-            Gerencie, filtre e exporte os clientes cadastrados ou prospectados no sistema.
+            Gerencie, filtre e exporte os clientes cadastrados ou prospectados
+            no sistema.
           </p>
         </div>
 

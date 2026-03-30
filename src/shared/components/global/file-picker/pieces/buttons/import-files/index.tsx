@@ -7,14 +7,19 @@ type TFilePickerButton = TButton & {
   label: string;
 };
 
-export function FilePickerButton({ label, className, variant = 'outline', ...props }: TFilePickerButton) {
+export function FilePickerButton({
+  label,
+  className,
+  variant = 'outline',
+  ...props
+}: TFilePickerButton) {
   const [, { openFileDialog }] = useFilePickerContext();
 
   return (
     <Button
       type="button"
       variant={variant}
-      className={cn("mt-4", className)}
+      className={cn('mt-4', className)}
       onClick={openFileDialog}
       {...props}
     >

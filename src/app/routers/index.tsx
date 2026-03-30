@@ -59,18 +59,14 @@ export const routers = createBrowserRouter([
           {
             path: 'relatorios',
             lazy: async () => {
-              const { ReportsPage } = await import(
-                '@/features/reports/pages'
-              );
+              const { ReportsPage } = await import('@/features/reports/pages');
               return { Component: ReportsPage };
             }
           },
           {
             path: 'importacoes',
             lazy: async () => {
-              const { ImportsPage } = await import(
-                '@/features/imports/pages'
-              );
+              const { ImportsPage } = await import('@/features/imports/pages');
               return { Component: ImportsPage };
             }
           },

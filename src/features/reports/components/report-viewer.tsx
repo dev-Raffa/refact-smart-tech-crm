@@ -1,5 +1,11 @@
 import { useState } from 'react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/shared/components/ui/select';
 import { Skeleton } from '@/shared/components/ui/skeleton';
 import { useReport } from '../hooks/use-reports';
 import type { ReportType } from '../types';
@@ -23,9 +29,7 @@ export const ReportViewer = () => {
         </SelectContent>
       </Select>
 
-      {isLoading && (
-        <Skeleton className="h-screen w-full" />
-      )}
+      {isLoading && <Skeleton className="h-screen w-full" />}
 
       {!isLoading && report && (
         <iframe

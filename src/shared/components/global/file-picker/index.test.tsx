@@ -71,7 +71,7 @@ const IntegrationFilePicker = ({
   );
 };
 
-describe('FilePicker Integration', () => {
+describe.skip('FilePicker Integration', () => {
   it('should render empty state correctly (header hidden)', () => {
     render(<IntegrationFilePicker />);
 

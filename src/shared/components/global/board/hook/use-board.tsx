@@ -1,4 +1,11 @@
-import { createContext, useContext, useState, useCallback, type ReactNode, type DragEvent } from 'react';
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  type ReactNode,
+  type DragEvent
+} from 'react';
 import type { BoardContextValue } from '../types';
 
 const BoardContext = createContext<BoardContextValue | null>(null);
@@ -15,7 +22,7 @@ export function BoardProvider({ children }: { children: ReactNode }) {
 
 export function useBoard() {
   const ctx = useContext(BoardContext);
-  
+
   if (!ctx) {
     throw new Error('useBoard must be used inside a <Board> component.');
   }
@@ -31,17 +38,16 @@ export function useBoard() {
       },
       onDragEnd: () => {
         setDraggingId(null);
-      },
+      }
     }),
     [setDraggingId]
   );
-
 
   const getDropHandler = useCallback(
     ({
       id,
       onDrop,
-      isDropDisabled = false,
+      isDropDisabled = false
     }: {
       id: string;
       onDrop: (itemId: string, columnId: string) => void;

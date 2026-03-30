@@ -8,23 +8,24 @@ import type { FileWithPreview } from '@/shared/components/global/file-picker/typ
 
 export const importsFormSchema = z.object({
   fileType: z.enum(['Customer', 'Government'] as const, {
-    error: 'Selecione o tipo de arquivo',
+    error: 'Selecione o tipo de arquivo'
   }),
   files: z
     .array(z.custom<FileWithPreview>())
-    .min(1, 'Selecione ao menos um arquivo'),
+    .min(1, 'Selecione ao menos um arquivo')
 });
 
 export type ImportsFormValues = z.infer<typeof importsFormSchema>;
 
 export function useImportsForm() {
-  const { mutate: uploadFile, isPending: isUploading } = useUploadFileMutation();
+  const { mutate: uploadFile, isPending: isUploading } =
+    useUploadFileMutation();
 
   const form = useForm<ImportsFormValues>({
     resolver: zodResolver(importsFormSchema),
     defaultValues: {
-      files: [],
-    },
+      files: []
+    }
   });
 
   const onSubmit = (data: ImportsFormValues) => {
@@ -35,7 +36,7 @@ export function useImportsForm() {
         {
           onSuccess: () => {
             form.reset();
-          },
+          }
         }
       );
     }
@@ -51,12 +52,12 @@ export function useImportsForm() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files]);
-  
+
   return {
     form,
     isUploading,
     isFormValid,
     fileType,
-    onSubmit: form.handleSubmit(onSubmit),
+    onSubmit: form.handleSubmit(onSubmit)
   };
 }

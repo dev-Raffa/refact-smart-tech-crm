@@ -8,11 +8,15 @@ interface UseBoardColumnOptions {
   isDropDisabled?: boolean;
 }
 
-export function useBoardColumn({ id, onDrop, isDropDisabled = false }: UseBoardColumnOptions) {
+export function useBoardColumn({
+  id,
+  onDrop,
+  isDropDisabled = false
+}: UseBoardColumnOptions) {
   const { getDropHandler, isColumnActive } = useBoard();
   const { isDragging, dropzoneProps } = useDropzone({
     onDrop: getDropHandler({ id, onDrop, isDropDisabled }),
-    disabled: isDropDisabled,
+    disabled: isDropDisabled
   });
 
   const isActiveDropTarget = isColumnActive(isDragging, isDropDisabled);
