@@ -17,7 +17,6 @@ import type {
   PartnerInformations,
   LeadOperator,
   LeadDetails,
-  LeadLastFlow,
   LeadLastFlowExecutionStatus,
   LeadPublicServantFlowName,
   LeadCltFlowName
@@ -70,7 +69,17 @@ export class LeadMapper {
             technicalResponseDetails:
               dto.lastFlow.technicalResponseDetails ?? undefined
           }
-        : ({} as LeadLastFlow),
+        : {
+            bank: 'Não informado',
+            flowName: 'None',
+            cadence: 'none',
+            status: 'RunSuccessfully' as LeadLastFlowExecutionStatus,
+            needsHumanHelp: false,
+            user: '',
+            receivingAssistance: false,
+            executedAt: new Date().toISOString(),
+            attempt: 0
+          },
       publicServantDetails: dto.publicServantDetails
         ? {
             governamentLevel: translateGovernamentLevel(

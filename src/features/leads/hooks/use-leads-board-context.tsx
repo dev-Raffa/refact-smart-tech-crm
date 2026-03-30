@@ -37,10 +37,12 @@ export function LeadsBoardProvider({
     useOperatorsByRoleQuery(operatorRole);
 
   useEffect(() => {
-    if (!isLoadingOperators && operators.length > 0 && !isInitialized.current) {
+    if (!isLoadingOperators && !isInitialized.current) {
       isInitialized.current = true;
-      const allIds = operators.map((op) => op.id);
-      dispatch({ type: 'SET_OPERATOR_IDS', payload: allIds });
+      if (operators.length > 0) {
+        const allIds = operators.map((op) => op.id);
+        dispatch({ type: 'SET_OPERATOR_IDS', payload: allIds });
+      }
     }
   }, [isLoadingOperators, operators, dispatch]);
 

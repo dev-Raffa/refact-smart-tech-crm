@@ -1,4 +1,4 @@
-import { CheckCircle, Clock, XCircle, AlertCircle } from 'lucide-react';
+/*import { CheckCircle, Clock, XCircle, AlertCircle } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { LeadStepExecutionStatus } from '../types/lead.model';
 
@@ -38,3 +38,4 @@ export const STATUS_MAP: Record<
     text: 'Rodou com falha'
   }
 };
+*/
