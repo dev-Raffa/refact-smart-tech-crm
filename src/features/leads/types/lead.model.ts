@@ -147,7 +147,10 @@ export interface FlowStep {
   cadence: string;
   status: LeadLastFlowExecutionStatus;
   needsHumanHelp: boolean;
-  user?: string;
+  user?: {
+    id: string;
+    username: string;
+  };
   receivingAssistance: boolean;
   executedAt: string;
   attempt: number;
@@ -220,7 +223,6 @@ export interface ChangeOperatorParams {
     username: string;
   };
 }
-
 
 export type LeadFiltersValuesOptions = {
  operators: LeadOperator[];

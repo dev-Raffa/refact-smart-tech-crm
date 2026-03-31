@@ -94,7 +94,7 @@ export interface FlowStepDTO {
   cadence: string;
   status: string;
   needsHumanHelp: boolean;
-  user: string | null;
+  user: { id: string; username: string } | null;
   receivingAssistance: boolean;
   executedAt: string;
   attempt: number;
