@@ -237,7 +237,7 @@ export class LeadMapper {
     dto: LeadCustomerDetailsDTO,
     history: FlowStepDTO[]
   ): LeadDetails {
-    console.log(history)
+    console.log(history);
     return {
       id: dto.customer.id,
       customer: this.toCustomerModel(dto.customer),
@@ -320,8 +320,12 @@ export class LeadMapper {
   ): LeadFiltersValuesOptions {
     return {
       operators: operators.map(LeadMapper.toOperatorModel),
-      sources: tags.filter((tag) => tag.category === 'Source').map((tag) => tag.label),
-      audiences: tags.filter((tag) => tag.category === 'Audience').map((tag) => tag.label)
+      sources: tags
+        .filter((tag) => tag.category === 'Source')
+        .map((tag) => tag.label),
+      audiences: tags
+        .filter((tag) => tag.category === 'Audience')
+        .map((tag) => tag.label)
     };
   }
 }

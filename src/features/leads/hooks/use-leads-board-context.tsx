@@ -6,7 +6,11 @@ import type {
   LeadsFiltersAction
 } from '../components/leads-filters/use-leads-filters';
 import { useLeadFiltersValuesOptionsQuery } from './use-queries';
-import type { LeadFiltersValuesOptions, LeadOperator, LeadProduct } from '../types/lead.model';
+import type {
+  LeadFiltersValuesOptions,
+  LeadOperator,
+  LeadProduct
+} from '../types/lead.model';
 
 interface LeadsBoardContextValue {
   state: LeadsFiltersState;
@@ -26,7 +30,7 @@ interface LeadsBoardProviderProps {
 
 export function LeadsBoardProvider({
   children,
-  defaultProducts,
+  defaultProducts
 }: LeadsBoardProviderProps) {
   const [state, dispatch] = useLeadsFilters(defaultProducts);
   const isInitialized = useRef(false);
@@ -37,8 +41,8 @@ export function LeadsBoardProvider({
   useEffect(() => {
     if (!isLoading && !isInitialized.current) {
       isInitialized.current = true;
-      const filters = filterOptions as LeadFiltersValuesOptions;        
-        dispatch({ type: 'SET_FILTER_OPTIONS', payload: filters });
+      const filters = filterOptions as LeadFiltersValuesOptions;
+      dispatch({ type: 'SET_FILTER_OPTIONS', payload: filters });
     }
   }, [isLoading, filterOptions, dispatch]);
 
@@ -49,7 +53,7 @@ export function LeadsBoardProvider({
       availableOperators: (filterOptions as LeadFiltersValuesOptions).operators,
       isLoadingOperators: isLoading
     }),
-    [state, filterOptions, isLoading]
+    [state, filterOptions, isLoading, dispatch]
   );
 
   return (

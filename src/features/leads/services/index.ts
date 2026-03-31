@@ -22,6 +22,8 @@ import type {
   LeadDetails,
   LeadFiltersValuesOptions
 } from '../types/lead.model';
+import type { AvailableFlow, FlowExecutionResult } from '../types/flow.types';
+import { FLOW_IDS } from '../types/flow.types';
 
 import { LeadMapper } from './mapper';
 import { handleLeadError } from './error-handler';
@@ -91,7 +93,9 @@ export class LeadService {
     }
   }
 
-  public static async getLeadFiltersValuesOptions(product: string): Promise<LeadFiltersValuesOptions> {
+  public static async getLeadFiltersValuesOptions(
+    product: string
+  ): Promise<LeadFiltersValuesOptions> {
     try {
       const { data: tags } = await httpClient.get<LeadTagsDTO[]>(
         `/huggy/tags?Product=${product}`
@@ -99,7 +103,9 @@ export class LeadService {
       const { data: operators } = await httpClient.get<LeadOperatorDTO[]>(
         '/daily-operation/based-on-role',
         {
-          params: { Kind: product.toUpperCase() === 'INSS' ? 'PublicServant' : product }
+          params: {
+            Kind: product.toUpperCase() === 'INSS' ? 'PublicServant' : product
+          }
         }
       );
       return LeadMapper.toLeadFiltersValuesOptionsModel(operators, tags);
@@ -212,7 +218,7 @@ export class LeadService {
       console.error('Erro ao buscar contra-cheque:', error);
       throw new Error(
         error.response?.data?.message ||
-        'Falha ao buscar contra-cheque do cliente.'
+          'Falha ao buscar contra-cheque do cliente.'
       );
     }
   }
@@ -249,6 +255,69 @@ export class LeadService {
       return LeadMapper.toOperatorModelList(data);
     } catch (error) {
       handleLeadError(error, 'getOperatorsByRole');
+    }
+  }
+
+  public static async getAvailableFlows(): Promise<AvailableFlow[]> {
+    try {
+      const { data } = await httpClient.get<AvailableFlow[]>(
+        '/huggy/available-flows'
+      );
+      return Array.isArray(data) ? data : [data];
+    } catch (error) {
+      handleLeadError(error, 'getAvailableFlows');
+    }
+  }
+
+  public static async executeFlow(params: {
+    flow: AvailableFlow;
+    leadId: string;
+    contactId?: string;
+    channelId?: string;
+    variables: Record<string, any>;
+  }): Promise<FlowExecutionResult> {
+    try {
+      if (!params.contactId) {
+        // Local execution (Fallback or no Huggy contact)
+        const isFinalization = params.flow.flowId === FLOW_IDS.FINALIZATION;
+        const endpoint = isFinalization
+          ? 'finalize-simulation'
+          : params.flow.flowId === FLOW_IDS.STAGE_CHANGE
+            ? 'common/enqueue-update-simulation-stage'
+            : 'update-stage';
+
+        const payload = isFinalization
+          ? {
+              simulationRequest: { simulationId: params.leadId },
+              reason: params.variables.Reason
+            }
+          : {
+              simulationRequest: { simulationId: params.leadId },
+              stageName: params.variables.StageName || 'EmptyBalance'
+            };
+
+        await httpClient.post(`/simulations/${endpoint}`, payload);
+        return { chatId: '', reason: 'Executado localmente' };
+      }
+
+      // Huggy execution
+      const payload = {
+        uuid: params.channelId,
+        contactId: params.contactId,
+        flowId: params.flow.flowId,
+        variables: params.variables,
+        whenInChat: true,
+        whenWaitForChat: true,
+        whenInAuto: true
+      };
+
+      const { data } = await httpClient.post<FlowExecutionResult>(
+        '/huggy/execute-flow',
+        payload
+      );
+      return data;
+    } catch (error) {
+      handleLeadError(error, 'executeFlow');
     }
   }
 }

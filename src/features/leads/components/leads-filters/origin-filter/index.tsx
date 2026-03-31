@@ -18,7 +18,6 @@ import {
 import { cn } from '@/shared/utils';
 import { useLeadsBoardContext } from '../../../hooks/use-leads-board-context';
 
-
 export function LeadsOriginFilter() {
   const { state, dispatch } = useLeadsBoardContext();
   const selectedSources = state.source;

@@ -1,5 +1,5 @@
 import { useSearchParams } from 'react-router';
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import {
   getCoreRowModel,
   type PaginationState,
@@ -24,17 +24,20 @@ export function useCustomersTable() {
     endDate: searchParams.get('endDate')
   };
 
-  const setFilterStates = (updates: Record<string, string | number | null>) => {
-    const newParams = new URLSearchParams(searchParams);
-    for (const [key, value] of Object.entries(updates)) {
-      if (value === null || value === undefined || value === '') {
-        newParams.delete(key);
-      } else {
-        newParams.set(key, String(value));
+  const setFilterStates = useCallback(
+    (updates: Record<string, string | number | null>) => {
+      const newParams = new URLSearchParams(searchParams);
+      for (const [key, value] of Object.entries(updates)) {
+        if (value === null || value === undefined || value === '') {
+          newParams.delete(key);
+        } else {
+          newParams.set(key, String(value));
+        }
       }
-    }
-    setSearchParams(newParams, { replace: true });
-  };
+      setSearchParams(newParams, { replace: true });
+    },
+    [searchParams, setSearchParams]
+  );
 
   const { data, isLoading, isError } = useCustomersQuery({
     page: filterStates.page,
@@ -55,20 +58,23 @@ export function useCustomersTable() {
     [filterStates.page, filterStates.pageSize]
   );
 
-  const onPaginationChange: OnChangeFn<PaginationState> = (updater) => {
-    if (typeof updater === 'function') {
-      const newState = updater(paginationState);
-      setFilterStates({
-        page: newState.pageIndex + 1,
-        pageSize: newState.pageSize
-      });
-    } else {
-      setFilterStates({
-        page: updater.pageIndex + 1,
-        pageSize: updater.pageSize
-      });
-    }
-  };
+  const onPaginationChange: OnChangeFn<PaginationState> = useCallback(
+    (updater) => {
+      if (typeof updater === 'function') {
+        const newState = updater(paginationState);
+        setFilterStates({
+          page: newState.pageIndex + 1,
+          pageSize: newState.pageSize
+        });
+      } else {
+        setFilterStates({
+          page: updater.pageIndex + 1,
+          pageSize: updater.pageSize
+        });
+      }
+    },
+    [paginationState, setFilterStates]
+  );
 
   const tableOptions: Omit<TableOptions<Customer>, 'getCoreRowModel'> & {
     getCoreRowModel: any;
@@ -87,19 +93,22 @@ export function useCustomersTable() {
     [data, paginationState, onPaginationChange]
   );
 
-  const actions = {
-    clearFilters: () => {
-      setFilterStates({
-        page: 1,
-        cpf: null,
-        name: null,
-        phone: null,
-        origin: null,
-        startDate: null,
-        endDate: null
-      });
-    }
-  };
+  const actions = useMemo(
+    () => ({
+      clearFilters: () => {
+        setFilterStates({
+          page: 1,
+          cpf: null,
+          name: null,
+          phone: null,
+          origin: null,
+          startDate: null,
+          endDate: null
+        });
+      }
+    }),
+    [setFilterStates]
+  );
 
   return {
     tableOptions,

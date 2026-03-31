@@ -1,5 +1,8 @@
 import { useReducer } from 'react';
-import type { LeadFiltersValuesOptions, LeadProduct } from '../../types/lead.model';
+import type {
+  LeadFiltersValuesOptions,
+  LeadProduct
+} from '../../types/lead.model';
 import type { LeadsTextFilterType } from './text-filter/use-text-filter';
 import { format, subDays } from 'date-fns';
 
@@ -25,15 +28,15 @@ export type LeadsFiltersAction =
   | { type: 'SET_STATUS'; payload: 'All' | 'OnlyFinalized' | 'OnlyInProgress' }
   | { type: 'SET_OPERATOR_IDS'; payload: string[] }
   | {
-    type: 'SET_DATE_RANGE';
-    payload: { start: string | null; end: string | null };
-  }
+      type: 'SET_DATE_RANGE';
+      payload: { start: string | null; end: string | null };
+    }
   | { type: 'SET_SOURCES'; payload: string[] }
   | { type: 'SET_AUDIENCES'; payload: string[] }
   | {
-    type: 'SET_TEXT_FILTER';
-    payload: { type: LeadsTextFilterType; value: string | null };
-  }
+      type: 'SET_TEXT_FILTER';
+      payload: { type: LeadsTextFilterType; value: string | null };
+    }
   | { type: 'RESET_FILTERS'; payload: { products: LeadProduct[] } };
 
 function leadsFiltersReducer(
@@ -44,7 +47,12 @@ function leadsFiltersReducer(
     case 'SET_PRODUCTS':
       return { ...state, products: action.payload };
     case 'SET_FILTER_OPTIONS':
-      return { ...state, filterOptions: action.payload, isFilterOptionsLoading: false, operatorIds: action.payload.operators.map((op) => op.id) };
+      return {
+        ...state,
+        filterOptions: action.payload,
+        isFilterOptionsLoading: false,
+        operatorIds: action.payload.operators.map((op) => op.id)
+      };
     case 'SET_STATUS':
       return { ...state, withConversationStatus: action.payload };
     case 'SET_OPERATOR_IDS':
@@ -103,7 +111,7 @@ export function useLeadsFilters(defaultProducts: LeadProduct[]) {
   const initialState: LeadsFiltersState = {
     products: defaultProducts,
     filterOptions: {
-      audiences:[],
+      audiences: [],
       operators: [],
       sources: []
     },

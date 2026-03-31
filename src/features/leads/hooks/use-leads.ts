@@ -21,7 +21,6 @@ export function useLeads(stageId: LeadStage) {
       stages: [stageId],
       page: 1,
       pageSize: 60,
-      // Ensure nulls are undefined for the query params
       dateIni: state.dateIni ?? undefined,
       dateEnd: state.dateEnd ?? undefined,
       name: state.name ?? undefined,

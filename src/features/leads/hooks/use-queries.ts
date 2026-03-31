@@ -19,19 +19,11 @@ export function useLeadFlowStepsQuery(leadId: string) {
   });
 }
 
-export function useLeadCustomerDetailsQuery(leadId: string) {
+export function useLeadDetailsQuery(leadId: string) {
   return useQuery({
-    queryKey: ['leads', leadId, 'customer'],
+    queryKey: ['leads', leadId, 'details'],
     queryFn: () => LeadService.getLeadDetails(leadId),
     enabled: !!leadId
-  });
-}
-
-export function useOperatorsByRoleQuery(kind: string) {
-  return useQuery({
-    queryKey: ['operators', 'by-role', kind],
-    queryFn: () => LeadService.getOperatorsByRole(kind),
-    staleTime: 1000 * 60 * 10 // 10 minutes
   });
 }
 
@@ -48,6 +40,14 @@ export function useLeadFiltersValuesOptionsQuery(product: string) {
     queryKey: ['leads', 'filters-values-options', product],
     queryFn: () => LeadService.getLeadFiltersValuesOptions(product),
     enabled: !!product,
+    staleTime: 1000 * 60 * 60 // 1 hour
+  });
+}
+
+export function useLeadFlowsQuery() {
+  return useQuery({
+    queryKey: ['leads', 'flows'],
+    queryFn: () => LeadService.getAvailableFlows(),
     staleTime: 1000 * 60 * 60 // 1 hour
   });
 }

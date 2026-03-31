@@ -1,4 +1,3 @@
-
 export const LeadCommonSteps = {
   None: 0,
   ConversationStarted: 'Conversa iniciada',
@@ -38,7 +37,7 @@ const LeadCLtSpecificSteps = {
   ConfirmingPixOfferPayment: 'Confirmando pagamento da oferta Pix',
   ConfirmingFgtsOfferPayment: 'Confirmando pagamento da oferta FGTS',
   ConfirmingCrefazOfferPayment: 'Confirmando pagamento da oferta Crefaz'
-} as const
+} as const;
 
 const LeadPublicServantSpecificSteps = {
   SendingPublicServantInformation: 'Enviando informações de servidor público',
@@ -46,7 +45,7 @@ const LeadPublicServantSpecificSteps = {
   AskingAgency: 'Perguntando agência',
   AskingState: 'Perguntando estado',
   AskingCityHall: 'Perguntando prefeitura'
-} as const
+} as const;
 
 export const LeadPublicServantSteps = {
   ...LeadCommonSteps,
@@ -62,7 +61,6 @@ export const LeadAllSteps = {
   ...LeadCommonSteps,
   ...LeadCLtSpecificSteps,
   ...LeadPublicServantSpecificSteps
-} as const
-
+} as const;
 
 export type TLeadAllSteps = keyof typeof LeadAllSteps;

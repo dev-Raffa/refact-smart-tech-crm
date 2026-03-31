@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { Copy, MessageSquare, Settings } from 'lucide-react';
+import { Copy, MessageSquare } from 'lucide-react';
 
 import {
   Card,
@@ -39,6 +39,7 @@ import { formatCurrencyBRL, formatDate } from '@/shared/utils';
 import { PublciServantLastStepBadge } from '../last-step-badge';
 import { PublicServantFlagsBadge } from '../flags-badge';
 import { PublicServantFinalizationReasonBadge } from '../finalization-reason-badge';
+import { FlowExecution } from '../flow-execution';
 
 function keepFirstAndLastName(fullName?: string | null) {
   if (!fullName) return '';
@@ -124,28 +125,24 @@ export function PublicServantLeadCard({ lead }: PublicServantLeadCardProps) {
             <div className="flex items-center gap-1 w-full relative min-w-0">
               <h3
                 className="font-semibold text-sm leading-tight truncate text-zinc-900 dark:text-zinc-100 flex-1 min-w-0"
-                title={lead.customer?.name}
+                title={lead.customer.name}
               >
-                {keepFirstAndLastName(lead.customer?.name)}
+                {keepFirstAndLastName(lead.customer.name)}
               </h3>
             </div>
             <div className=" flex items-center gap-1 text-xs text-muted-foreground hover:text-emerald-700 transition-colors truncate w-full">
-              {lead.customer?.cpf ? (
-                <>
-                  {maskDocument(lead.customer.cpf)}
-                  <Button
-                    className="p-0 h-fit w-fit"
-                    type="button"
-                    size={'icon-sm'}
-                    variant={'ghost'}
-                    onClick={handleCopyCpf}
-                  >
-                    <Copy className="size-3" />
-                  </Button>
-                </>
-              ) : (
-                'CPF Não informado'
-              )}
+              {maskDocument(lead.customer.cpf)}
+              <Button
+                className="p-0 h-fit w-fit"
+                type="button"
+                size={'icon-sm'}
+                variant={'ghost'}
+                onClick={handleCopyCpf}
+              >
+                {lead.customer.cpf.toUpperCase() !== 'NÃO INFORMADO' && (
+                  <Copy className="size-3" />
+                )}
+              </Button>
             </div>
             <span className="text-[10px] text-zinc-400 font-medium tracking-wide uppercase">
               {formatDate(lead.date)}
@@ -162,8 +159,10 @@ export function PublicServantLeadCard({ lead }: PublicServantLeadCardProps) {
               />
               <PublicServantFlagsBadge lead={lead} />
               {lead.finalizationReason !== 'None' && (
-              <PublicServantFinalizationReasonBadge finalizationReason={lead.finalizationReason} />
-            )}
+                <PublicServantFinalizationReasonBadge
+                  finalizationReason={lead.finalizationReason}
+                />
+              )}
             </div>
           </div>
         </CardHeader>
@@ -208,7 +207,7 @@ export function PublicServantLeadCard({ lead }: PublicServantLeadCardProps) {
           </div>
         </CardContent>
 
-        <CardFooter className="flex p-4 pt-0 gap-2">
+        <CardFooter className="grid grid-cols-2 p-4 pt-0 gap-2 ">
           <Button
             onClick={openHuggyChat}
             variant="outline"
@@ -218,14 +217,9 @@ export function PublicServantLeadCard({ lead }: PublicServantLeadCardProps) {
             Chat
             <MessageSquare className="w-3.5 h-3.5 ml-1.5" />
           </Button>
-          <Button
-            onClick={openFlowSheet}
-            variant="outline"
-            className="h-8 flex-1 bg-zinc-50 hover:bg-zinc-100 text-xs text-zinc-600 dark:bg-zinc-900 border-zinc-200"
-          >
-            Ações
-            <Settings className="w-3.5 h-3.5 ml-1.5" />
-          </Button>
+          <div onClick={(e) => e.stopPropagation()} className="w-full">
+            <FlowExecution lead={lead} />
+          </div>
         </CardFooter>
       </Card>
 

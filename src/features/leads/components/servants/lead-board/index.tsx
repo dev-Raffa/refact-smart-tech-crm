@@ -18,7 +18,7 @@ const INSS_COLUMNS: InssColumnDefinition[] = [
 
 export function PublicServantLeadBoard() {
   return (
-    <LeadsBoardProvider defaultProducts={['Inss']} operatorRole="PublicServant">
+    <LeadsBoardProvider defaultProducts={['Inss']}>
       <div className="flex h-full flex-col flex-1 pb-6 w-full max-w-full overflow-hidden">
         <div className="mb-4">
           <LeadsFilters />

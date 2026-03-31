@@ -1,6 +1,9 @@
 import type { ReactNode } from 'react';
 import { CheckCircle, Clock, XCircle, AlertCircle } from 'lucide-react';
-import { type TLeadExecutionStatus, LeadExecutionStatus } from './execution-status';
+import {
+  type TLeadExecutionStatus,
+  LeadExecutionStatus
+} from './execution-status';
 
 type ExecutionStatusConfig = {
   color: string;
@@ -8,10 +11,7 @@ type ExecutionStatusConfig = {
   text: string;
 };
 
-export const STATUS_MAP: Record<
-  TLeadExecutionStatus,
-  ExecutionStatusConfig
-> = {
+export const STATUS_MAP: Record<TLeadExecutionStatus, ExecutionStatusConfig> = {
   [LeadExecutionStatus.RunSuccessfully]: {
     color: 'text-green-500',
     icon: <CheckCircle className="size-4" />,

@@ -225,8 +225,7 @@ export interface ChangeOperatorParams {
 }
 
 export type LeadFiltersValuesOptions = {
- operators: LeadOperator[];
- sources: string[];
- audiences: string[];
-} 
-
+  operators: LeadOperator[];
+  sources: string[];
+  audiences: string[];
+};

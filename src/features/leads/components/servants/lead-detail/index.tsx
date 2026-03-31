@@ -13,13 +13,13 @@ import {
   AccordionTrigger
 } from '@/shared/components/ui/accordion';
 
-import { useLeadCustomerDetailsQuery } from '../../../hooks/use-queries';
+import { useLeadDetailsQuery } from '../../../hooks/use-queries';
 
 import { CustomerDataSection } from './sections/customer-data';
 import { ServantDataSection } from './sections/servant-data';
 import { PaycheckUploadSection } from './sections/paycheck-upload';
 import { PaycheckDownloadSection } from './sections/paycheck-download';
-import { LeadFluxHistory } from './sections/flux-history';
+import { LeadFluxHistory } from '../../flux-history';
 
 type InssLeadSheetProps = {
   leadId: string;
@@ -33,7 +33,7 @@ export function PublicServantsLeadDetails({
   onOpenChange
 }: InssLeadSheetProps) {
   const { data: leadDetails, isLoading: isLeadLoading } =
-    useLeadCustomerDetailsQuery(leadId);
+    useLeadDetailsQuery(leadId);
   console.log(leadDetails);
 
   return (

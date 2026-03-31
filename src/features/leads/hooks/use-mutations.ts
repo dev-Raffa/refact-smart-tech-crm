@@ -121,3 +121,14 @@ export function useOpenHuggyChatMutation() {
     }
   });
 }
+
+export function useExecuteFlowMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: LeadService.executeFlow,
+    meta: { successMessage: 'Fluxo executado com sucesso!' },
+    onSuccess: (_, { leadId }) => {
+      queryClient.invalidateQueries({ queryKey: ['leads', leadId] });
+    }
+  });
+}

@@ -25,7 +25,7 @@ export function LeadsOperatorsFilter() {
     availableOperators: rawOperators,
     isLoadingOperators: isLoading
   } = useLeadsBoardContext();
-  console.log(isLoading)
+  console.log(isLoading);
   const selectedOperatorIds = state.operatorIds;
 
   const onOperatorIdsChange = (ids: string[]) => {
@@ -39,13 +39,14 @@ export function LeadsOperatorsFilter() {
 
   if (!isLoading && !availableOperators.length) return null;
 
-  if(isLoading) return (
-    <div className="flex items-center gap-2">
-      <LoaderIcon className="h-4 w-4 animate-spin" />
-      <span>Carregando...</span>
-    </div>
-  )
-  
+  if (isLoading)
+    return (
+      <div className="flex items-center gap-2">
+        <LoaderIcon className="h-4 w-4 animate-spin" />
+        <span>Carregando...</span>
+      </div>
+    );
+
   return (
     <Popover>
       <PopoverTrigger asChild>
