@@ -1,10 +1,12 @@
 import { useReducer } from 'react';
-import type { LeadProduct } from '../types/lead.model';
-import type { LeadsTextFilterType } from '../components/leads-filters/text-filter/use-text-filter';
+import type { LeadFiltersValuesOptions, LeadProduct } from '../../types/lead.model';
+import type { LeadsTextFilterType } from './text-filter/use-text-filter';
 import { format, subDays } from 'date-fns';
 
 export interface LeadsFiltersState {
   products: LeadProduct[];
+  isFilterOptionsLoading: boolean;
+  filterOptions: LeadFiltersValuesOptions;
   withConversationStatus: 'All' | 'OnlyFinalized' | 'OnlyInProgress';
   operatorIds: string[];
   dateIni: string | null;
@@ -19,18 +21,19 @@ export interface LeadsFiltersState {
 
 export type LeadsFiltersAction =
   | { type: 'SET_PRODUCTS'; payload: LeadProduct[] }
+  | { type: 'SET_FILTER_OPTIONS'; payload: LeadFiltersValuesOptions }
   | { type: 'SET_STATUS'; payload: 'All' | 'OnlyFinalized' | 'OnlyInProgress' }
   | { type: 'SET_OPERATOR_IDS'; payload: string[] }
   | {
-      type: 'SET_DATE_RANGE';
-      payload: { start: string | null; end: string | null };
-    }
+    type: 'SET_DATE_RANGE';
+    payload: { start: string | null; end: string | null };
+  }
   | { type: 'SET_SOURCES'; payload: string[] }
   | { type: 'SET_AUDIENCES'; payload: string[] }
   | {
-      type: 'SET_TEXT_FILTER';
-      payload: { type: LeadsTextFilterType; value: string | null };
-    }
+    type: 'SET_TEXT_FILTER';
+    payload: { type: LeadsTextFilterType; value: string | null };
+  }
   | { type: 'RESET_FILTERS'; payload: { products: LeadProduct[] } };
 
 function leadsFiltersReducer(
@@ -40,6 +43,8 @@ function leadsFiltersReducer(
   switch (action.type) {
     case 'SET_PRODUCTS':
       return { ...state, products: action.payload };
+    case 'SET_FILTER_OPTIONS':
+      return { ...state, filterOptions: action.payload, isFilterOptionsLoading: false, operatorIds: action.payload.operators.map((op) => op.id) };
     case 'SET_STATUS':
       return { ...state, withConversationStatus: action.payload };
     case 'SET_OPERATOR_IDS':
@@ -71,6 +76,7 @@ function leadsFiltersReducer(
 
       return {
         products: action.payload.products,
+        filterOptions: state.filterOptions,
         withConversationStatus: 'OnlyInProgress',
         operatorIds: [],
         dateIni: startStr,
@@ -80,7 +86,8 @@ function leadsFiltersReducer(
         name: null,
         cpf: null,
         phoneNumber: null,
-        proposalNumber: null
+        proposalNumber: null,
+        isFilterOptionsLoading: state.isFilterOptionsLoading
       };
     }
     default:
@@ -95,6 +102,12 @@ export function useLeadsFilters(defaultProducts: LeadProduct[]) {
 
   const initialState: LeadsFiltersState = {
     products: defaultProducts,
+    filterOptions: {
+      audiences:[],
+      operators: [],
+      sources: []
+    },
+    isFilterOptionsLoading: true,
     withConversationStatus: 'OnlyInProgress',
     operatorIds: [],
     dateIni: startStr,

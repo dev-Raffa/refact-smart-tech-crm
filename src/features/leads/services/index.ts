@@ -4,7 +4,8 @@ import type {
   LeadDTO,
   LeadOperatorDTO,
   LeadCustomerDetailsDTO,
-  getFlowStepsResponse
+  getFlowStepsResponse,
+  LeadTagsDTO
 } from '../types/lead.dto';
 import type { PaginatedResponse } from '@/shared/types/paginated-response';
 import type {
@@ -18,7 +19,8 @@ import type {
   UploadLeadDocumentParams,
   SetApprovedBankParams,
   ChangeOperatorParams,
-  LeadDetails
+  LeadDetails,
+  LeadFiltersValuesOptions
 } from '../types/lead.model';
 
 import { LeadMapper } from './mapper';
@@ -86,6 +88,23 @@ export class LeadService {
       return LeadMapper.toLeadDetailsModel(data, history.flowSteps || []);
     } catch (error) {
       handleLeadError(error, 'getCustomerDetails');
+    }
+  }
+
+  public static async getLeadFiltersValuesOptions(product: string): Promise<LeadFiltersValuesOptions> {
+    try {
+      const { data: tags } = await httpClient.get<LeadTagsDTO[]>(
+        `/huggy/tags?Product=${product}`
+      );
+      const { data: operators } = await httpClient.get<LeadOperatorDTO[]>(
+        '/daily-operation/based-on-role',
+        {
+          params: { Kind: product.toUpperCase() === 'INSS' ? 'PublicServant' : product }
+        }
+      );
+      return LeadMapper.toLeadFiltersValuesOptionsModel(operators, tags);
+    } catch (error) {
+      handleLeadError(error, 'getLeadFiltersValuesOptions');
     }
   }
 

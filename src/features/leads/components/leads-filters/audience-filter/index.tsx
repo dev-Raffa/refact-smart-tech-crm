@@ -18,18 +18,11 @@ import {
 import { cn } from '@/shared/utils';
 import { useLeadsBoardContext } from '../../../hooks/use-leads-board-context';
 
-const MARKETING_AUDIENCE_OPTIONS = [
-  'Público 01',
-  'Público 02',
-  'Público 03',
-  'Público 04',
-  'Público 05',
-  'Público 06',
-  'Remarketing'
-];
-
 export function LeadsAudienceFilter() {
   const { state, dispatch } = useLeadsBoardContext();
+  const { isFilterOptionsLoading, filterOptions } = state;
+  const audiences = isFilterOptionsLoading ? [] : filterOptions.audiences;
+
   const selectedAudiences = state.audience;
 
   const onSelectedAudiencesChange = (audiences: string[]) => {
@@ -69,7 +62,7 @@ export function LeadsAudienceFilter() {
           <CommandList>
             <CommandEmpty>Nenhum público encontrado.</CommandEmpty>
             <CommandGroup>
-              {MARKETING_AUDIENCE_OPTIONS.map((option) => {
+              {audiences.map((option) => {
                 const isSelected = selectedAudiences.includes(option);
                 return (
                   <CommandItem

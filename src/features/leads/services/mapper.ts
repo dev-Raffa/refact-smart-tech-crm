@@ -5,7 +5,8 @@ import type {
   FlowStepDTO,
   PartnerInformationsDTO,
   LeadOperatorDTO,
-  LeadCustomerDetailsDTO
+  LeadCustomerDetailsDTO,
+  LeadTagsDTO
 } from '../types/lead.dto';
 import type {
   Lead,
@@ -19,11 +20,13 @@ import type {
   LeadDetails,
   LeadLastFlowExecutionStatus,
   LeadPublicServantFlowName,
-  LeadCltFlowName
+  LeadCltFlowName,
+  LeadFiltersValuesOptions
 } from '../types/lead.model';
 import { translateGovernamentLevel } from '../utils/translate-governamental-level';
 import { normalizeServantOrigin } from '../utils/normalize-servant-origin';
 import { getCustomerProneNumbers } from '../utils/get-customer-prone-number';
+import type { LeadFinalizationReason } from '../consts/finalization-reasons';
 
 export class LeadMapper {
   public static toModel(dto: LeadDTO): Lead {
@@ -33,7 +36,7 @@ export class LeadMapper {
       availableBalance: dto.availableBalance,
       stageName: dto.stageName as LeadStage,
       approvedBank: dto.approvedBank,
-      finalizationReason: dto.finalizationReason,
+      finalizationReason: dto.finalizationReason as LeadFinalizationReason,
       products: dto.products as LeadProduct[],
       customer: LeadMapper.toCustomerModel(dto.customer),
       marketing: dto.customer.marketingDetails
@@ -308,5 +311,16 @@ export class LeadMapper {
 
   public static toOperatorModelList(dtos: LeadOperatorDTO[]): LeadOperator[] {
     return dtos.map(LeadMapper.toOperatorModel);
+  }
+
+  public static toLeadFiltersValuesOptionsModel(
+    operators: LeadOperatorDTO[],
+    tags: LeadTagsDTO[]
+  ): LeadFiltersValuesOptions {
+    return {
+      operators: operators.map(LeadMapper.toOperatorModel),
+      sources: tags.filter((tag) => tag.category === 'Source').map((tag) => tag.label),
+      audiences: tags.filter((tag) => tag.category === 'Audience').map((tag) => tag.label)
+    };
   }
 }

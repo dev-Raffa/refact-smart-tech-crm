@@ -220,3 +220,11 @@ export interface ChangeOperatorParams {
     username: string;
   };
 }
+
+
+export type LeadFiltersValuesOptions = {
+ operators: LeadOperator[];
+ sources: string[];
+ audiences: string[];
+} 
+

@@ -25,17 +25,27 @@ export function LeadsOperatorsFilter() {
     availableOperators: rawOperators,
     isLoadingOperators: isLoading
   } = useLeadsBoardContext();
+  console.log(isLoading)
   const selectedOperatorIds = state.operatorIds;
 
   const onOperatorIdsChange = (ids: string[]) => {
     dispatch({ type: 'SET_OPERATOR_IDS', payload: ids });
   };
 
-  const availableOperators = rawOperators.filter(
+  const availableOperators = rawOperators?.filter(
     (op): op is LeadOperator => !!op
   );
-  const hasOnlyOneAvailableOperator = availableOperators.length === 1;
+  const hasOnlyOneAvailableOperator = availableOperators?.length === 1;
 
+  if (!isLoading && !availableOperators.length) return null;
+
+  if(isLoading) return (
+    <div className="flex items-center gap-2">
+      <LoaderIcon className="h-4 w-4 animate-spin" />
+      <span>Carregando...</span>
+    </div>
+  )
+  
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -43,7 +53,7 @@ export function LeadsOperatorsFilter() {
           variant="outline"
           size="sm"
           className="h-9 border-dashed min-w-[200px] justify-start flex"
-          disabled={availableOperators.length < 2}
+          disabled={availableOperators?.length < 2}
         >
           {isLoading ? (
             <div className="flex items-center gap-2">
@@ -60,15 +70,15 @@ export function LeadsOperatorsFilter() {
                     variant="secondary"
                     className="ml-2 rounded-sm px-1 font-normal lg:hidden"
                   >
-                    {selectedOperatorIds.length}
+                    {selectedOperatorIds?.length}
                   </Badge>
                   <div className="hidden space-x-1 lg:flex ml-2">
-                    {selectedOperatorIds.length > 1 ? (
+                    {selectedOperatorIds?.length > 1 ? (
                       <Badge
                         variant="secondary"
                         className="rounded-sm px-1 font-normal"
                       >
-                        {selectedOperatorIds.length} selec.
+                        {selectedOperatorIds?.length} selec.
                       </Badge>
                     ) : (
                       rawOperators

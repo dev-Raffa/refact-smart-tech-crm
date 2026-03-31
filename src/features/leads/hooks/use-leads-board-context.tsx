@@ -1,12 +1,12 @@
 import { createContext, useContext, useMemo, useEffect, useRef } from 'react';
 import type { ReactNode } from 'react';
-import { useLeadsFilters } from './use-leads-filters';
+import { useLeadsFilters } from '../components/leads-filters/use-leads-filters';
 import type {
   LeadsFiltersState,
   LeadsFiltersAction
-} from './use-leads-filters';
-import { useOperatorsByRoleQuery } from './use-queries';
-import type { LeadOperator, LeadProduct } from '../types/lead.model';
+} from '../components/leads-filters/use-leads-filters';
+import { useLeadFiltersValuesOptionsQuery } from './use-queries';
+import type { LeadFiltersValuesOptions, LeadOperator, LeadProduct } from '../types/lead.model';
 
 interface LeadsBoardContextValue {
   state: LeadsFiltersState;
@@ -22,38 +22,34 @@ export const LeadsBoardContext = createContext<
 interface LeadsBoardProviderProps {
   children: ReactNode;
   defaultProducts: LeadProduct[];
-  operatorRole: string;
 }
 
 export function LeadsBoardProvider({
   children,
   defaultProducts,
-  operatorRole
 }: LeadsBoardProviderProps) {
   const [state, dispatch] = useLeadsFilters(defaultProducts);
   const isInitialized = useRef(false);
 
-  const { data: operators = [], isLoading: isLoadingOperators } =
-    useOperatorsByRoleQuery(operatorRole);
+  const { data: filterOptions = [], isLoading } =
+    useLeadFiltersValuesOptionsQuery(defaultProducts[0]);
 
   useEffect(() => {
-    if (!isLoadingOperators && !isInitialized.current) {
+    if (!isLoading && !isInitialized.current) {
       isInitialized.current = true;
-      if (operators.length > 0) {
-        const allIds = operators.map((op) => op.id);
-        dispatch({ type: 'SET_OPERATOR_IDS', payload: allIds });
-      }
+      const filters = filterOptions as LeadFiltersValuesOptions;        
+        dispatch({ type: 'SET_FILTER_OPTIONS', payload: filters });
     }
-  }, [isLoadingOperators, operators, dispatch]);
+  }, [isLoading, filterOptions, dispatch]);
 
   const value = useMemo(
     () => ({
       state,
       dispatch,
-      availableOperators: operators,
-      isLoadingOperators
+      availableOperators: (filterOptions as LeadFiltersValuesOptions).operators,
+      isLoadingOperators: isLoading
     }),
-    [state, operators, isLoadingOperators]
+    [state, filterOptions, isLoading]
   );
 
   return (

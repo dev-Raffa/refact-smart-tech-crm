@@ -3,6 +3,14 @@ export interface LeadCustomerMarketingDTO {
   audience: string;
 }
 
+export interface LeadTagsDTO {
+  id: string;
+  tagId: number;
+  label: string;
+  category: 'Audience' | 'Source';
+  product: 'Inss' | 'Clt';
+}
+
 export interface LeadChatDTO {
   contactId: string;
   chatId: string;

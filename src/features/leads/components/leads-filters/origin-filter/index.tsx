@@ -18,17 +18,11 @@ import {
 import { cn } from '@/shared/utils';
 import { useLeadsBoardContext } from '../../../hooks/use-leads-board-context';
 
-const MARKETING_SOURCE_OPTIONS = [
-  'Disparo Compra',
-  'Disparo Margem',
-  'Instagram',
-  'Storie Instagram',
-  'Link da Bio'
-];
 
 export function LeadsOriginFilter() {
   const { state, dispatch } = useLeadsBoardContext();
   const selectedSources = state.source;
+  const sourceOptions = state.filterOptions.sources;
 
   const onSelectedSourcesChange = (sources: string[]) => {
     dispatch({ type: 'SET_SOURCES', payload: sources });
@@ -66,7 +60,7 @@ export function LeadsOriginFilter() {
           <CommandList>
             <CommandEmpty>Nenhuma origem encontrada.</CommandEmpty>
             <CommandGroup>
-              {MARKETING_SOURCE_OPTIONS.map((option) => {
+              {sourceOptions.map((option) => {
                 const isSelected = selectedSources.includes(option);
                 return (
                   <CommandItem

@@ -42,3 +42,12 @@ export function useLeadPaySlipUrlQuery(name: string) {
     enabled: !!name
   });
 }
+
+export function useLeadFiltersValuesOptionsQuery(product: string) {
+  return useQuery({
+    queryKey: ['leads', 'filters-values-options', product],
+    queryFn: () => LeadService.getLeadFiltersValuesOptions(product),
+    enabled: !!product,
+    staleTime: 1000 * 60 * 60 // 1 hour
+  });
+}
