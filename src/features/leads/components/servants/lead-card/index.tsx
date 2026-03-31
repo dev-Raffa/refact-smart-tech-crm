@@ -38,6 +38,7 @@ import { PublicServantsMarketingTags } from './marketing-tags';
 import { formatCurrencyBRL, formatDate } from '@/shared/utils';
 import { PublciServantLastStepBadge } from '../last-step-badge';
 import { PublicServantFlagsBadge } from '../flags-badge';
+import { PublicServantFinalizationReasonBadge } from '../finalization-reason-badge';
 
 function keepFirstAndLastName(fullName?: string | null) {
   if (!fullName) return '';
@@ -160,6 +161,9 @@ export function PublicServantLeadCard({ lead }: PublicServantLeadCardProps) {
                 status={lead.lastFlow.status}
               />
               <PublicServantFlagsBadge lead={lead} />
+              {lead.finalizationReason !== 'None' && (
+              <PublicServantFinalizationReasonBadge finalizationReason={lead.finalizationReason} />
+            )}
             </div>
           </div>
         </CardHeader>

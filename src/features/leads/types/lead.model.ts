@@ -1,3 +1,4 @@
+import type { LeadFinalizationReason } from '../consts/finalization-reasons';
 import type { LeadCltSteps, LeadPublicServantSteps } from '../consts/steps';
 
 export interface LeadMarketing {
@@ -81,7 +82,7 @@ export interface Lead {
   availableBalance: number;
   stageName: LeadStage;
   approvedBank: string;
-  finalizationReason: string;
+  finalizationReason: LeadFinalizationReason;
   products: LeadProduct[];
   customer: LeadCustomer;
   marketing: LeadMarketing;

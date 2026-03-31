@@ -1,3 +1,4 @@
+
 export const LeadCommonSteps = {
   None: 0,
   ConversationStarted: 'Conversa iniciada',

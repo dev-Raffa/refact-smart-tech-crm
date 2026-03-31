@@ -59,5 +59,11 @@ export function getPublicServantsBadgeConfig(
         color: LeadBadgeColors.SUCCESS,
         icon: <CheckCircle className="size-4" />
       };
+    case 'ConversationEnded':
+      return {
+        label: 'Conversa encerrada',
+        color: LeadBadgeColors.WARNING,
+        icon: <CheckCircle className="size-4" />
+      };
   }
 }

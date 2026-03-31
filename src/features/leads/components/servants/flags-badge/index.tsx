@@ -12,7 +12,7 @@ export function PublicServantFlagsBadge({
 }: PublicServantFlagsBadgeProps) {
   const badgeClasses = `gap-1 border-none shadow-none text-[10px] px-1.5 py-0 h-4 ${LeadBadgeColors.MUTED}`;
 
-  if (lead.lastFlow.cadence !== 'none') {
+  if (lead.lastFlow.cadence !== 'None') {
     return (
       <Badge className={badgeClasses}>
         <Clock /> Em cadência
