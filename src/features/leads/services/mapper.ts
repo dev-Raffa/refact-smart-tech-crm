@@ -25,7 +25,7 @@ import type {
 } from '../types/lead.model';
 import { translateGovernamentLevel } from '../utils/translate-governamental-level';
 import { normalizeServantOrigin } from '../utils/normalize-servant-origin';
-import { getCustomerProneNumbers } from '../utils/get-customer-prone-number';
+import { getCustomerProneNumbers } from '../utils/get-customer-phone-number';
 import type { LeadFinalizationReason } from '../consts/finalization-reasons';
 
 export class LeadMapper {
@@ -237,6 +237,7 @@ export class LeadMapper {
     dto: LeadCustomerDetailsDTO,
     history: FlowStepDTO[]
   ): LeadDetails {
+    console.log(history)
     return {
       id: dto.customer.id,
       customer: this.toCustomerModel(dto.customer),

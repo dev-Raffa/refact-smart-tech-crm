@@ -1,6 +1,6 @@
-/*import { CheckCircle, Clock, XCircle, AlertCircle } from 'lucide-react';
 import type { ReactNode } from 'react';
-import { LeadStepExecutionStatus } from '../types/lead.model';
+import { CheckCircle, Clock, XCircle, AlertCircle } from 'lucide-react';
+import { type TLeadExecutionStatus, LeadExecutionStatus } from './execution-status';
 
 type ExecutionStatusConfig = {
   color: string;
@@ -9,33 +9,32 @@ type ExecutionStatusConfig = {
 };
 
 export const STATUS_MAP: Record<
-  LeadStepExecutionStatus,
+  TLeadExecutionStatus,
   ExecutionStatusConfig
 > = {
-  [LeadStepExecutionStatus.RunSuccessfully]: {
+  [LeadExecutionStatus.RunSuccessfully]: {
     color: 'text-green-500',
     icon: <CheckCircle className="size-4" />,
     text: 'Sucesso'
   },
-  [LeadStepExecutionStatus.RunningNow]: {
+  [LeadExecutionStatus.RunningNow]: {
     color: 'text-blue-500',
     icon: <Clock className="size-4" />,
     text: 'Executando'
   },
-  [LeadStepExecutionStatus.RunFailedMarkedForRetry]: {
+  [LeadExecutionStatus.RunFailedMarkedForRetry]: {
     color: 'text-red-500',
     icon: <XCircle className="size-4" />,
     text: 'Erro - Retentativa'
   },
-  [LeadStepExecutionStatus.AllAttemptsExceededRetryIn1Hour]: {
+  [LeadExecutionStatus.AllAttemptsExceededRetryIn1Hour]: {
     color: 'text-orange-500',
     icon: <AlertCircle className="size-4" />,
     text: 'Falhou'
   },
-  [LeadStepExecutionStatus.RunFailed]: {
+  [LeadExecutionStatus.RunFailed]: {
     color: 'text-red-500',
     icon: <XCircle className="size-4" />,
     text: 'Rodou com falha'
   }
 };
-*/

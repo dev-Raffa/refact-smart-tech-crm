@@ -22,7 +22,7 @@ export function useLeadFlowStepsQuery(leadId: string) {
 export function useLeadCustomerDetailsQuery(leadId: string) {
   return useQuery({
     queryKey: ['leads', leadId, 'customer'],
-    queryFn: () => LeadService.getCustomerDetails(leadId),
+    queryFn: () => LeadService.getLeadDetails(leadId),
     enabled: !!leadId
   });
 }

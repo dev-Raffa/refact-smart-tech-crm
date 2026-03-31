@@ -19,6 +19,7 @@ import { CustomerDataSection } from './sections/customer-data';
 import { ServantDataSection } from './sections/servant-data';
 import { PaycheckUploadSection } from './sections/paycheck-upload';
 import { PaycheckDownloadSection } from './sections/paycheck-download';
+import { LeadFluxHistory } from './sections/flux-history';
 
 type InssLeadSheetProps = {
   leadId: string;
@@ -100,31 +101,7 @@ export function PublicServantsLeadDetails({
               Não foi possível carregar os detalhes.
             </div>
           )}
-          {/*
-
-          <div className="w-full flex flex-col gap-4 mt-8">
-            <h3 className="font-semibold text-lg text-zinc-900 dark:text-zinc-100 mb-2">Histórico Execução</h3>
-            {flowStepsLoading ? (
-              <div className="flex justify-center py-8">
-                <Loader2 className="h-6 w-6 animate-spin text-emerald-600" />
-              </div>
-            ) : flowSteps && flowSteps.length > 0 ? (
-              <div className="space-y-3">
-                {flowSteps.map((step, idx) => (
-                  <div key={idx} className="p-3 rounded-lg border border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50">
-                    <div className="flex justify-between items-start mb-1">
-                      <span className="font-semibold text-sm">{step.flowName}</span>
-                      <span className="text-[10px] text-zinc-400">{new Date(step.executedAt).toLocaleString()}</span>
-                    </div>
-                    <p className="text-xs text-zinc-500">{step.bank}</p>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-sm text-zinc-500 text-center py-4 bg-zinc-50/50 rounded-lg">Sem histórico.</p>
-            )}
-          </div>
-          */}
+          <LeadFluxHistory flowSteps={leadDetails?.history || []} />
         </div>
       </SheetContent>
     </Sheet>

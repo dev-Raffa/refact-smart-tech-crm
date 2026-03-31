@@ -106,7 +106,7 @@ export function useChangeOperatorMutation() {
 export function useOpenHuggyChatMutation() {
   return useMutation({
     mutationFn: async (leadId: string) => {
-      const customerDetails = await LeadService.getCustomerDetails(leadId);
+      const customerDetails = await LeadService.getLeadDetails(leadId);
       if (!customerDetails || !customerDetails.chat?.chatId) {
         throw new Error('Chat não encontrado para este cliente');
       }

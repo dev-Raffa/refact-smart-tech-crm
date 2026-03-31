@@ -69,13 +69,13 @@ export class LeadService {
       const { data } = await httpClient.get<getFlowStepsResponse>(
         `/simulations/flow-steps?simulationId=${leadId}`
       );
-      return LeadMapper.toFlowStepModelList(data.flowSteps);
+      return LeadMapper.toFlowStepModelList(data.flowStepsInfo);
     } catch (error) {
       handleLeadError(error, 'getFlowSteps');
     }
   }
 
-  public static async getCustomerDetails(leadId: string): Promise<LeadDetails> {
+  public static async getLeadDetails(leadId: string): Promise<LeadDetails> {
     try {
       const { data } = await httpClient.get<LeadCustomerDetailsDTO>(
         `/simulations/${leadId}/customer`
@@ -85,7 +85,7 @@ export class LeadService {
         `/simulations/flow-steps?simulationId=${leadId}`
       );
 
-      return LeadMapper.toLeadDetailsModel(data, history.flowSteps || []);
+      return LeadMapper.toLeadDetailsModel(data, history.flowStepsInfo || []);
     } catch (error) {
       handleLeadError(error, 'getCustomerDetails');
     }
@@ -212,7 +212,7 @@ export class LeadService {
       console.error('Erro ao buscar contra-cheque:', error);
       throw new Error(
         error.response?.data?.message ||
-          'Falha ao buscar contra-cheque do cliente.'
+        'Falha ao buscar contra-cheque do cliente.'
       );
     }
   }

@@ -122,5 +122,5 @@ export interface LeadDTO {
 }
 
 export interface getFlowStepsResponse {
-  flowSteps: FlowStepDTO[];
+  flowStepsInfo: FlowStepDTO[];
 }

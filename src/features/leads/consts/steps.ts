@@ -19,17 +19,7 @@ export const LeadCommonSteps = {
   ManuallyDesqualification: 'Desqualificação manual'
 } as const;
 
-export const LeadPublicServantSteps = {
-  ...LeadCommonSteps,
-  SendingPublicServantInformation: 'Enviando informações de servidor público',
-  SendingPayslip: 'Enviando contra-cheque',
-  AskingAgency: 'Perguntando agência',
-  AskingState: 'Perguntando estado',
-  AskingCityHall: 'Perguntando prefeitura'
-};
-
-export const LeadCltSteps = {
-  ...LeadCommonSteps,
+const LeadCLtSpecificSteps = {
   ShowingAvailableSimulationLoanValues:
     'Exibindo valores de empréstimo de simulação disponíveis',
   ShowingCasOffer: 'Exibindo oferta de CAS',
@@ -48,4 +38,31 @@ export const LeadCltSteps = {
   ConfirmingPixOfferPayment: 'Confirmando pagamento da oferta Pix',
   ConfirmingFgtsOfferPayment: 'Confirmando pagamento da oferta FGTS',
   ConfirmingCrefazOfferPayment: 'Confirmando pagamento da oferta Crefaz'
+} as const
+
+const LeadPublicServantSpecificSteps = {
+  SendingPublicServantInformation: 'Enviando informações de servidor público',
+  SendingPayslip: 'Enviando contra-cheque',
+  AskingAgency: 'Perguntando agência',
+  AskingState: 'Perguntando estado',
+  AskingCityHall: 'Perguntando prefeitura'
+} as const
+
+export const LeadPublicServantSteps = {
+  ...LeadCommonSteps,
+  ...LeadPublicServantSpecificSteps
 };
+
+export const LeadCltSteps = {
+  ...LeadCommonSteps,
+  ...LeadCLtSpecificSteps
+};
+
+export const LeadAllSteps = {
+  ...LeadCommonSteps,
+  ...LeadCLtSpecificSteps,
+  ...LeadPublicServantSpecificSteps
+} as const
+
+
+export type TLeadAllSteps = keyof typeof LeadAllSteps;
