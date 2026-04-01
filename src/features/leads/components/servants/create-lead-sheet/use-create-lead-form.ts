@@ -18,7 +18,7 @@ const inssManualLeadFormSchema = z
     orgao: z.string().min(1, 'Órgão é obrigatório'),
     prefeitura: z.string().optional(),
     estado: z.string().optional(),
-    contraCheque: z.array(z.any()).min(1, 'Contra-cheque é obrigatório'),
+    contraCheque: z.array(z.any()).optional(),
     operator: z.object({
       id: z.string().min(1, 'Operador é obrigatório'),
       name: z.string().min(1, 'Operador é obrigatório'),
@@ -31,7 +31,7 @@ const inssManualLeadFormSchema = z
       (!data.estado || data.estado.trim() === '')
     ) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         message: 'Estado é obrigatório',
         path: ['estado']
       });
@@ -41,7 +41,7 @@ const inssManualLeadFormSchema = z
       (!data.prefeitura || data.prefeitura.trim() === '')
     ) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         message: 'Prefeitura é obrigatório',
         path: ['prefeitura']
       });
@@ -70,13 +70,8 @@ export function useCreateLeadForm(onSuccess?: () => void) {
   });
 
   const onSubmit = async (values: InssManualLeadFormValues) => {
-    const fileWithPreview = values.contraCheque[0] as FileWithPreview;
-    
-    if (!fileWithPreview?.file) {
-      toast.error('É obrigatório anexar o arquivo do contra-cheque.');
-      return;
-    }
 
+    const fileWithPreview = values.contraCheque?.[0] as FileWithPreview;
     const file = fileWithPreview.file;
 
     try {
