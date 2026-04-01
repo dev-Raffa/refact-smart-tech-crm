@@ -47,6 +47,7 @@ export const FlowsContent = ({ lead }: { lead: Lead }) => {
         flows.map((flow) => (
           <FlowCard
             key={flow.id}
+            lead={lead}
             flow={flow}
             state={formState[flow.id] ?? {}}
             isExecuting={executing.has(flow.id)}
