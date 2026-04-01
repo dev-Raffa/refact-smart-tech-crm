@@ -30,3 +30,21 @@ export interface IBoardColumnHeader {
   children: ReactNode;
   className?: string;
 }
+
+export interface IColumnFilterOption<TFilterOptions> {
+  label: string;
+  value: Partial<TFilterOptions>;
+}
+
+export interface IBoardColumnConfig<TColumnStages, TFilterOptions> {
+  id: TColumnStages;
+  color: string;
+  title: string;
+  filters?: IColumnFilterOption<TFilterOptions>[];
+  canCreateLead?: boolean;
+}
+
+export interface IBoardConfig<TColumnStages, TFilterOptions> {
+  createItemComponent: ReactNode;
+  columns: IBoardColumnConfig<TColumnStages, TFilterOptions>[];
+}

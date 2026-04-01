@@ -13,11 +13,13 @@ const EMPTY_PAGE: PaginatedResponse<Lead> = {
 
 export function useLeads(stageId: LeadStage) {
   const { state } = useLeadsBoardContext();
+  const columnFilter = state.columnFilters[stageId] || {};
   const hasOperatorsSelected = state.operatorIds.length > 0;
 
   const query = useLeadsQuery(
     {
       ...state,
+      ...columnFilter,
       stages: [stageId],
       page: 1,
       pageSize: 60,

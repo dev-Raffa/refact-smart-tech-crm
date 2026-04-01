@@ -1,7 +1,8 @@
 import { useReducer } from 'react';
 import type {
   LeadFiltersValuesOptions,
-  LeadProduct
+  LeadProduct,
+  GetLeadsParams
 } from '../../types/lead.model';
 import type { LeadsTextFilterType } from './text-filter/use-text-filter';
 import { format, subDays } from 'date-fns';
@@ -20,6 +21,7 @@ export interface LeadsFiltersState {
   cpf: string | null;
   phoneNumber: string | null;
   proposalNumber: string | null;
+  columnFilters: Record<string, Partial<GetLeadsParams>>;
 }
 
 export type LeadsFiltersAction =
@@ -36,6 +38,10 @@ export type LeadsFiltersAction =
   | {
       type: 'SET_TEXT_FILTER';
       payload: { type: LeadsTextFilterType; value: string | null };
+    }
+  | {
+      type: 'SET_COLUMN_FILTER';
+      payload: { columnId: string; filter: Partial<GetLeadsParams> };
     }
   | { type: 'RESET_FILTERS'; payload: { products: LeadProduct[] } };
 
@@ -77,6 +83,14 @@ function leadsFiltersReducer(
         proposalNumber:
           action.payload.type === 'proposalNumber' ? action.payload.value : null
       };
+    case 'SET_COLUMN_FILTER':
+      return {
+        ...state,
+        columnFilters: {
+          ...state.columnFilters,
+          [action.payload.columnId]: action.payload.filter
+        }
+      };
     case 'RESET_FILTERS': {
       const now = new Date();
       const todayStr = format(now, 'yyyy-MM-dd');
@@ -95,6 +109,7 @@ function leadsFiltersReducer(
         cpf: null,
         phoneNumber: null,
         proposalNumber: null,
+        columnFilters: {},
         isFilterOptionsLoading: state.isFilterOptionsLoading
       };
     }
@@ -125,7 +140,8 @@ export function useLeadsFilters(defaultProducts: LeadProduct[]) {
     name: null,
     cpf: null,
     phoneNumber: null,
-    proposalNumber: null
+    proposalNumber: null,
+    columnFilters: {}
   };
 
   const [state, dispatch] = useReducer(leadsFiltersReducer, initialState);
