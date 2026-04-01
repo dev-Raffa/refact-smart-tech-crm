@@ -41,19 +41,10 @@ export const routers = createBrowserRouter([
           {
             index: true,
             lazy: async () => {
-              const { DashboardPage } = await import(
-                '@/features/dashboard/pages'
+              const { LeadsPage } = await import(
+                '@/features/leads/pages/leads-page'
               );
-              return { Component: DashboardPage };
-            }
-          },
-          {
-            path: 'dashboard',
-            lazy: async () => {
-              const { DashboardPage } = await import(
-                '@/features/dashboard/pages'
-              );
-              return { Component: DashboardPage };
+              return { Component: LeadsPage };
             }
           },
           {
