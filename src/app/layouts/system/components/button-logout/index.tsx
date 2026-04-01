@@ -10,7 +10,7 @@ import {
   AlertDialogTrigger
 } from '@/shared/components/ui/alert-dialog';
 import { LogOut } from 'lucide-react';
-import { useAuthStore } from '@/features/auth/store';
+import { useAuthStore } from '@/shared/store';
 import { DropdownMenuItem } from '@/shared/components/ui/dropdown-menu';
 
 export const ButtonLogout = () => {

@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import { useAuthStore } from '@/features/auth/store';
+import { useAuthStore } from '@/shared/store';
 
 import type {
   AvailableFlow,

@@ -1,12 +1,25 @@
-import { useQuery, keepPreviousData } from '@tanstack/react-query';
+import { useQuery, useInfiniteQuery, keepPreviousData } from '@tanstack/react-query';
 import { LeadService } from '../services';
 import type { GetLeadsParams } from '../types/lead.model';
 
 export function useLeadsQuery(params: GetLeadsParams, enabled = true) {
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: ['leads', params],
-    queryFn: () => LeadService.getLeads(params),
+    initialPageParam: 1,
     placeholderData: keepPreviousData,
+    queryFn: ({ pageParam = 1 }) => LeadService.getLeads({ ...params, page: pageParam as number }),
+    getNextPageParam: (lastPage, allPages) => {
+      if (!lastPage) return undefined;
+
+      const totalReturned = allPages.reduce((acc, page) => acc + (page.results?.length || 0), 0);
+      const totalResults = lastPage.totalResults ?? (lastPage as any).TotalResults ?? 0;
+      
+      if (totalReturned < totalResults) {
+        return allPages.length + 1;
+      }
+      
+      return undefined;
+    },
     enabled
   });
 }

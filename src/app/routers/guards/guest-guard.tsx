@@ -1,5 +1,5 @@
 import { Outlet, Navigate } from 'react-router';
-import { useAuthStore } from '@/features/auth/store';
+import { useAuthStore } from '@/shared/store';
 
 export const GuestGuard = () => {
   const status = useAuthStore((state) => state.status);

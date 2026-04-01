@@ -1,11 +1,11 @@
-import { Board } from '@/shared/components/global/board';
-import { ServantBoardColumn } from './servants-board-column';
-import { LeadsBoardProvider } from '../../../hooks/use-leads-board-context';
-import { LeadsFilters } from '../../leads-filters';
+import { LeadsBoardLayout } from '../../lead-board-layout';
+import { LeadBoardColumn } from '../../lead-board-column';
 import type { LeadStage, GetLeadsParams } from '../../../types/lead.model';
 import { Separator } from '@/shared/components/ui/separator';
 import type { IBoardColumnConfig } from '@/shared/components/global/board/types';
 import { StageBadgeColor } from '@/features/leads/consts/stage-badge-color';
+import { CreateInssLeadSheet } from '../create-lead-sheet/create-lead-sheet';
+import { PublicServantLeadCard } from '../lead-card';
 
 const SERVANT_COLUMNS: IBoardColumnConfig<LeadStage, GetLeadsParams>[] = [
   {
@@ -60,32 +60,26 @@ const SERVANT_COLUMNS: IBoardColumnConfig<LeadStage, GetLeadsParams>[] = [
   }
 ];
 
-
 export function PublicServantLeadBoard() {
   return (
-    <LeadsBoardProvider defaultProducts={['Inss']}>
-      <div className="flex h-full flex-col flex-1 pb-6 w-full max-w-full overflow-hidden">
-        <div className="mb-6">
-          <LeadsFilters />
-        </div>
-        <Board>
-          {SERVANT_COLUMNS.map((col, index: number) => (
-            <>
-              <ServantBoardColumn
-                key={col.id}
-                id={col.id}
-                title={col.title}
-                filters={col.filters}
-                color={col.color}
-                canCreateLead={col.canCreateLead}
-              />
-              {index !== SERVANT_COLUMNS.length - 1 && (
-                <Separator orientation="vertical" />
-              )}
-            </>
-          ))}
-        </Board>
-      </div>
-    </LeadsBoardProvider>
+    <LeadsBoardLayout product="Inss">
+      {SERVANT_COLUMNS.map((col, index: number) => (
+        <>
+          <LeadBoardColumn
+            key={col.id}
+            id={col.id}
+            title={col.title}
+            filters={col.filters}
+            color={col.color}
+            canCreateLead={col.canCreateLead}
+            createSheetComponent={<CreateInssLeadSheet />}
+            renderCard={(lead) => <PublicServantLeadCard lead={lead} />}
+          />
+          {index !== SERVANT_COLUMNS.length - 1 && (
+            <Separator orientation="vertical" />
+          )}
+        </>
+      ))}
+    </LeadsBoardLayout>
   );
 }

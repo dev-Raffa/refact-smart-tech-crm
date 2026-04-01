@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { SearchIcon } from 'lucide-react';
 import { Input } from '@/shared/components/ui/input';
 import {
@@ -44,11 +44,22 @@ export function TextSearchFilter({
     return () => clearTimeout(handler);
   }, [inputValue]);
 
+  const isFirstRender = useRef(true);
+  const onFilterChangeRef = useRef(onFilterChange);
+
   useEffect(() => {
+    onFilterChangeRef.current = onFilterChange;
+  }, [onFilterChange]);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     const normalizedValue =
       debouncedValue.trim() === '' ? null : debouncedValue.trim();
-    onFilterChange(filterType, normalizedValue);
-  }, [debouncedValue, filterType, onFilterChange]);
+    onFilterChangeRef.current(filterType, normalizedValue);
+  }, [debouncedValue, filterType]);
 
   useEffect(() => {
     if (!filters.name && !filters.cpf && !filters.phone) {

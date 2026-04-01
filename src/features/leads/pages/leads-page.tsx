@@ -31,14 +31,16 @@ export const LeadsPage = () => {
 
           <TabsContent
             value="inss"
-            className="mt-6 border-none p-0 outline-none flex-1 flex flex-col min-h-0"
+            forceMount
+            className="mt-6 border-none p-0 outline-none flex-1 flex-col min-h-0 data-[state=active]:flex data-[state=inactive]:hidden"
           >
             <PublicServantLeadBoard />
           </TabsContent>
 
           <TabsContent
             value="clt"
-            className="mt-6 border-none p-0 outline-none"
+            forceMount
+            className="mt-6 border-none p-0 outline-none data-[state=active]:block data-[state=inactive]:hidden"
           >
             <div className="rounded-xl border border-dashed border-zinc-200 p-24 text-center text-muted-foreground">
               Board CLT em desenvolvimento...

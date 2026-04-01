@@ -1,5 +1,5 @@
 import { UsersIcon } from 'lucide-react';
-import { useAuthStore } from '@/features/auth/store';
+import { useAuthStore } from '@/shared/store';
 import {
   DropdownMenu,
   DropdownMenuContent,

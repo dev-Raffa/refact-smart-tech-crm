@@ -1,6 +1,6 @@
 import { setupHttpClientInterceptors } from '@/infra/api/gateway-api';
 import { setupAuthInterceptors } from '@/infra/api/auth-api';
-import { useAuthStore } from '@/features/auth/store';
+import { useAuthStore } from '@/shared/store';
 
 export const bootstrapApp = () => {
   const getToken = () => useAuthStore.getState().token;

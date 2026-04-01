@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useEffect, useRef } from 'react';
+import { createContext, useContext, useMemo, useEffect, useRef, startTransition } from 'react';
 import type { ReactNode } from 'react';
 import { useLeadsFilters } from '../components/leads-filters/use-leads-filters';
 import type {
@@ -49,7 +49,11 @@ export function LeadsBoardProvider({
   const value = useMemo(
     () => ({
       state,
-      dispatch,
+      dispatch: (action: LeadsFiltersAction) => {
+        startTransition(() => {
+          dispatch(action);
+        });
+      },
       availableOperators: (filterOptions as LeadFiltersValuesOptions).operators,
       isLoadingOperators: isLoading
     }),

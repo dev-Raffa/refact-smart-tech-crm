@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import type { AuthSession } from '../types';
+import type { AuthSession } from '../../features/auth/types';
 
 interface AuthState extends AuthSession {
   setSession: (session: AuthSession) => void;
@@ -29,7 +29,7 @@ export const useAuthStore = create<AuthState>()(
       }
     }),
     {
-      name: 'smart-tech-auth',
+      name: 'smart-tech',
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         token: state.token,

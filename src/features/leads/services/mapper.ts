@@ -237,7 +237,6 @@ export class LeadMapper {
     dto: LeadCustomerDetailsDTO,
     history: FlowStepDTO[]
   ): LeadDetails {
-    console.log(history);
     return {
       id: dto.customer.id,
       customer: this.toCustomerModel(dto.customer),

@@ -215,11 +215,7 @@ export class LeadService {
 
       return data;
     } catch (error: any) {
-      console.error('Erro ao buscar contra-cheque:', error);
-      throw new Error(
-        error.response?.data?.message ||
-          'Falha ao buscar contra-cheque do cliente.'
-      );
+      handleLeadError(error, 'getPaySlipUrl');
     }
   }
 

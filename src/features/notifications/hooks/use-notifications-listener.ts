@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useNotificationsStore } from '../store';
 import { SSEClient } from '@/infra/sse/client';
-import { useAuthStore } from '../../auth/store';
+import { useAuthStore } from '../../../shared/store';
 
 export const useNotificationsListener = () => {
   const addNotification = useNotificationsStore(

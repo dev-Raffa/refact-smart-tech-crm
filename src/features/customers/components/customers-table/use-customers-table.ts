@@ -15,7 +15,7 @@ export function useCustomersTable() {
 
   const filterStates = {
     page: Number(searchParams.get('page') || 1),
-    pageSize: Number(searchParams.get('pageSize') || 60),
+    pageSize: Number(searchParams.get('pageSize') || 50),
     cpf: searchParams.get('cpf'),
     name: searchParams.get('name'),
     phone: searchParams.get('phone'),

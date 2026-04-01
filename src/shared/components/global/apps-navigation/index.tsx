@@ -1,6 +1,6 @@
 import { Button } from '../../ui/button';
 import { apps } from './apps-list';
-import { useAuthStore } from '@/features/auth/store';
+import { useAuthStore } from '@/shared/store';
 
 export const AppsNavigation = () => {
   const { token } = useAuthStore();

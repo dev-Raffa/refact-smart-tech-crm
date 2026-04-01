@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useAuthStore } from '@/features/auth/store';
+import { useAuthStore } from '@/shared/store';
 import { authService } from '@/features/auth/services';
 import { toast } from 'sonner';
 
