@@ -9,16 +9,8 @@ import {
   CardHeader
 } from '@/shared/components/ui/card';
 import { Button } from '@/shared/components/ui/button';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue
-} from '@/shared/components/ui/select';
 import { maskDocument } from '@/shared/utils/masks/mask-document';
+import { LeadChangeOperator } from '../../change-operator';
 
 import type {
   Lead,
@@ -26,9 +18,7 @@ import type {
 } from '../../../types/lead.model';
 import { PublicServantsLeadDetails } from '../lead-detail';
 
-import { useLeadsBoardContext } from '../../../hooks/use-leads-board-context';
 import {
-  useChangeOperatorMutation,
   useSetReceivingAssistanceFlagMutation,
   useOpenHuggyChatMutation
 } from '../../../hooks/use-mutations';
@@ -54,9 +44,6 @@ type PublicServantLeadCardProps = {
 
 export function PublicServantLeadCard({ lead }: PublicServantLeadCardProps) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const { availableOperators: operators } = useLeadsBoardContext();
-
-  const changeOperatorMutation = useChangeOperatorMutation();
   const setAssistanceFlagMutation = useSetReceivingAssistanceFlagMutation();
   const openHuggyChatMutation = useOpenHuggyChatMutation();
 
@@ -89,42 +76,17 @@ export function PublicServantLeadCard({ lead }: PublicServantLeadCardProps) {
     }
   };
 
-  const handleChangeOperator = (operatorId: string) => {
-    const operator = operators.find((op: any) => op.id === operatorId);
-
-    if (!operator) {
-      return;
-    }
-
-    changeOperatorMutation.mutate({
-      leadId: lead.id,
-      operator: {
-        id: operator.id,
-        name: operator.name,
-        username: operator.username
-      }
-    });
-  };
-
-  const currentOperatorId = lead.operator?.id ?? '';
-  const isCurrentInList =
-    lead.operator && operators.some((op: any) => op.id === lead.operator?.id);
-  const displayOperators =
-    !isCurrentInList && lead.operator
-      ? [lead.operator, ...operators]
-      : operators;
-
   return (
     <>
       <Card
-        className="w-full relative group mb-3 shadow cursor-pointer hover:shadow-md transition-all flex flex-col justify-between h-76"
+        className="w-full relative py-4 group mb-3 shadow cursor-pointer hover:shadow-md transition-all flex flex-col gap-3 justify-between h-fit"
         onClick={openFlowSheet}
       >
         <CardHeader className="flex justify-between w-full">
-          <div className="flex w-5/10 flex-col gap-1 items-start">
-            <div className="flex items-center gap-1 w-full relative min-w-0">
+          <div className="flex w-1/2 flex-col gap-1 items-start">
+            <div className="flex items-center gap-1 w-full relative">
               <h3
-                className="font-semibold text-sm leading-tight truncate text-zinc-900 dark:text-zinc-100 flex-1 min-w-0"
+                className="font-semibold text-sm leading-tight truncate text-zinc-900 dark:text-zinc-100"
                 title={lead.customer.name}
               >
                 {keepFirstAndLastName(lead.customer.name)}
@@ -167,47 +129,17 @@ export function PublicServantLeadCard({ lead }: PublicServantLeadCardProps) {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col gap-1 w-full pb-1">
+          <div className="grid grid-cols-2 gap-1 w-full items-center">
             <PublicServantTags lead={lead} />
             <PublicServantsMarketingTags lead={lead} />
           </div>
 
-          <div className="flex justify-between items-end gap-3 pt-2 w-full">
-            <div
-              className="w-full max-w-[160px] min-w-0"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <Select
-                onValueChange={handleChangeOperator}
-                defaultValue={currentOperatorId}
-              >
-                <SelectTrigger className="h-8 border-none shadow-none hover:bg-muted transition-colors p-0 px-2 mt-1 text-emerald-600 dark:text-emerald-400 font-medium text-xs">
-                  <SelectValue
-                    placeholder={lead.operator?.name || 'Sem operador'}
-                  />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel className="text-emerald-600 dark:text-emerald-400 font-medium text-xs">
-                      Operadores
-                    </SelectLabel>
-                    {displayOperators.map((op: any) => (
-                      <SelectItem
-                        key={op.id}
-                        value={op.id}
-                        className="cursor-pointer text-emerald-600 dark:text-emerald-400 font-medium text-xs"
-                      >
-                        {op.name}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
+          <div className="w-full " onClick={(e) => e.stopPropagation()}>
+            <LeadChangeOperator lead={lead} />
           </div>
         </CardContent>
 
-        <CardFooter className="grid grid-cols-2 p-4 pt-0 gap-2 ">
+        <CardFooter className="grid grid-cols-2 px-6 py-0 gap-x-6 ">
           <Button
             onClick={openHuggyChat}
             variant="outline"

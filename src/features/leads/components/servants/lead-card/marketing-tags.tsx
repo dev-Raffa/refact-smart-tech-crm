@@ -10,9 +10,6 @@ export function PublicServantsMarketingTags({
 }: PublicServantsMarketingTagsProps) {
   return (
     <>
-      <div className="text-[10px] text-zinc-400 pt-1 font-medium tracking-wide uppercase">
-        Marketing:
-      </div>
       <MarketingBadges marketing={lead.marketing} />
     </>
   );
