@@ -6,13 +6,15 @@ import type { PaginatedResponse } from '@/shared/types/paginated-response';
 import type { InfiniteData } from '@tanstack/react-query';
 
 const EMPTY_PAGE: InfiniteData<PaginatedResponse<Lead>> = {
-  pages: [{
-    pageNumber: 1,
-    pageSize: 30,
-    totalResults: 0,
-    totalPages: 0,
-    results: []
-  }],
+  pages: [
+    {
+      pageNumber: 1,
+      pageSize: 30,
+      totalResults: 0,
+      totalPages: 0,
+      results: []
+    }
+  ],
   pageParams: [1]
 };
 

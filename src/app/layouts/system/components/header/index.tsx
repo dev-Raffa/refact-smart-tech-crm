@@ -1,13 +1,13 @@
 import { AppsNavigation } from '@/shared/components/global/apps-navigation';
-import { AppLogo } from '@/shared/components/global/logo';
 import { HeaderMenu } from '../header-menu';
+import { SidebarTrigger } from '@/shared/components/ui/sidebar';
 
 export const HeaderLayout = () => {
   return (
-    <header className="bg-transparent  backdrop-blur-xs sticky top-0 flex  space-y-3 shrink-0 z-10 pb-4 md:pb-0 justify-between items-center py-3 px-4 pr-6">
-      <a href="/" className="pt-1.5 w-28 md:w-48">
-        <AppLogo />
-      </a>
+    <header className="px-2 pt-2.5 flex space-y-3 shrink-0 z-10 justify-between items-center border-b ">
+      <div className="flex items-center gap-2">
+        <SidebarTrigger className="h-4" />
+      </div>
       <AppsNavigation />
       <HeaderMenu />
     </header>

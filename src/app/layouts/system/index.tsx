@@ -24,7 +24,6 @@ export const SystemLayout = () => {
 
   return (
     <div className="flex size-full flex-col relative">
-      <HeaderLayout />
       <main>
         <SidebarProvider
           style={
@@ -38,6 +37,7 @@ export const SystemLayout = () => {
           <SidebarInset>
             <div className="flex flex-1 flex-col">
               <div className="@container/main flex flex-1 flex-col gap-2">
+                <HeaderLayout />
                 <Outlet />
               </div>
             </div>

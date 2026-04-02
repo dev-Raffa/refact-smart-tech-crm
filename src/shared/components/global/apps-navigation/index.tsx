@@ -6,7 +6,7 @@ export const AppsNavigation = () => {
   const { token } = useAuthStore();
 
   return (
-    <ul className="flex gap-2 bg-background p-1 rounded-full shadow-sm">
+    <ul className="flex gap-2 bg-sidebar p-1 rounded-full shadow-sm">
       {apps.map((app) => (
         <li key={app.name}>
           <a

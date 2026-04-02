@@ -1,10 +1,8 @@
-import { PageHeader } from '@/shared/components/global/page-header';
 import { ReportViewer } from '../components/report-viewer';
 
 export const ReportsPage = () => {
   return (
     <>
-      <PageHeader title="Relatórios" />
       <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6 px-6">
         <div className="flex flex-col gap-2 pb-6">
           <h2 className="text-2xl font-semibold">Gerenciar relatórios</h2>

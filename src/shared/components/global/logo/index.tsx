@@ -7,12 +7,13 @@ interface AppLogoProps {
 
 export function AppLogo({ className }: AppLogoProps) {
   return (
-    <img
-      src={logoRedImg}
-      width={420}
-      height={400}
-      className={cn('w-full', className)}
-      alt="Logo da Smart Consig"
-    />
+    <figure className={cn('w-full', className)}>
+      <img
+        src={logoRedImg}
+        width={150}
+        height={75}
+        alt="Logo da Smart Consig"
+      />
+    </figure>
   );
 }

@@ -1,4 +1,3 @@
-import { PageHeader } from '@/shared/components/global/page-header';
 import {
   Tabs,
   TabsContent,
@@ -10,7 +9,6 @@ import { PublicServantLeadBoard } from '../components/servants/lead-board';
 export const LeadsPage = () => {
   return (
     <>
-      <PageHeader title="Leads" />
       <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6 px-4 lg:px-6">
         <div className="flex flex-col gap-2 pb-6">
           <h2 className="text-2xl font-semibold">Gerenciar leads</h2>
