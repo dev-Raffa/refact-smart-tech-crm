@@ -39,7 +39,7 @@ export function LeadBoardColumn({
   createSheetComponent
 }: LeadBoardColumnProps) {
   const { mutateAsync } = useMoveLeadMutation();
-  const { data: leadsData, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } = useLeads(id);
+  const { data: leadsData, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage, isRefetching } = useLeads(id);
 
   const leads = leadsData?.pages.flatMap(page => page.results) || [];
   const count = leadsData?.pages[0]?.totalResults || 0;
@@ -74,7 +74,7 @@ export function LeadBoardColumn({
       <div 
         className="flex w-[320px] lg:w-[420px] flex-col pt-4 pb-4 px-4 flex-1 overflow-y-auto no-scrollbar relative"
       >
-        {isLoading ? (
+        {isLoading || isRefetching ? (
           <div className="flex flex-1 items-center justify-center">
             <Loader2 className="h-6 w-6 animate-spin text-emerald-600 opacity-60" />
           </div>

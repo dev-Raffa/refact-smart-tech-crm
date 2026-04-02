@@ -40,6 +40,7 @@ export function useLeads(stageId: LeadStage) {
 
   return {
     ...query,
-    data: hasOperatorsSelected ? (query.data ?? EMPTY_PAGE) : EMPTY_PAGE
+    data: hasOperatorsSelected ? (query.data ?? EMPTY_PAGE) : EMPTY_PAGE,
+    isLoading: query.isLoading || state.isFilterOptionsLoading
   };
 }

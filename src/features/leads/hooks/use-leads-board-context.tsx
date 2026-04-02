@@ -16,7 +16,6 @@ interface LeadsBoardContextValue {
   state: LeadsFiltersState;
   dispatch: React.Dispatch<LeadsFiltersAction>;
   availableOperators: LeadOperator[];
-  isLoadingOperators: boolean;
 }
 
 export const LeadsBoardContext = createContext<
@@ -55,7 +54,6 @@ export function LeadsBoardProvider({
         });
       },
       availableOperators: (filterOptions as LeadFiltersValuesOptions).operators,
-      isLoadingOperators: isLoading
     }),
     [state, filterOptions, isLoading, dispatch]
   );

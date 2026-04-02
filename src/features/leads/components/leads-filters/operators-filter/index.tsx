@@ -17,15 +17,15 @@ import {
 import { cn } from '@/shared/utils';
 import { useLeadsBoardContext } from '../../../hooks/use-leads-board-context';
 import type { LeadOperator } from '../../../types/lead.model';
+import { Skeleton } from '@/shared/components/ui/skeleton';
 
 export function LeadsOperatorsFilter() {
   const {
     state,
     dispatch,
     availableOperators: rawOperators,
-    isLoadingOperators: isLoading
   } = useLeadsBoardContext();
-  console.log(isLoading);
+  const isLoading = state.isFilterOptionsLoading;
   const selectedOperatorIds = state.operatorIds;
 
   const onOperatorIdsChange = (ids: string[]) => {
@@ -39,13 +39,7 @@ export function LeadsOperatorsFilter() {
 
   if (!isLoading && !availableOperators.length) return null;
 
-  if (isLoading)
-    return (
-      <div className="flex items-center gap-2">
-        <LoaderIcon className="h-4 w-4 animate-spin" />
-        <span>Carregando...</span>
-      </div>
-    );
+  if (isLoading) return <Skeleton className="h-9 w-[200px] border-dashed" />;
 
   return (
     <Popover>

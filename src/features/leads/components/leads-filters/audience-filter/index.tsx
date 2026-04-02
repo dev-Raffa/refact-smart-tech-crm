@@ -17,11 +17,12 @@ import {
 } from '@/shared/components/ui/command';
 import { cn } from '@/shared/utils';
 import { useLeadsBoardContext } from '../../../hooks/use-leads-board-context';
+import { Skeleton } from '@/shared/components/ui/skeleton';
 
 export function LeadsAudienceFilter() {
   const { state, dispatch } = useLeadsBoardContext();
-  const { isFilterOptionsLoading, filterOptions } = state;
-  const audiences = isFilterOptionsLoading ? [] : filterOptions.audiences;
+  const { isFilterOptionsLoading: isLoading, filterOptions } = state;
+  const audiences = isLoading ? [] : filterOptions.audiences;
 
   const selectedAudiences = state.audience;
 
@@ -35,6 +36,8 @@ export function LeadsAudienceFilter() {
       : [...selectedAudiences, value];
     onSelectedAudiencesChange(newList);
   };
+
+  if (isLoading) return <Skeleton className="h-9 w-[160px] border-dashed" />;
 
   return (
     <Popover>

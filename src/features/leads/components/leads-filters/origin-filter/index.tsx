@@ -17,11 +17,13 @@ import {
 } from '@/shared/components/ui/command';
 import { cn } from '@/shared/utils';
 import { useLeadsBoardContext } from '../../../hooks/use-leads-board-context';
+import { Skeleton } from '@/shared/components/ui/skeleton';
 
 export function LeadsOriginFilter() {
   const { state, dispatch } = useLeadsBoardContext();
   const selectedSources = state.source;
   const sourceOptions = state.filterOptions.sources;
+  const isLoading = state.isFilterOptionsLoading;
 
   const onSelectedSourcesChange = (sources: string[]) => {
     dispatch({ type: 'SET_SOURCES', payload: sources });
@@ -32,6 +34,8 @@ export function LeadsOriginFilter() {
       : [...selectedSources, value];
     onSelectedSourcesChange(newList);
   };
+
+  if (isLoading) return <Skeleton className="h-9 w-[160px] border-dashed" />;
 
   return (
     <Popover>
