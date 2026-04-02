@@ -16,7 +16,8 @@ import {
 import { useExecuteFlowMutation } from '@/features/leads/hooks/use-mutations';
 
 export function useFlowExecution(lead: Lead) {
-  const { data: allFlows, isLoading: isLoadingFlows = true } = useLeadFlowsQuery();
+  const { data: allFlows, isLoading: isLoadingFlows = true } =
+    useLeadFlowsQuery();
   const { mutateAsync: executeFlow } = useExecuteFlowMutation();
   const [flows, setFlows] = useState<AvailableFlow[]>([]);
   const [executing, setExecuting] = useState<Set<string>>(new Set());

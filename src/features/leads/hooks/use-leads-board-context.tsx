@@ -1,4 +1,11 @@
-import { createContext, useContext, useMemo, useEffect, useRef, startTransition } from 'react';
+import {
+  createContext,
+  useContext,
+  useMemo,
+  useEffect,
+  useRef,
+  startTransition
+} from 'react';
 import type { ReactNode } from 'react';
 import { useLeadsFilters } from '../components/leads-filters/use-leads-filters';
 import type {
@@ -53,7 +60,7 @@ export function LeadsBoardProvider({
           dispatch(action);
         });
       },
-      availableOperators: (filterOptions as LeadFiltersValuesOptions).operators,
+      availableOperators: (filterOptions as LeadFiltersValuesOptions).operators
     }),
     [state, filterOptions, isLoading, dispatch]
   );

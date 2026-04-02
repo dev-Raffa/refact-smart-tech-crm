@@ -53,8 +53,9 @@ export function FlowCard({
     flow.flowId === FLOW_IDS.FINALIZATION ||
     flow.flowId === FLOW_IDS.DISQUALIFICATION;
 
-  const isStageChange = flow.flowId === FLOW_IDS.STAGE_CHANGE && lead.stageName !== "Signature";
-  const leadStage = lead.stageName !== "NewLead" ? lead.stageName : "";
+  const isStageChange =
+    flow.flowId === FLOW_IDS.STAGE_CHANGE && lead.stageName !== 'Signature';
+  const leadStage = lead.stageName !== 'NewLead' ? lead.stageName : '';
 
   if (isStageChange) {
     return (
@@ -68,7 +69,7 @@ export function FlowCard({
         <CardContent>
           <div className="grid grid-cols-2 gap-8 items-center">
             <Select
-              value={state.stage ?? leadStage ?? ""}
+              value={state.stage ?? leadStage ?? ''}
               onValueChange={(v) =>
                 onFormChange(flow.id, { stage: v as LeadStage })
               }
@@ -115,71 +116,73 @@ export function FlowCard({
     );
   }
 
-  return requiresReason && (
-    <Card className="border-zinc-200 dark:border-zinc-800 shadow-none">
-      <CardHeader>
-        <CardTitle className="text-sm font-semibold">{flow.title}</CardTitle>
-        <CardDescription className="text-xs line-clamp-2">
-          {flow.description}
-        </CardDescription>
-      </CardHeader>
+  return (
+    requiresReason && (
+      <Card className="border-zinc-200 dark:border-zinc-800 shadow-none">
+        <CardHeader>
+          <CardTitle className="text-sm font-semibold">{flow.title}</CardTitle>
+          <CardDescription className="text-xs line-clamp-2">
+            {flow.description}
+          </CardDescription>
+        </CardHeader>
 
-      <CardContent>
-        <div className="grid grid-cols-2 gap-8 items-center">
-          <Select
-            value={state.reason ?? ''}
-            onValueChange={(v) =>
-              onFormChange(flow.id, { reason: v as LeadFinalizationReason })
-            }
-          >
-            <SelectTrigger className="h-9 text-xs">
-              <SelectValue placeholder="Selecione o motivo" />
-            </SelectTrigger>
-            <SelectContent>
-              {flow.flowId === FLOW_IDS.FINALIZATION &&
-                Object.entries(LeadPublicServantFinalizationReasons).map(
-                  ([key, label]) => (
-                    <SelectItem key={key} value={key} className="text-xs">
-                      {label}
-                    </SelectItem>
-                  )
-                )}
-              {flow.flowId === FLOW_IDS.DISQUALIFICATION &&
-                Object.entries(LeadPublicServantDisqualificationReasons).map(
-                  ([key, label]) => (
-                    <SelectItem key={key} value={key} className="text-xs">
-                      {label}
-                    </SelectItem>
-                  )
-                )}
-            </SelectContent>
-          </Select>
-          <Button
-            size="sm"
-            disabled={isExecuting}
-            onClick={() => onExecute(flow)}
-            className="h-9 px-3"
-          >
-            {isExecuting ? (
-              <RefreshCw className="w-3 h-3 animate-spin mr-2" />
-            ) : (
-              <Play className="w-3 h-3 mr-2" />
-            )}
-            <span className="text-xs">
-              {isExecuting ? 'Executando...' : 'Executar'}
-            </span>
-          </Button>
-        </div>
+        <CardContent>
+          <div className="grid grid-cols-2 gap-8 items-center">
+            <Select
+              value={state.reason ?? ''}
+              onValueChange={(v) =>
+                onFormChange(flow.id, { reason: v as LeadFinalizationReason })
+              }
+            >
+              <SelectTrigger className="h-9 text-xs">
+                <SelectValue placeholder="Selecione o motivo" />
+              </SelectTrigger>
+              <SelectContent>
+                {flow.flowId === FLOW_IDS.FINALIZATION &&
+                  Object.entries(LeadPublicServantFinalizationReasons).map(
+                    ([key, label]) => (
+                      <SelectItem key={key} value={key} className="text-xs">
+                        {label}
+                      </SelectItem>
+                    )
+                  )}
+                {flow.flowId === FLOW_IDS.DISQUALIFICATION &&
+                  Object.entries(LeadPublicServantDisqualificationReasons).map(
+                    ([key, label]) => (
+                      <SelectItem key={key} value={key} className="text-xs">
+                        {label}
+                      </SelectItem>
+                    )
+                  )}
+              </SelectContent>
+            </Select>
+            <Button
+              size="sm"
+              disabled={isExecuting}
+              onClick={() => onExecute(flow)}
+              className="h-9 px-3"
+            >
+              {isExecuting ? (
+                <RefreshCw className="w-3 h-3 animate-spin mr-2" />
+              ) : (
+                <Play className="w-3 h-3 mr-2" />
+              )}
+              <span className="text-xs">
+                {isExecuting ? 'Executando...' : 'Executar'}
+              </span>
+            </Button>
+          </div>
 
-        {result && (
-          <Badge
-            variant="outline"
-            className="text-[10px] py-0 h-5 font-normal bg-zinc-50 border-zinc-200 text-zinc-600"
-          >
-            {result.reason}
-          </Badge>
-        )}
-      </CardContent>
-    </Card>
+          {result && (
+            <Badge
+              variant="outline"
+              className="text-[10px] py-0 h-5 font-normal bg-zinc-50 border-zinc-200 text-zinc-600"
+            >
+              {result.reason}
+            </Badge>
+          )}
+        </CardContent>
+      </Card>
+    )
   );
 }

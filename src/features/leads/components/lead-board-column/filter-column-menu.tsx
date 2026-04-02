@@ -1,6 +1,11 @@
 import { useLeadsBoardContext } from '../../hooks/use-leads-board-context';
 import type { GetLeadsParams } from '../../types/lead.model';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/shared/components/ui/dropdown-menu';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from '@/shared/components/ui/dropdown-menu';
 import { Button } from '@/shared/components/ui/button';
 import { Filter } from 'lucide-react';
 import { cn } from '@/shared/utils/cn';
@@ -43,7 +48,8 @@ export function ColumnFilterMenu({
             disabled={!hasOptions}
             className={cn(
               'w-full justify-center gap-2 font-normal text-muted-foreground bg-white hover:bg-slate-50 border-slate-200 h-10 rounded-md',
-              activeFilter && 'text-emerald-700 border-emerald-200 bg-emerald-50/50'
+              activeFilter &&
+                'text-emerald-700 border-emerald-200 bg-emerald-50/50'
             )}
           >
             <Filter

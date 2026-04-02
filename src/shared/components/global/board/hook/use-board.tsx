@@ -10,11 +10,7 @@ import type { BoardContextValue } from '../types';
 
 const BoardContext = createContext<BoardContextValue | null>(null);
 
-export function BoardProvider({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export function BoardProvider({ children }: { children: ReactNode }) {
   const [draggingId, setDraggingId] = useState<string | null>(null);
 
   return (

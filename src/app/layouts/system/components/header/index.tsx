@@ -4,10 +4,8 @@ import { SidebarTrigger } from '@/shared/components/ui/sidebar';
 
 export const HeaderLayout = () => {
   return (
-    <header className="px-2 pt-2.5 flex space-y-3 shrink-0 z-10 justify-between items-center border-b ">
-      <div className="flex items-center gap-2">
-        <SidebarTrigger className="h-4" />
-      </div>
+    <header className="px-2 py-1.5 flex shrink-0 z-10 justify-between items-center border-b ">
+      <SidebarTrigger className="h-4" />
       <AppsNavigation />
       <HeaderMenu />
     </header>

@@ -5,7 +5,6 @@ import type { Lead } from '../../../types/lead.model';
 import { useEffect } from 'react';
 
 export const FlowsContent = ({ lead }: { lead: Lead }) => {
-
   const {
     flows,
     loading,

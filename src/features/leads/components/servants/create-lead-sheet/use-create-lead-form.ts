@@ -31,7 +31,7 @@ const inssManualLeadFormSchema = z
       (!data.estado || data.estado.trim() === '')
     ) {
       ctx.addIssue({
-        code: "custom",
+        code: 'custom',
         message: 'Estado é obrigatório',
         path: ['estado']
       });
@@ -41,7 +41,7 @@ const inssManualLeadFormSchema = z
       (!data.prefeitura || data.prefeitura.trim() === '')
     ) {
       ctx.addIssue({
-        code: "custom",
+        code: 'custom',
         message: 'Prefeitura é obrigatório',
         path: ['prefeitura']
       });
@@ -70,7 +70,6 @@ export function useCreateLeadForm(onSuccess?: () => void) {
   });
 
   const onSubmit = async (values: InssManualLeadFormValues) => {
-
     const fileWithPreview = values.contraCheque?.[0] as FileWithPreview;
     const file = fileWithPreview.file;
 
@@ -94,14 +93,14 @@ export function useCreateLeadForm(onSuccess?: () => void) {
           leadId,
           file: file as File
         });
-        
+
         toast.success('Lead criado com sucesso!');
         form.reset();
         onSuccess?.();
       }
     } catch (error) {
       console.error('Erro ao criar lead:', error);
-      // O erro já é tratado pelo interceptor/mutation meta geralmente, 
+      // O erro já é tratado pelo interceptor/mutation meta geralmente,
       // mas mantemos o log aqui para debug.
     }
   };

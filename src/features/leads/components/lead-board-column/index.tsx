@@ -17,16 +17,25 @@ import { useMoveLeadMutation } from '../../hooks/use-mutations';
 import { ColumnFilterMenu } from './filter-column-menu';
 import { useLeads } from '../../hooks/use-leads';
 
-export interface LeadBoardColumnProps extends IBoardColumnConfig<LeadStage, GetLeadsParams> {
+export interface LeadBoardColumnProps
+  extends IBoardColumnConfig<LeadStage, GetLeadsParams> {
   renderCard: (lead: Lead) => ReactNode;
   createSheetComponent?: ReactNode;
 }
 
-const MemoizedBoardItem = memo(({ lead, renderCard }: { lead: Lead; renderCard: (lead: Lead) => ReactNode }) => (
-  <BoardItem id={lead.id} draggable>
-    {renderCard(lead)}
-  </BoardItem>
-));
+const MemoizedBoardItem = memo(
+  ({
+    lead,
+    renderCard
+  }: {
+    lead: Lead;
+    renderCard: (lead: Lead) => ReactNode;
+  }) => (
+    <BoardItem id={lead.id} draggable>
+      {renderCard(lead)}
+    </BoardItem>
+  )
+);
 MemoizedBoardItem.displayName = 'MemoizedBoardItem';
 
 export function LeadBoardColumn({
@@ -39,9 +48,16 @@ export function LeadBoardColumn({
   createSheetComponent
 }: LeadBoardColumnProps) {
   const { mutateAsync } = useMoveLeadMutation();
-  const { data: leadsData, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage, isRefetching } = useLeads(id);
+  const {
+    data: leadsData,
+    isLoading,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+    isRefetching
+  } = useLeads(id);
 
-  const leads = leadsData?.pages.flatMap(page => page.results) || [];
+  const leads = leadsData?.pages.flatMap((page) => page.results) || [];
   const count = leadsData?.pages[0]?.totalResults || 0;
 
   const handleDrop = async (leadId: string) => {
@@ -62,7 +78,7 @@ export function LeadBoardColumn({
           </span>
         </div>
         <div className="flex items-center gap-1">
-          <Badge className='bg-primary/30 text-primary'>{count}</Badge>
+          <Badge className="bg-primary/30 text-primary">{count}</Badge>
           {canCreateLead && createSheetComponent}
         </div>
       </BoardColumnHeader>
@@ -71,9 +87,7 @@ export function LeadBoardColumn({
         <ColumnFilterMenu columnId={id} options={filters} />
       </BoardColumnFilters>
 
-      <div 
-        className="flex w-[320px] lg:w-[420px] flex-col pt-4 pb-4 px-4 flex-1 overflow-y-auto no-scrollbar relative"
-      >
+      <div className="flex w-[320px] lg:w-[420px] flex-col pt-4 pb-4 px-4 flex-1 overflow-y-auto no-scrollbar relative">
         {isLoading || isRefetching ? (
           <div className="flex flex-1 items-center justify-center">
             <Loader2 className="h-6 w-6 animate-spin text-emerald-600 opacity-60" />
@@ -86,19 +100,25 @@ export function LeadBoardColumn({
         ) : (
           <>
             {leads.map((lead: Lead) => (
-              <MemoizedBoardItem key={lead.id} lead={lead} renderCard={renderCard} />
+              <MemoizedBoardItem
+                key={lead.id}
+                lead={lead}
+                renderCard={renderCard}
+              />
             ))}
-            
+
             {hasNextPage && (
               <div className="mt-4 mb-4 flex justify-center w-full">
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   size="sm"
-                  onClick={() => fetchNextPage()} 
+                  onClick={() => fetchNextPage()}
                   disabled={isFetchingNextPage}
                   className="w-full border-dashed"
                 >
-                  {isFetchingNextPage ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
+                  {isFetchingNextPage ? (
+                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  ) : null}
                   {isFetchingNextPage ? 'Carregando...' : 'Carregar mais'}
                 </Button>
               </div>

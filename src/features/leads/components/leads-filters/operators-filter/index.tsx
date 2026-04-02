@@ -23,7 +23,7 @@ export function LeadsOperatorsFilter() {
   const {
     state,
     dispatch,
-    availableOperators: rawOperators,
+    availableOperators: rawOperators
   } = useLeadsBoardContext();
   const isLoading = state.isFilterOptionsLoading;
   const selectedOperatorIds = state.operatorIds;

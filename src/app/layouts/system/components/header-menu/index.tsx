@@ -4,7 +4,7 @@ import { UserMenu } from '../user-menu';
 
 export function HeaderMenu() {
   return (
-    <div className="flex items-center space-x-3">
+    <div className="flex items-center gap-2 pr-1">
       <NotificationsBell />
       <ToggleTheme />
       <UserMenu />

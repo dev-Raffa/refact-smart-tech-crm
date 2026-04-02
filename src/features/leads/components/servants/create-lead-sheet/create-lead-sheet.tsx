@@ -78,7 +78,11 @@ export function CreateInssLeadSheet({ trigger }: CreateInssLeadSheetProps) {
         </SheetHeader>
 
         <Form {...form}>
-          <form id='create-lead' onSubmit={onSubmit} className="space-y-6 px-6 h-full">
+          <form
+            id="create-lead"
+            onSubmit={onSubmit}
+            className="space-y-6 px-6 h-full"
+          >
             <FormField
               control={form.control}
               name="nome"
@@ -161,7 +165,8 @@ export function CreateInssLeadSheet({ trigger }: CreateInssLeadSheetProps) {
                 )}
               />
 
-              {(selectedOrgao === 'Estadual' || selectedOrgao === 'Federal') && (
+              {(selectedOrgao === 'Estadual' ||
+                selectedOrgao === 'Federal') && (
                 <FormField
                   control={form.control}
                   name="estado"
@@ -226,7 +231,13 @@ export function CreateInssLeadSheet({ trigger }: CreateInssLeadSheetProps) {
                   >
                     <FormControl>
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder={isLoadingOperators ? "Carregando..." : "Selecione o operador"} />
+                        <SelectValue
+                          placeholder={
+                            isLoadingOperators
+                              ? 'Carregando...'
+                              : 'Selecione o operador'
+                          }
+                        />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -280,15 +291,10 @@ export function CreateInssLeadSheet({ trigger }: CreateInssLeadSheetProps) {
                 </FormItem>
               )}
             />
-
           </form>
         </Form>
         <SheetFooter className="mt-8">
-          <Button
-            form='create-lead'
-            type="submit"
-            disabled={isSubmitting}
-          >
+          <Button form="create-lead" type="submit" disabled={isSubmitting}>
             {isSubmitting ? 'Adicionando...' : 'Adicionar Lead'}
           </Button>
         </SheetFooter>

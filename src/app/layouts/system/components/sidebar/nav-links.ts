@@ -1,9 +1,4 @@
-import {
-  ClipboardMinus,
-  LayoutDashboard,
-  Upload,
-  Users
-} from 'lucide-react';
+import { ClipboardMinus, LayoutDashboard, Upload, Users } from 'lucide-react';
 import type { NavItem } from './nav-items';
 
 export const Navlinks: NavItem[] = [
@@ -26,5 +21,5 @@ export const Navlinks: NavItem[] = [
     title: 'Relatórios',
     url: '/relatorios',
     icon: ClipboardMinus
-  },
+  }
 ];
