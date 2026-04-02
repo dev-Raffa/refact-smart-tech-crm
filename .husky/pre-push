@@ -1,2 +1,2 @@
 #!/usr/bin/env sh
-tsc --no-emit
+tsc --noEmit
