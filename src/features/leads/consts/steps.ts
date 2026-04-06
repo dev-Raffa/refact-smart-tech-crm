@@ -21,7 +21,7 @@ export const LeadCommonSteps = {
 const LeadCLtSpecificSteps = {
   ShowingAvailableSimulationLoanValues:
     'Exibindo valores de empréstimo de simulação disponíveis',
-  ShowingCasOffer: 'Exibindo oferta de CAS',
+  //ShowingCasOffer: 'Exibindo oferta de CAS',
   EnrichCustomerWorkerDataViaDataPrevApi:
     'Enriquecendo dados do trabalhador via DataPrev API',
   GeneratingDataPrevLink: 'Gerando link DataPrev',
@@ -31,12 +31,12 @@ const LeadCLtSpecificSteps = {
   TryingGeneratingFormalizationLinkManually:
     'Tentando gerar link de formalização manualmente',
   ConfirmingFormalizationLinkSignature:
-    'Confirmando assinatura do link de formalização',
-  ConfirmingPaymentReceived: 'Confirmando pagamento recebido',
-  ConfirmingCasOfferPayment: 'Confirmando pagamento da oferta CAS',
-  ConfirmingPixOfferPayment: 'Confirmando pagamento da oferta Pix',
-  ConfirmingFgtsOfferPayment: 'Confirmando pagamento da oferta FGTS',
-  ConfirmingCrefazOfferPayment: 'Confirmando pagamento da oferta Crefaz'
+    'Confirmando assinatura do link de formalização'
+  // ConfirmingPaymentReceived: 'Confirmando pagamento recebido',
+  // ConfirmingCasOfferPayment: 'Confirmando pagamento da oferta CAS',
+  // ConfirmingPixOfferPayment: 'Confirmando pagamento da oferta Pix',
+  // ConfirmingFgtsOfferPayment: 'Confirmando pagamento da oferta FGTS',
+  // ConfirmingCrefazOfferPayment: 'Confirmando pagamento da oferta Crefaz'
 } as const;
 
 const LeadPublicServantSpecificSteps = {

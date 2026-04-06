@@ -6,7 +6,10 @@ import type {
   PartnerInformationsDTO,
   LeadOperatorDTO,
   LeadCustomerDetailsDTO,
-  LeadTagsDTO
+  LeadTagsDTO,
+  BankPartnerInformationsDTO,
+  GeneralOfferInformationDTO,
+  ApprovedBanksDTO
 } from '../types/lead.dto';
 import type {
   Lead,
@@ -21,7 +24,10 @@ import type {
   LeadLastFlowExecutionStatus,
   LeadPublicServantFlowName,
   LeadCltFlowName,
-  LeadFiltersValuesOptions
+  LeadFiltersValuesOptions,
+  OfferInformation,
+  ProductOfferInformation,
+  LeadCltDetails
 } from '../types/lead.model';
 import { translateGovernamentLevel } from '../utils/translate-governamental-level';
 import { normalizeServantOrigin } from '../utils/normalize-servant-origin';
@@ -95,7 +101,8 @@ export class LeadMapper {
             governamentLevel: 'Não informado',
             cityHall: 'Não informado',
             state: 'Não informado'
-          }
+          },
+      cltDetails: LeadMapper.toCltDetailsModel(dto.customer.cltDetails)
     };
   }
 
@@ -229,13 +236,24 @@ export class LeadMapper {
     return {
       name: dto.name,
       cpf: dto.cpf ?? 'Não informado',
-      phoneNumbers: getCustomerProneNumbers(dto.phoneNumber1, dto.phoneNumber2)
+      phoneNumbers: getCustomerProneNumbers(dto.phoneNumber1, dto.phoneNumber2),
+      birthDate: dto.dateBirth,
+      gender: dto.gender || 'Não informado',
+      rg: dto.rg || 'Não informado',
+      motherName: dto.motherName || 'Não informado',
+      zipCode: dto.zipCode || 'Não informado',
+      city: dto.city || 'Não informado',
+      uf: dto.uf || 'Não informado',
+      bank: dto.bank || 'Não informado',
+      paymentDay: dto.paymentDay ?? undefined,
+      creationDate: dto.creationDate
     };
   }
 
   public static toLeadDetailsModel(
     dto: LeadCustomerDetailsDTO,
-    history: FlowStepDTO[]
+    history: FlowStepDTO[],
+    partnerInfo?: BankPartnerInformationsDTO
   ): LeadDetails {
     return {
       id: dto.customer.id,
@@ -253,6 +271,7 @@ export class LeadMapper {
             cityHall: 'Não informado',
             state: 'Não informado'
           },
+      cltDetails: LeadMapper.toCltDetailsModel(dto.customer.cltDetails),
       marketing: dto.customer.marketingDetails
         ? dto.customer.marketingDetails
         : {
@@ -267,7 +286,79 @@ export class LeadMapper {
           }
         : undefined,
       payslip: dto.customer.documentFileName ?? undefined,
-      history: history.map(LeadMapper.toFlowStepModel)
+      history: history.map(LeadMapper.toFlowStepModel),
+      offers: partnerInfo ? this.toProductOfferModel(partnerInfo) : undefined,
+      facta: partnerInfo?.factaUsefulInformations
+        ? {
+            formalizationCode:
+              partnerInfo.factaUsefulInformations.factaFormalizationCode ??
+              undefined,
+            formalizationLink:
+              partnerInfo.factaUsefulInformations.factaFormalizationLink ??
+              undefined
+          }
+        : undefined
+    };
+  }
+
+  private static toProductOfferModel(
+    dto: BankPartnerInformationsDTO
+  ): ProductOfferInformation {
+    return {
+      fgts: dto.fgtsOfferInformation
+        ? this.toOfferInformationModel(dto.fgtsOfferInformation)
+        : undefined,
+      clt: dto.cltOfferInformation
+        ? {
+            approvedBanks:
+              dto.cltOfferInformation.approvedBanks?.map((b) =>
+                this.toApprovedBankModel(b)
+              ) || [],
+            failedBanks:
+              dto.cltOfferInformation.failedBanks?.map((f) => ({
+                bankFailed: f.bankFailed,
+                reasons: f.reasons
+              })) || []
+          }
+        : undefined,
+      pix: dto.pixOfferInformation
+        ? this.toOfferInformationModel(dto.pixOfferInformation)
+        : undefined,
+      cas: dto.casOfferInformation
+        ? {
+            proposalNumber: dto.casOfferInformation.proposalNumber,
+            signatureAmount: dto.casOfferInformation.signatureAmount,
+            paid: dto.casOfferInformation.paid
+          }
+        : undefined,
+      crefaz: dto.crefazOfferInformation
+        ? this.toOfferInformationModel(dto.crefazOfferInformation)
+        : undefined
+    };
+  }
+
+  private static toOfferInformationModel(
+    dto: GeneralOfferInformationDTO
+  ): OfferInformation {
+    return {
+      proposalNumber: dto.proposalNumber,
+      releasedAmount: dto.releasedAmount,
+      installmentAmount: dto.installmentAmount,
+      interestRate: dto.interestRate,
+      installmentTerm: dto.installmentTerm,
+      paid: dto.paid
+    };
+  }
+
+  private static toApprovedBankModel(dto: ApprovedBanksDTO): any {
+    return {
+      id: dto.id,
+      name: dto.name,
+      installmentTerm: dto.installmentTerm,
+      releasedAmount: dto.releasedAmount,
+      installmentAmount: dto.installmentAmount,
+      interestRate: dto.interestRate,
+      proposalNumber: dto.proposalNumber
     };
   }
 
@@ -325,6 +416,30 @@ export class LeadMapper {
       audiences: tags
         .filter((tag) => tag.category === 'Audience')
         .map((tag) => tag.label)
+    };
+  }
+
+  private static toCltDetailsModel(dto: any): LeadCltDetails | undefined {
+    if (!dto) return undefined;
+
+    return {
+      eligible: dto.eligible || false,
+      employmentStartDate: dto.employmentStartDate,
+      employmentDuration: dto.employmentDurationInMonths,
+      marginAvailable: dto.marginAvailable,
+      totalEarnings: dto.totalEarnings,
+      companies:
+        dto.companies?.map((company: any) => ({
+          name: company.companyName || company.name,
+          cnpj: company.cnpj,
+          admissionDate: company.admissionDate,
+          salary: company.salary,
+          registration: company.registration,
+          foundationDate: company.foundationDate,
+          workersCount: company.numbersOfWorkers,
+          cnaeCode: company.cnaeCode,
+          cnaeDescription: company.cnaeDescription
+        })) || []
     };
   }
 }

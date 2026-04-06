@@ -7,7 +7,7 @@ import type { IBoardColumnConfig } from '@/shared/components/global/board/types'
 import { LeadsBoardLayout } from '../../lead-board-layout';
 import { LeadBoardColumn } from '../../lead-board-column';
 import { CreateCltLeadSheet } from '../../clt/create-lead';
-import { PublicServantLeadCard } from '../../servants/lead-card';
+import { CltLeadCard } from '../../clt/lead-card';
 import { Separator } from '@/shared/components/ui/separator';
 
 const CLT_COLUMNS: IBoardColumnConfig<LeadStage, GetLeadsParams>[] = [
@@ -89,7 +89,7 @@ export const CLTLeadBoard = () => {
             color={col.color}
             canCreateLead={col.canCreateLead}
             createSheetComponent={<CreateCltLeadSheet />}
-            renderCard={(lead) => <PublicServantLeadCard lead={lead} />}
+            renderCard={(lead) => <CltLeadCard lead={lead} />}
           />
           {index !== CLT_COLUMNS.length - 1 && (
             <Separator orientation="vertical" />

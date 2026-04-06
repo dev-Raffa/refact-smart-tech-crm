@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { toast } from 'sonner';
-import { Copy, MessageSquare } from 'lucide-react';
+import { MessageSquare } from 'lucide-react';
 
 import {
   Card,
@@ -31,6 +30,7 @@ import { PublicServantFlagsBadge } from '../flags-badge';
 import { PublicServantFinalizationReasonBadge } from '../finalization-reason-badge';
 import { FlowExecution } from '../flow-execution';
 import { MarketingBadges } from '../../marketing-badges';
+import { CopyButton } from '@/shared/components/global/copy-button';
 
 function keepFirstAndLastName(fullName?: string | null) {
   if (!fullName) return '';
@@ -47,16 +47,6 @@ export function PublicServantLeadCard({ lead }: PublicServantLeadCardProps) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const setAssistanceFlagMutation = useSetReceivingAssistanceFlagMutation();
   const openHuggyChatMutation = useOpenHuggyChatMutation();
-
-  const handleCopyCpf = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (lead.customer?.cpf) {
-      navigator.clipboard.writeText(lead.customer.cpf);
-      toast.success('CPF Copiado!');
-    } else {
-      toast.warning('Este lead não possui um CPF cadastrado.');
-    }
-  };
 
   const openFlowSheet = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -95,17 +85,12 @@ export function PublicServantLeadCard({ lead }: PublicServantLeadCardProps) {
             </div>
             <div className=" flex items-center gap-1 text-xs text-muted-foreground hover:text-emerald-700 transition-colors truncate w-full">
               {maskDocument(lead.customer.cpf)}
-              <Button
-                className="p-0 h-fit w-fit"
-                type="button"
-                size={'icon-sm'}
-                variant={'ghost'}
-                onClick={handleCopyCpf}
-              >
-                {lead.customer.cpf.toUpperCase() !== 'NÃO INFORMADO' && (
-                  <Copy className="size-3" />
-                )}
-              </Button>
+
+              <CopyButton
+                successText="CPF Copiado!"
+                errorText="Este lead não possui um CPF cadastrado."
+                copy={maskDocument(lead.customer.cpf)}
+              />
             </div>
             <span className="text-[10px] text-zinc-400 font-medium tracking-wide uppercase">
               {formatDate(lead.date)}

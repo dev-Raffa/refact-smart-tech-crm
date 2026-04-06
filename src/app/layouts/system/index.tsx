@@ -24,12 +24,13 @@ export const SystemLayout = () => {
 
   return (
     <div className="flex size-full flex-col relative">
-      <main>
+      <main className="size-full">
         <SidebarProvider
           style={
             {
               '--sidebar-width': 'calc(var(--spacing) * 64)',
-              '--header-height': 'calc(var(--spacing) * 12)'
+              '--sidebar-height': '100%',
+              '--header-height': '0px'
             } as React.CSSProperties
           }
         >

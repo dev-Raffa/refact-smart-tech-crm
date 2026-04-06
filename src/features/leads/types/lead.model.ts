@@ -15,16 +15,29 @@ export interface LeadDetails {
   id: string;
   customer: LeadCustomer;
   publicServantDetails: LeadPublicServantDetails;
+  cltDetails?: LeadCltDetails;
   marketing: LeadMarketing;
   chat?: LeadChat;
   payslip?: string;
   history: FlowStep[];
+  offers?: ProductOfferInformation;
+  facta?: FactaInformations;
 }
 
 export interface LeadCustomer {
   name: string;
   cpf: string;
   phoneNumbers: string[] | string;
+  birthDate?: string;
+  gender?: string;
+  rg?: string;
+  motherName?: string;
+  zipCode?: string;
+  city?: string;
+  uf?: string;
+  bank?: string;
+  paymentDay?: number;
+  creationDate?: string;
 }
 
 export interface LeadOperatorTeam {
@@ -65,6 +78,67 @@ export interface LeadPublicServantDetails {
   state?: string;
 }
 
+export interface LeadCltCompany {
+  name: string;
+  cnpj: string;
+  admissionDate: string;
+  salary: number;
+  registration?: string;
+  foundationDate?: string;
+  workersCount?: number;
+  cnaeCode?: string;
+  cnaeDescription?: string;
+}
+
+export interface LeadCltDetails {
+  companies: LeadCltCompany[];
+  eligible: boolean;
+  employmentStartDate?: string;
+  employmentDuration?: number;
+  marginAvailable?: number;
+  totalEarnings?: number;
+}
+
+export interface FactaInformations {
+  formalizationCode?: string;
+  formalizationLink?: string;
+}
+
+export interface ApprovedBank {
+  id: string;
+  name: string;
+  installmentTerm: number;
+  releasedAmount: number;
+  installmentAmount: number;
+  interestRate: number;
+  proposalNumber?: string;
+}
+
+export interface FailedBank {
+  bankFailed: string;
+  reasons: string[];
+}
+
+export interface OfferInformation {
+  proposalNumber?: string;
+  releasedAmount?: number;
+  installmentAmount?: number;
+  interestRate?: number;
+  installmentTerm?: number;
+  signatureAmount?: number;
+  paid?: boolean;
+  approvedBanks?: ApprovedBank[];
+  failedBanks?: FailedBank[];
+}
+
+export interface ProductOfferInformation {
+  fgts?: OfferInformation;
+  clt?: OfferInformation;
+  pix?: OfferInformation;
+  cas?: OfferInformation;
+  crefaz?: OfferInformation;
+}
+
 export type LeadProduct = 'Inss' | 'Clt';
 
 export type LeadStage =
@@ -89,6 +163,7 @@ export interface Lead {
   operator?: LeadOperator;
   lastFlow: LeadLastFlow;
   publicServantDetails: LeadPublicServantDetails;
+  cltDetails?: LeadCltDetails;
 }
 
 export type LeadLastFlowExecutionStatus =

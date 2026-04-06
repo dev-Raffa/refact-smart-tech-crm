@@ -3,6 +3,11 @@ export const LeadPublicServantFinalizationReasons = {
   NoInterest: 'Sem interesse'
 } as const;
 
+export const LeadCltFinalizationReasons = {
+  NoInterest: 'Sem interesse',
+  LeaveItForLater: 'Vai deixar pra depois'
+} as const;
+
 export const LeadPublicServantDisqualificationReasons = {
   NoMargin: 'Não tem margem',
   NoPurchase: 'Não compra',
@@ -21,6 +26,9 @@ export const LeadFinalizationReasons = {
 
 export type LeadPublicServantFinalizationReason =
   keyof typeof LeadPublicServantFinalizationReasons;
+export type LeadCltFinalizationReason = keyof typeof LeadCltFinalizationReasons;
 export type LeadPublicServantDisqualificationReason =
   keyof typeof LeadPublicServantDisqualificationReasons;
-export type LeadFinalizationReason = keyof typeof LeadFinalizationReasons;
+export type LeadFinalizationReason =
+  | keyof typeof LeadFinalizationReasons
+  | LeadCltFinalizationReason;

@@ -107,6 +107,59 @@ export interface PartnerInformationsDTO {
   updatedAt: string;
 }
 
+export interface FactaUsefulInformationsDTO {
+  factaSimulationId: string | null;
+  factaSimulatorId: string | null;
+  factaFormalizationCode: string | null;
+  factaCustomerCode: string | null;
+  factaFormalizationLink: string | null;
+}
+
+export interface ApprovedBanksDTO {
+  id: string;
+  name: string;
+  installmentTerm: number;
+  releasedAmount: number;
+  installmentAmount: number;
+  interestRate: number;
+  proposalNumber?: string;
+}
+
+export interface FailureReasonItemDTO {
+  bankFailed: string;
+  reasons: string[];
+}
+
+export interface GeneralOfferInformationDTO {
+  proposalNumber: string;
+  releasedAmount: number;
+  installmentAmount: number;
+  interestRate: number;
+  installmentTerm: number;
+  paid: boolean;
+}
+
+export interface CasOfferInformationDTO {
+  proposalNumber: string;
+  signatureAmount: number;
+  paid: boolean;
+}
+
+export interface CltOfferInformationDTO {
+  failedBanks?: FailureReasonItemDTO[] | null;
+  approvedBanks: ApprovedBanksDTO[];
+}
+
+export interface BankPartnerInformationsDTO {
+  bank: string;
+  factaUsefulInformations: FactaUsefulInformationsDTO;
+  cltOfferInformation: CltOfferInformationDTO | null;
+  casOfferInformation?: CasOfferInformationDTO;
+  fgtsOfferInformation?: GeneralOfferInformationDTO;
+  pixOfferInformation?: GeneralOfferInformationDTO;
+  crefazOfferInformation?: GeneralOfferInformationDTO;
+}
+
 export interface LeadDTO {
   id: string;
   date: string;

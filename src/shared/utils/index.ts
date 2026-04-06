@@ -11,3 +11,5 @@ export * from './masks/mask-phone';
 export * from './masks/mask-percentage';
 export * from './masks/mask-pascal-case';
 export * from './masks/mask-document';
+export * from './masks/mask-rg';
+export * from './masks/mask-zipcode';

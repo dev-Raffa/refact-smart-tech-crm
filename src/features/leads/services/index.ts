@@ -5,7 +5,8 @@ import type {
   LeadOperatorDTO,
   LeadCustomerDetailsDTO,
   getFlowStepsResponse,
-  LeadTagsDTO
+  LeadTagsDTO,
+  BankPartnerInformationsDTO
 } from '../types/lead.dto';
 import type { PaginatedResponse } from '@/shared/types/paginated-response';
 import type {
@@ -87,7 +88,16 @@ export class LeadService {
         `/simulations/flow-steps?simulationId=${leadId}`
       );
 
-      return LeadMapper.toLeadDetailsModel(data, history.flowStepsInfo || []);
+      const { data: partnerInfo } =
+        await httpClient.get<BankPartnerInformationsDTO>(
+          `/simulations/${leadId}/partner-informations`
+        );
+
+      return LeadMapper.toLeadDetailsModel(
+        data,
+        history.flowStepsInfo || [],
+        partnerInfo
+      );
     } catch (error) {
       handleLeadError(error, 'getCustomerDetails');
     }
