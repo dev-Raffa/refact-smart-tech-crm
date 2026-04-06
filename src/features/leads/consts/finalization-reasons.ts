@@ -21,7 +21,8 @@ export const LeadFinalizationReasons = {
   Abandoned: 'Abandonado',
   NoPurchase: 'Sem compra',
   NoMargin: 'Sem margem',
-  DoesNotPerformService: 'Não realiza serviço'
+  DoesNotPerformService: 'Não realiza serviço',
+  LeaveItForLater: 'Vai deixar pra depois'
 } as const;
 
 export type LeadPublicServantFinalizationReason =
@@ -29,6 +30,4 @@ export type LeadPublicServantFinalizationReason =
 export type LeadCltFinalizationReason = keyof typeof LeadCltFinalizationReasons;
 export type LeadPublicServantDisqualificationReason =
   keyof typeof LeadPublicServantDisqualificationReasons;
-export type LeadFinalizationReason =
-  | keyof typeof LeadFinalizationReasons
-  | LeadCltFinalizationReason;
+export type LeadFinalizationReason = keyof typeof LeadFinalizationReasons;

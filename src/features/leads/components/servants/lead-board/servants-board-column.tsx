@@ -21,6 +21,7 @@ import { Button } from '@/shared/components/ui/button';
 import { Filter } from 'lucide-react';
 import type { GetLeadsParams } from '../../../types/lead.model';
 import { cn } from '@/shared/utils/cn';
+import { StageBadgeColor } from '@/features/leads/consts/stage-badge-color';
 
 const COLUMN_FILTERS_OPTIONS: Record<
   string,
@@ -57,8 +58,9 @@ type ServantBoardColumnProps = {
 };
 
 export function ServantBoardColumn({ id, title }: ServantBoardColumnProps) {
-  const { leads, isLoading, handleDrop, StageBadgeColor, count } =
-    useServantsBoard({ stageId: id });
+  const { leads, isLoading, handleDrop, count } = useServantsBoard({
+    stageId: id
+  });
 
   return (
     <BoardColumn
