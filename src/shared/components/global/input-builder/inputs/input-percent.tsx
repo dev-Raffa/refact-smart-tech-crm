@@ -27,6 +27,12 @@ export const InputPercent = ({
           const value = e.target.value;
           const sanitized = maskPercent(value, maxDecimals);
           setPercentValue(sanitized);
+          if (props.onChangeHandler) {
+            props.onChangeHandler(sanitized);
+          } else if (props.onChange) {
+            e.target.value = sanitized;
+            props.onChange(e);
+          }
         }}
         className="pr-8"
       />

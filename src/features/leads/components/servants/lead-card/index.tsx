@@ -24,12 +24,13 @@ import {
 } from '../../../hooks/use-mutations';
 
 import { PublicServantTags } from './public-servant-tags';
-import { PublicServantsMarketingTags } from './marketing-tags';
+
 import { formatCurrencyBRL, formatDate } from '@/shared/utils';
 import { PublciServantLastStepBadge } from '../last-step-badge';
 import { PublicServantFlagsBadge } from '../flags-badge';
 import { PublicServantFinalizationReasonBadge } from '../finalization-reason-badge';
 import { FlowExecution } from '../flow-execution';
+import { MarketingBadges } from '../../marketing-badges';
 
 function keepFirstAndLastName(fullName?: string | null) {
   if (!fullName) return '';
@@ -131,7 +132,7 @@ export function PublicServantLeadCard({ lead }: PublicServantLeadCardProps) {
         <CardContent>
           <div className="grid grid-cols-2 gap-1 w-full items-center">
             <PublicServantTags lead={lead} />
-            <PublicServantsMarketingTags lead={lead} />
+            <MarketingBadges marketing={lead.marketing} />
           </div>
 
           <div className="w-full " onClick={(e) => e.stopPropagation()}>

@@ -10,3 +10,4 @@ export * from './masks/mask-money';
 export * from './masks/mask-phone';
 export * from './masks/mask-percentage';
 export * from './masks/mask-pascal-case';
+export * from './masks/mask-document';

@@ -22,24 +22,39 @@ import { useChangeOperatorMutation } from '../../hooks/use-mutations';
 import type { Lead } from '../../types/lead.model';
 
 interface LeadChangeOperatorProps {
-  lead: Lead;
+  lead?: Lead;
+  value?: { id: string; name: string; username?: string };
+  onChange?: (operator: { id: string; name: string; username: string }) => void;
+  triggerClassName?: string;
 }
 
-export function LeadChangeOperator({ lead }: LeadChangeOperatorProps) {
+export function LeadChangeOperator({
+  lead,
+  value,
+  onChange,
+  triggerClassName
+}: LeadChangeOperatorProps) {
   const [open, setOpen] = useState(false);
   const { availableOperators: operators } = useLeadsBoardContext();
   const changeOperatorMutation = useChangeOperatorMutation();
 
-  const currentOperatorId = lead.operator?.id ?? '';
+  const currentOperatorId = lead?.operator?.id ?? value?.id ?? '';
+  const currentOperatorName =
+    lead?.operator?.name ?? value?.name ?? 'Sem operador';
 
   // Logic to ensure the current operator is in the list even if not in the availableOperators
   const isCurrentInList =
-    lead.operator && operators.some((op) => op.id === lead.operator?.id);
+    currentOperatorId && operators.some((op) => op.id === currentOperatorId);
 
   const displayOperators =
-    !isCurrentInList && lead.operator
-      ? [lead.operator, ...operators]
-      : operators;
+    !isCurrentInList && value
+      ? [
+          { id: value.id, name: value.name, username: value.username || '' },
+          ...operators
+        ]
+      : !isCurrentInList && lead?.operator
+        ? [lead.operator, ...operators]
+        : operators;
 
   const handleSelect = (operatorId: string) => {
     if (operatorId === currentOperatorId) {
@@ -54,27 +69,37 @@ export function LeadChangeOperator({ lead }: LeadChangeOperatorProps) {
       return;
     }
 
-    changeOperatorMutation.mutate({
-      leadId: lead.id,
-      operator: {
+    if (onChange) {
+      onChange({
         id: operator.id,
         name: operator.name,
         username: operator.username
-      }
-    });
+      });
+    } else if (lead) {
+      changeOperatorMutation.mutate({
+        leadId: lead.id,
+        operator: {
+          id: operator.id,
+          name: operator.name,
+          username: operator.username
+        }
+      });
+    }
     setOpen(false);
   };
-
-  const currentOperatorName = lead.operator?.name || 'Sem operador';
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant="ghost"
+          variant={triggerClassName ? 'outline' : 'ghost'}
           role="combobox"
           aria-expanded={open}
-          className="h-6 w-fit min-w-[120px] max-w-[200px] bg-stone-50 dark:bg-neutral-800 border-none shadow-none hover:bg-muted transition-colors p-0! pr-1.5! text-emerald-600 dark:text-emerald-400 font-medium text-[12px] justify-between group/trigger"
+          className={cn(
+            'justify-between group/trigger',
+            triggerClassName ||
+              'h-6 w-fit min-w-[120px] max-w-[200px] bg-stone-50 dark:bg-neutral-800 border-none shadow-none hover:bg-muted transition-colors p-0! pr-1.5! text-emerald-600 dark:text-emerald-400 font-medium text-[12px]'
+          )}
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex items-center gap-1.5 truncate">

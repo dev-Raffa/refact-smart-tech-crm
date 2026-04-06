@@ -5,6 +5,8 @@ import {
   TabsTrigger
 } from '@/shared/components/ui/tabs';
 import { PublicServantLeadBoard } from '../components/servants/lead-board';
+import { BriefcaseBusiness, Landmark } from 'lucide-react';
+import { CLTLeadBoard } from '../components/clt/lead-board';
 
 export const LeadsPage = () => {
   return (
@@ -20,9 +22,11 @@ export const LeadsPage = () => {
         <Tabs defaultValue="inss" className="w-full">
           <TabsList className="p-1 mb-2">
             <TabsTrigger value="inss" className="px-6">
+              <Landmark className="size-3.5" strokeWidth={1.9} />
               Servidores
             </TabsTrigger>
             <TabsTrigger value="clt" className="px-6">
+              <BriefcaseBusiness className="size-3.5" strokeWidth={1.9} />
               CLT
             </TabsTrigger>
           </TabsList>
@@ -38,11 +42,9 @@ export const LeadsPage = () => {
           <TabsContent
             value="clt"
             forceMount
-            className="mt-6 border-none p-0 outline-none data-[state=active]:block data-[state=inactive]:hidden"
+            className="mt-6 border-none p-0 outline-none flex-1 flex-col min-h-0 data-[state=active]:flex data-[state=inactive]:hidden"
           >
-            <div className="rounded-xl border border-dashed border-zinc-200 p-24 text-center text-muted-foreground">
-              Board CLT em desenvolvimento...
-            </div>
+            <CLTLeadBoard />
           </TabsContent>
         </Tabs>
       </div>

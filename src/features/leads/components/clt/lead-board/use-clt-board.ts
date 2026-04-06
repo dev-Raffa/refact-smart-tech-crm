@@ -1,12 +1,12 @@
-import { useMoveLeadMutation } from '../../../hooks/use-mutations';
-import { useLeads } from '../../../hooks/use-leads';
-import type { LeadStage } from '../../../types/lead.model';
+import { useLeads } from '@/features/leads/hooks/use-leads';
+import { useMoveLeadMutation } from '@/features/leads/hooks/use-mutations';
+import type { LeadStage } from '@/features/leads/types/lead.model';
 
-type UseServantsBoardParams = {
+type UseCLTBoardParams = {
   stageId: LeadStage;
 };
 
-export function useServantsBoard({ stageId }: UseServantsBoardParams) {
+export function useCLTBoard({ stageId }: UseCLTBoardParams) {
   const { mutateAsync } = useMoveLeadMutation();
   const { data: leadsData, isLoading } = useLeads(stageId);
 
