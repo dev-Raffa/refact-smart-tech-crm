@@ -50,7 +50,7 @@ export function LeadsBoardProvider({
       const filters = filterOptions as LeadFiltersValuesOptions;
       dispatch({ type: 'SET_FILTER_OPTIONS', payload: filters });
     }
-  }, [filterOptions, dispatch]);
+  }, [filterOptions, dispatch, isLoading]);
 
   const value = useMemo(
     () => ({
@@ -62,7 +62,7 @@ export function LeadsBoardProvider({
       },
       availableOperators: (filterOptions as LeadFiltersValuesOptions).operators
     }),
-    [state, filterOptions, isLoading, dispatch]
+    [state, filterOptions, dispatch]
   );
 
   return (

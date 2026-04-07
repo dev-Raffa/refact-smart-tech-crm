@@ -33,6 +33,7 @@ import { translateGovernamentLevel } from '../utils/translate-governamental-leve
 import { normalizeServantOrigin } from '../utils/normalize-servant-origin';
 import { getCustomerProneNumbers } from '../utils/get-customer-phone-number';
 import type { LeadFinalizationReason } from '../consts/finalization-reasons';
+import { parseEmoji } from '@/shared/utils/parse-emoji';
 
 export class LeadMapper {
   public static toModel(dto: LeadDTO): Lead {
@@ -234,7 +235,7 @@ export class LeadMapper {
 
   public static toCustomerModel(dto: LeadCustomerDTO): LeadCustomer {
     return {
-      name: dto.name,
+      name: parseEmoji(dto.name),
       cpf: dto.cpf ?? 'Não informado',
       phoneNumbers: getCustomerProneNumbers(dto.phoneNumber1, dto.phoneNumber2),
       birthDate: dto.dateBirth,

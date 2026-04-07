@@ -4,14 +4,8 @@ import { maskPhone } from '@/shared/utils/masks/mask-phone';
 import type { LeadDetails } from '../../../../types/lead.model';
 import { CopyButton } from '@/shared/components/global/copy-button';
 import { Badge } from '@/shared/components/ui/badge';
-
-function formatGender(gender?: string) {
-  if (!gender) return 'NÃO INFORMADO';
-  const g = gender.toUpperCase();
-  if (g.startsWith('M')) return 'MASC';
-  if (g.startsWith('F')) return 'FEM';
-  return g;
-}
+import { formatGender } from '@/shared/utils/formaters/format-gender';
+import { DataField } from '../../../data-field';
 
 export function CltCustomerData({ leadDetails }: { leadDetails: LeadDetails }) {
   const customer = leadDetails.customer;
@@ -148,44 +142,6 @@ export function CltCustomerData({ leadDetails }: { leadDetails: LeadDetails }) {
           </div>
         </>
       )}
-    </div>
-  );
-}
-
-function DataField({
-  label,
-  value,
-  copyValue,
-  copySuccessText,
-  renderValue
-}: {
-  label: string;
-  value?: string | null;
-  copyValue?: string | null;
-  copySuccessText?: string;
-  renderValue?: React.ReactNode;
-}) {
-  return (
-    <div className="space-y-1">
-      <span className="text-[10px] text-zinc-500 uppercase tracking-wide font-medium">
-        {label}
-      </span>
-      <div className="flex items-center gap-2">
-        {renderValue ? (
-          renderValue
-        ) : (
-          <p className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
-            {value || 'Não informado'}
-          </p>
-        )}
-        {copyValue && value && value !== 'Não informado' && (
-          <CopyButton
-            copy={copyValue}
-            successText={copySuccessText || 'Copiado!'}
-            errorText="Falha ao copiar"
-          />
-        )}
-      </div>
     </div>
   );
 }

@@ -21,14 +21,14 @@ export function LeadsTextFilter() {
           handleTypeChange(value as LeadsTextFilterType)
         }
       >
-        <SelectTrigger className="w-[140px] rounded-r-none border-r-0 focus:ring-0 focus:ring-offset-0 bg-muted/20">
+        <SelectTrigger className="w-[110px] rounded-r-none border-r-0 focus:ring-0 focus:ring-offset-0 bg-muted/20">
           <SelectValue placeholder="Filtrar por" />
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="name">Nome</SelectItem>
           <SelectItem value="cpf">CPF</SelectItem>
           <SelectItem value="phoneNumber">Telefone</SelectItem>
-          <SelectItem value="proposalNumber">Nº da Proposta</SelectItem>
+          <SelectItem value="proposalNumber">Proposta</SelectItem>
         </SelectContent>
       </Select>
 
@@ -43,7 +43,7 @@ export function LeadsTextFilter() {
                 ? 'CPF'
                 : filterType === 'phoneNumber'
                   ? 'telefone'
-                  : 'proposta'
+                  : 'Nº da proposta'
           }...`}
           className="rounded-l-none pl-9 focus-visible:ring-1 focus-visible:ring-offset-0"
           value={inputValue}

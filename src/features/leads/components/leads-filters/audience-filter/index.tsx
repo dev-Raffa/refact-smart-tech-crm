@@ -22,7 +22,9 @@ import { Skeleton } from '@/shared/components/ui/skeleton';
 export function LeadsAudienceFilter() {
   const { state, dispatch } = useLeadsBoardContext();
   const { isFilterOptionsLoading: isLoading, filterOptions } = state;
-  const audiences = isLoading ? [] : filterOptions.audiences;
+  const audiences = isLoading
+    ? []
+    : ['NÃO MAPEADO', ...filterOptions.audiences];
 
   const selectedAudiences = state.audience;
 

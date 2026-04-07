@@ -7,7 +7,7 @@ import { LeadsTextFilter } from './text-filter';
 
 export const LeadsFilters = () => {
   return (
-    <div className="flex gap-2 flex-wrap items-center">
+    <div className="flex w-full items-start gap-2">
       <LeadsTextFilter />
       <LeadsDateRangeFilter />
       <LeadsOperatorsFilter />

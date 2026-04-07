@@ -22,7 +22,7 @@ import { Skeleton } from '@/shared/components/ui/skeleton';
 export function LeadsOriginFilter() {
   const { state, dispatch } = useLeadsBoardContext();
   const selectedSources = state.source;
-  const sourceOptions = state.filterOptions.sources;
+  const sourceOptions = ['NÃO MAPEADO', ...state.filterOptions.sources];
   const isLoading = state.isFilterOptionsLoading;
 
   const onSelectedSourcesChange = (sources: string[]) => {

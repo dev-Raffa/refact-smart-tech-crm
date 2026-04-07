@@ -3,7 +3,6 @@ import {
   User,
   Building2,
   Landmark,
-  History,
   Search,
   FileText
 } from 'lucide-react';
@@ -23,20 +22,7 @@ import { OffersDataSection } from './sections/offers-data';
 import { AdditionalDataSection } from './sections/additional-data';
 import { formatCurrencyBRL, formatDateOnly } from '@/shared/utils';
 import { CopyButton } from '@/shared/components/global/copy-button';
-
-const SMART_RED = '#b91c1c';
-
-const ACCORDION_TRIGGER_CLASS =
-  'py-3 px-4 rounded-xl hover:no-underline hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-all border border-zinc-200 dark:border-zinc-800 [&[data-state=open]]:bg-zinc-50 dark:[&[data-state=open]]:bg-zinc-900';
-
-function splitDisplayName(fullName?: string) {
-  if (!fullName) return { first: 'Lead', last: 'Detalhes' };
-  const parts = fullName.split(' ');
-  return {
-    first: parts[0],
-    last: parts.length > 1 ? parts[parts.length - 1] : ''
-  };
-}
+import { getFirstNameAndLastName } from '@/shared/utils/get-first-&-last-name';
 
 type CltLeadSheetProps = {
   leadId: string;
@@ -54,7 +40,7 @@ export function CltLeadDetails({
   const { data: leadDetails, isLoading: isLeadLoading } =
     useLeadDetailsQuery(leadId);
 
-  const displayName = splitDisplayName(leadDetails?.customer.name);
+  const displayName = getFirstNameAndLastName(leadDetails?.customer.name);
 
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
@@ -100,9 +86,9 @@ export function CltLeadDetails({
                 defaultValue="dados-pessoais"
               >
                 <AccordionItem value="dados-pessoais" className="border-none">
-                  <AccordionTrigger className={ACCORDION_TRIGGER_CLASS}>
+                  <AccordionTrigger className="py-3 px-4 rounded-xl hover:no-underline hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-all border border-zinc-200 dark:border-zinc-800 [&[data-state=open]]:bg-zinc-50 dark:[&[data-state=open]]:bg-zinc-900">
                     <div className="flex items-center gap-3 text-sm font-bold">
-                      <User className="h-4 w-4" style={{ color: SMART_RED }} />
+                      <User className="h-4 w-4 text-red-700" />
                       Dados Pessoais
                     </div>
                   </AccordionTrigger>
@@ -115,12 +101,9 @@ export function CltLeadDetails({
                   value="dados-trabalhistas"
                   className="border-none"
                 >
-                  <AccordionTrigger className={ACCORDION_TRIGGER_CLASS}>
+                  <AccordionTrigger className="py-3 px-4 rounded-xl hover:no-underline hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-all border border-zinc-200 dark:border-zinc-800 [&[data-state=open]]:bg-zinc-50 dark:[&[data-state=open]]:bg-zinc-900">
                     <div className="flex items-center gap-3 text-sm font-bold">
-                      <Building2
-                        className="h-4 w-4"
-                        style={{ color: SMART_RED }}
-                      />
+                      <Building2 className="h-4 w-4 text-red-700" />
                       Dados Trabalhistas
                     </div>
                   </AccordionTrigger>
@@ -130,12 +113,9 @@ export function CltLeadDetails({
                 </AccordionItem>
 
                 <AccordionItem value="ofertas-bancos" className="border-none">
-                  <AccordionTrigger className={ACCORDION_TRIGGER_CLASS}>
+                  <AccordionTrigger className="py-3 px-4 rounded-xl hover:no-underline hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-all border border-zinc-200 dark:border-zinc-800 [&[data-state=open]]:bg-zinc-50 dark:[&[data-state=open]]:bg-zinc-900">
                     <div className="flex items-center gap-3 text-sm font-bold">
-                      <Landmark
-                        className="h-4 w-4"
-                        style={{ color: SMART_RED }}
-                      />
+                      <Landmark className="h-4 w-4 text-red-700" />
                       Propostas e Ofertas
                     </div>
                   </AccordionTrigger>
@@ -145,12 +125,9 @@ export function CltLeadDetails({
                 </AccordionItem>
 
                 <AccordionItem value="dados-adicionais" className="border-none">
-                  <AccordionTrigger className={ACCORDION_TRIGGER_CLASS}>
+                  <AccordionTrigger className="py-3 px-4 rounded-xl hover:no-underline hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-all border border-zinc-200 dark:border-zinc-800 [&[data-state=open]]:bg-zinc-50 dark:[&[data-state=open]]:bg-zinc-900">
                     <div className="flex items-center gap-3 text-sm font-bold">
-                      <Search
-                        className="h-4 w-4"
-                        style={{ color: SMART_RED }}
-                      />
+                      <Search className="h-4 w-4 text-red-700" />
                       Dados Adicionais
                     </div>
                   </AccordionTrigger>
@@ -160,14 +137,8 @@ export function CltLeadDetails({
                 </AccordionItem>
               </Accordion>
 
-              <div className="space-y-4 pt-4 border-t border-zinc-100 dark:border-zinc-800">
-                <div className="flex items-center gap-3 text-sm font-bold px-1">
-                  <History className="h-4 w-4" style={{ color: SMART_RED }} />
-                  Histórico de Fluxos
-                </div>
-                <div className="px-1">
-                  <LeadFluxHistory flowSteps={leadDetails.history} />
-                </div>
+              <div className="px-4 space-y-4 pt-0">
+                <LeadFluxHistory flowSteps={leadDetails.history} />
               </div>
             </div>
           </>

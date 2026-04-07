@@ -1,11 +1,14 @@
-import { Loader2 } from 'lucide-react';
-
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle
-} from '@/shared/components/ui/sheet';
+  Building2,
+  Download,
+  FileText,
+  Loader2,
+  Search,
+  Upload,
+  User
+} from 'lucide-react';
+
+import { Sheet, SheetContent } from '@/shared/components/ui/sheet';
 import {
   Accordion,
   AccordionContent,
@@ -20,6 +23,10 @@ import { ServantDataSection } from './sections/servant-data';
 import { PaycheckUploadSection } from './sections/paycheck-upload';
 import { PaycheckDownloadSection } from './sections/paycheck-download';
 import { LeadFluxHistory } from '../../flux-history';
+import { getFirstNameAndLastName } from '@/shared/utils/get-first-&-last-name';
+import { CopyButton } from '@/shared/components/global/copy-button';
+import { formatCurrencyBRL, formatDateOnly } from '@/shared/utils';
+import { PublicServantAdditionalDataSection } from './sections/additional-data';
 
 type InssLeadSheetProps = {
   leadId: string;
@@ -34,75 +41,137 @@ export function PublicServantsLeadDetails({
 }: InssLeadSheetProps) {
   const { data: leadDetails, isLoading: isLeadLoading } =
     useLeadDetailsQuery(leadId);
-  console.log(leadDetails);
+
+  const displayName = getFirstNameAndLastName(leadDetails?.customer.name);
 
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
-      <SheetContent className="flex p-4 flex-col sm:max-w-md w-full bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800">
-        <SheetHeader className="px-4 pt-6 pb-2">
-          <SheetTitle className="text-xl font-bold text-zinc-900 dark:text-zinc-100 mt-2">
-            Detalhes do Simulação
-          </SheetTitle>
-        </SheetHeader>
+      <SheetContent className="flex p-0 flex-col w-full bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800">
+        {!isLeadLoading && leadDetails ? (
+          <>
+            <div className="px-4 pt-10 pb-6 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/20">
+              <div className="flex items-center justify-between">
+                <div className="w-7/10">
+                  <h2 className="text-xl font-bold tracking-tight truncate text-zinc-900 dark:text-zinc-100">
+                    {displayName.first}{' '}
+                    <span className="text-zinc-500 font-medium tracking-tight truncate">
+                      {displayName.last}
+                    </span>
+                  </h2>
+                  <div className="flex w-full items-center gap-1 text-nowrap text-xs text-zinc-500 font-mono">
+                    <span>{leadId}</span>
+                    <CopyButton
+                      copy={leadId}
+                      successText="ID Copiado!"
+                      errorText="ID não disponível"
+                      className="h-4 w-4"
+                    />
+                  </div>
+                </div>
 
-        <div className="flex-1 overflow-y-auto px-4 pb-4 no-scrollbar">
-          {isLeadLoading ? (
-            <div className="flex justify-center py-12">
-              <Loader2 className="h-8 w-8 animate-spin text-emerald-600" />
+                <div className="text-right space-y-1">
+                  <p className="text-sm font-black text-emerald-600 dark:text-emerald-500 tabular-nums">
+                    {formatCurrencyBRL(0)}
+                  </p>
+                  <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
+                    {formatDateOnly(leadDetails.customer.creationDate || '')}
+                  </p>
+                </div>
+              </div>
             </div>
-          ) : !isLeadLoading && leadDetails ? (
-            <Accordion type="single" collapsible className="w-full">
-              <AccordionItem
-                value="dados-cliente"
-                className="border-zinc-200 dark:border-zinc-800"
+            <div className="flex-1 overflow-y-auto px-4 pb-4 no-scrollbar">
+              <Accordion
+                type="single"
+                collapsible
+                className="w-full space-y-4"
+                defaultValue="dados-pessoais"
               >
-                <AccordionTrigger className="text-sm font-semibold hover:text-emerald-700 dark:hover:text-emerald-400">
-                  Dados do cliente
-                </AccordionTrigger>
-                <AccordionContent>
-                  <CustomerDataSection
-                    leadDetails={leadDetails}
-                    leadId={leadId}
-                  />
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem
-                value="dados-servidor"
-                className="border-zinc-200 dark:border-zinc-800"
-              >
-                <AccordionTrigger className="text-sm font-semibold hover:text-emerald-700 dark:hover:text-emerald-400">
-                  Servidor público
-                </AccordionTrigger>
-                <AccordionContent>
-                  <ServantDataSection
-                    servantDetails={leadDetails.publicServantDetails}
-                  />
-                </AccordionContent>
-              </AccordionItem>
-
-              {leadDetails.payslip ? (
-                <AccordionItem value="get-contracheque">
-                  <AccordionTrigger>Baixar contracheque</AccordionTrigger>
-                  <AccordionContent>
-                    <PaycheckDownloadSection leadId={leadId} />
+                <AccordionItem value="dados-pessoais" className="border-none">
+                  <AccordionTrigger className="py-3 px-4 rounded-xl hover:no-underline hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-all border border-zinc-200 dark:border-zinc-800 [&[data-state=open]]:bg-zinc-50 dark:[&[data-state=open]]:bg-zinc-900">
+                    <div className="flex items-center gap-3 text-sm font-bold">
+                      <User className="h-4 w-4 text-red-700" />
+                      Dados Pessoais
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="pt-2 pb-2 px-1">
+                    <CustomerDataSection leadDetails={leadDetails} />
                   </AccordionContent>
                 </AccordionItem>
-              ) : (
-                <AccordionItem value="send-contracheque">
-                  <AccordionTrigger>Enviar contracheque</AccordionTrigger>
+                <AccordionItem value="dados-servidor" className="border-none">
+                  <AccordionTrigger className="py-3 px-4 rounded-xl hover:no-underline hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-all border border-zinc-200 dark:border-zinc-800 [&[data-state=open]]:bg-zinc-50 dark:[&[data-state=open]]:bg-zinc-900">
+                    <div className="flex items-center gap-3 text-sm font-bold">
+                      <Building2 className="h-4 w-4 text-red-700" />
+                      Dados Servidor
+                    </div>
+                  </AccordionTrigger>
                   <AccordionContent>
-                    <PaycheckUploadSection leadId={leadId} />
+                    <ServantDataSection
+                      servantDetails={leadDetails.publicServantDetails}
+                    />
                   </AccordionContent>
                 </AccordionItem>
-              )}
-            </Accordion>
-          ) : (
-            <div className="text-center py-12 text-zinc-500">
-              Não foi possível carregar os detalhes.
+
+                {leadDetails.payslip ? (
+                  <AccordionItem value="get-contracheque">
+                    <AccordionTrigger className="py-3 px-4 rounded-xl hover:no-underline hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-all border border-zinc-200 dark:border-zinc-800 [&[data-state=open]]:bg-zinc-50 dark:[&[data-state=open]]:bg-zinc-900">
+                      <div className="flex items-center gap-3 text-sm font-bold">
+                        <Download className="h-4 w-4 text-red-700" />
+                        Baixar contracheque
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <PaycheckDownloadSection leadId={leadId} />
+                    </AccordionContent>
+                  </AccordionItem>
+                ) : (
+                  <AccordionItem value="send-contracheque">
+                    <AccordionTrigger className="py-3 px-4 rounded-xl hover:no-underline hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-all border border-zinc-200 dark:border-zinc-800 [&[data-state=open]]:bg-zinc-50 dark:[&[data-state=open]]:bg-zinc-900">
+                      <div className="flex items-center gap-3 text-sm font-bold">
+                        <Upload className="h-4 w-4 text-red-700" />
+                        Enviar contracheque
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <PaycheckUploadSection leadId={leadId} />
+                    </AccordionContent>
+                  </AccordionItem>
+                )}
+                <AccordionItem value="dados-adicionais" className="border-none">
+                  <AccordionTrigger className="py-3 px-4 rounded-xl hover:no-underline hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-all border border-zinc-200 dark:border-zinc-800 [&[data-state=open]]:bg-zinc-50 dark:[&[data-state=open]]:bg-zinc-900">
+                    <div className="flex items-center gap-3 text-sm font-bold">
+                      <Search className="h-4 w-4 text-red-700" />
+                      Dados Adicionais
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="pt-4 pb-2 px-1">
+                    <PublicServantAdditionalDataSection
+                      leadDetails={leadDetails}
+                    />
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+              <LeadFluxHistory flowSteps={leadDetails?.history || []} />
             </div>
-          )}
-          <LeadFluxHistory flowSteps={leadDetails?.history || []} />
-        </div>
+          </>
+        ) : (
+          <div className="flex-1 flex flex-col items-center justify-center p-8 space-y-4">
+            {isLeadLoading ? (
+              <>
+                <Loader2 className="h-10 w-10 animate-spin text-red-700" />
+                <p className="text-zinc-500 font-medium animate-pulse">
+                  Carregando detalhes do lead...
+                </p>
+              </>
+            ) : (
+              <div className="text-center space-y-2">
+                <FileText className="h-12 w-12 text-zinc-200 mx-auto" />
+                <p className="text-zinc-500 font-medium">
+                  Não foi possível carregar os detalhes.
+                </p>
+              </div>
+            )}
+          </div>
+        )}
       </SheetContent>
     </Sheet>
   );

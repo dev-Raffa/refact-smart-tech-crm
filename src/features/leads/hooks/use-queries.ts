@@ -10,7 +10,9 @@ export function useLeadsQuery(params: GetLeadsParams, enabled = true) {
   return useInfiniteQuery({
     queryKey: ['leads', params],
     initialPageParam: 1,
+    refetchInterval: 1000 * 30, // 30 seconds
     placeholderData: keepPreviousData,
+    enabled,
     queryFn: ({ pageParam = 1 }) =>
       LeadService.getLeads({ ...params, page: pageParam as number }),
     getNextPageParam: (lastPage, allPages) => {
@@ -28,8 +30,7 @@ export function useLeadsQuery(params: GetLeadsParams, enabled = true) {
       }
 
       return undefined;
-    },
-    enabled
+    }
   });
 }
 

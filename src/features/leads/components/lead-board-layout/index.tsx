@@ -2,6 +2,7 @@ import { type ReactNode, useRef, useState, useEffect } from 'react';
 import { LeadsBoardProvider } from '../../hooks/use-leads-board-context';
 import { LeadsFilters } from '../leads-filters';
 import { Board } from '@/shared/components/global/board';
+import { BoardRefreshControl } from '../leads-filters/board-refresh-control';
 
 type LeadsBoardLayoutProps = {
   product: 'Inss' | 'Clt';
@@ -64,8 +65,9 @@ export function LeadsBoardLayout({ product, children }: LeadsBoardLayoutProps) {
           className="no-scrollbar flex-1 overflow-x-auto overflow-y-hidden"
         >
           <div ref={contentRef} className="h-full min-w-max">
-            <Board className="flex-nowrap overflow-x-visible rounded-2xl bg-sidebar/80 py-6 h-full dark:bg-sidebar/30">
-              {children}
+            <Board className="flex-nowrap flex-col overflow-x-visible rounded-2xl bg-sidebar/80 py-6 h-full dark:bg-sidebar/30">
+              <BoardRefreshControl />
+              <div className="flex ">{children}</div>
             </Board>
           </div>
         </div>
