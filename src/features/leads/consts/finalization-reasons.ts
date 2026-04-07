@@ -1,11 +1,13 @@
 export const LeadPublicServantFinalizationReasons = {
   NoResponse: 'Sem resposta',
-  NoInterest: 'Sem interesse'
+  NoInterest: 'Sem interesse',
+  ClientNotResponding: 'Cliente não responde mais'
 } as const;
 
 export const LeadCltFinalizationReasons = {
   NoInterest: 'Sem interesse',
-  LeaveItForLater: 'Vai deixar pra depois'
+  LeaveItForLater: 'Vai deixar pra depois',
+  ClientNotResponding: 'Cliente não responde mais'
 } as const;
 
 export const LeadPublicServantDisqualificationReasons = {
