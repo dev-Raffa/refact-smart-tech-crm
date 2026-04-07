@@ -1,2 +1,2 @@
 #!/usr/bin/env sh
-tsc -b --noEmit
+npx tsc -b --noEmit
