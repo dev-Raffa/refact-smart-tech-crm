@@ -32,7 +32,7 @@ import type {
   OfferInformation
 } from '../../../../types/lead.model';
 import { formatCurrencyBRL } from '@/shared/utils';
-import { CopyButton } from '@/shared/components/global/copy-button';
+import { CopyButton } from '@/shared/components/common/copy-button';
 import { cn } from '@/shared/utils';
 
 type OffersDataSectionProps = {

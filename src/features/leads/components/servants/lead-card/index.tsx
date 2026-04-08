@@ -30,7 +30,7 @@ import { PublicServantFlagsBadge } from '../flags-badge';
 import { PublicServantFinalizationReasonBadge } from '../finalization-reason-badge';
 import { FlowExecution } from '../flow-execution';
 import { MarketingBadges } from '../../marketing-badges';
-import { CopyButton } from '@/shared/components/global/copy-button';
+import { CopyButton } from '@/shared/components/common/copy-button';
 
 function keepFirstAndLastName(fullName?: string | null) {
   if (!fullName) return '';

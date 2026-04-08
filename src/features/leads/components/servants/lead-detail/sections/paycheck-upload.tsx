@@ -10,10 +10,10 @@ import {
   FilePickerEmpty,
   FilePickerError,
   FilePickerInput
-} from '@/shared/components/global/file-picker';
+} from '@/shared/components/common/file-picker';
 
 import { useUploadLeadDocumentMutation } from '../../../../hooks/use-mutations';
-import type { FileWithPreview } from '@/shared/components/global/file-picker/types';
+import type { FileWithPreview } from '@/shared/components/common/file-picker/types';
 
 export function PaycheckUploadSection({ leadId }: { leadId: string }) {
   const { mutateAsync, isPending } = useUploadLeadDocumentMutation();

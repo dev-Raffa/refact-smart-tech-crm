@@ -3,7 +3,7 @@ import type {
   GetLeadsParams,
   LeadStage
 } from '@/features/leads/types/lead.model';
-import type { IBoardColumnConfig } from '@/shared/components/global/board/types';
+import type { IBoardColumnConfig } from '@/shared/components/common/board/types';
 import { LeadsBoardLayout } from '../../lead-board-layout';
 import { LeadBoardColumn } from '../../lead-board-column';
 import { CreateCltLeadSheet } from '../../clt/create-lead';

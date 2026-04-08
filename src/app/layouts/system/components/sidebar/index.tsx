@@ -7,7 +7,7 @@ import {
 
 import { NavItems } from './nav-items';
 import { Navlinks } from './nav-links';
-import { AppLogo } from '@/shared/components/global/logo';
+import { AppLogo } from '@/shared/components/common/logo';
 
 export function SystemSidebar({
   ...props

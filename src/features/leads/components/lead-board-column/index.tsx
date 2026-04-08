@@ -6,12 +6,12 @@ import {
   BoardColumnHeader,
   BoardEmpty,
   BoardItem
-} from '@/shared/components/global/board';
+} from '@/shared/components/common/board';
 import type { LeadStage, Lead, GetLeadsParams } from '../../types/lead.model';
 import { Badge } from '@/shared/components/ui/badge';
 import { Button } from '@/shared/components/ui/button';
 
-import type { IBoardColumnConfig } from '@/shared/components/global/board/types';
+import type { IBoardColumnConfig } from '@/shared/components/common/board/types';
 
 import { useMoveLeadMutation } from '../../hooks/use-mutations';
 import { ColumnFilterMenu } from './filter-column-menu';

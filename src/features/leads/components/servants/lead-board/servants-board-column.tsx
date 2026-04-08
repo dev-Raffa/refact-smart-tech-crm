@@ -5,7 +5,7 @@ import {
   BoardColumnHeader,
   BoardEmpty,
   BoardItem
-} from '@/shared/components/global/board';
+} from '@/shared/components/common/board';
 import type { LeadStage, Lead } from '../../../types/lead.model';
 import { useServantsBoard } from './use-servants-board';
 import { PublicServantLeadCard } from '../lead-card';

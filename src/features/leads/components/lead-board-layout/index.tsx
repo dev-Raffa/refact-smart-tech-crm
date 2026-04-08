@@ -1,7 +1,7 @@
 import { type ReactNode, useRef, useState, useEffect } from 'react';
 import { LeadsBoardProvider } from '../../hooks/use-leads-board-context';
 import { LeadsFilters } from '../leads-filters';
-import { Board } from '@/shared/components/global/board';
+import { Board } from '@/shared/components/common/board';
 import { BoardRefreshControl } from '../leads-filters/board-refresh-control';
 
 type LeadsBoardLayoutProps = {

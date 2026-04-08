@@ -1,4 +1,4 @@
-import { CopyButton } from '@/shared/components/global/copy-button';
+import { CopyButton } from '@/shared/components/common/copy-button';
 
 export function DataField({
   label,

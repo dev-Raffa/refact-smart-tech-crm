@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useUploadFileMutation } from '../../hooks/use-mutations';
 import type { ImportFileType } from '../../types/import.model';
-import type { FileWithPreview } from '@/shared/components/global/file-picker/types';
+import type { FileWithPreview } from '@/shared/components/common/file-picker/types';
 
 export const importsFormSchema = z.object({
   fileType: z.enum(['Customer', 'Government'] as const, {

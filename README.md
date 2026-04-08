@@ -101,8 +101,7 @@ src
 ├── shared
 │   ├── components
 │   │   ├── ui
-│   │   ├── common
-│   │   └── global
+│   │   └── common
 │   ├── hooks
 │   ├── services
 │   └── utils
@@ -122,8 +121,7 @@ src
 | assets                   | recursos estáticos (imagens, ícones e estilos) |
 | features                 | módulos de domínio da aplicação                |
 | shared/components/ui     | componentes visuais primitivos (Radix/shadcn)  |
-| shared/components/common | componentes reutilizáveis simples              |
-| shared/components/global | componentes reutilizáveis complexos com lógica de UI (DataTable, Board, etc.) |
+| shared/components/common | componentes reutilizáveis complexos com lógica de UI (DataTable, Board, etc.) |
 | shared/hooks             | hooks reutilizáveis                            |
 | shared/services          | serviços compartilhados                        |
 | shared/utils             | utilitários globais                            |
@@ -306,16 +304,15 @@ Regras:
 ## Shared Components
 
 ```
-shared/components/common   → componentes reutilizáveis simples
-shared/components/global   → componentes complexos com múltiplas peças (DataTable, Board)
+shared/components/common   → componentes reutilizáveis com múltiplas peças (DataTable, Board)
 ```
 
 Componentes reutilizáveis com lógica interna de UI.
 
 Exemplos:
 
-* Datatable (`shared/components/global/datatable`)
-* Board (`shared/components/global/board`)
+* Datatable (`shared/components/common/datatable`)
+* Board (`shared/components/common/board`)
 * File Picker
 * Wizard
 

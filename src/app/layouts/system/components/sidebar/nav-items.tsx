@@ -5,7 +5,7 @@ import {
   SidebarMenuButton
 } from '@/shared/components/ui/sidebar';
 import { NavLink } from 'react-router';
-import { RestrictedLink } from '@/shared/components/global/restricted-link';
+import { RestrictedLink } from '@/shared/components/common/restricted-link';
 
 export type NavItem = {
   title: string;

@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
-import type { FileWithPreview } from '@/shared/components/global/file-picker/types';
+import type { FileWithPreview } from '@/shared/components/common/file-picker/types';
 
 import {
   useCreateInssLeadMutation,

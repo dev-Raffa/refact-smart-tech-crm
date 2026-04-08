@@ -1,4 +1,4 @@
-import { AppsNavigation } from '@/shared/components/global/apps-navigation';
+import { AppsNavigation } from '@/shared/components/common/apps-navigation';
 import { HeaderMenu } from '../header-menu';
 import { SidebarTrigger } from '@/shared/components/ui/sidebar';
 

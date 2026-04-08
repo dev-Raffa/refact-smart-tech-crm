@@ -35,7 +35,7 @@ import {
   FilePickerEmpty,
   FilePickerError,
   FilePickerInput
-} from '@/shared/components/global/file-picker';
+} from '@/shared/components/common/file-picker';
 
 import { useLeadFiltersValuesOptionsQuery } from '../../../hooks/use-queries';
 import { useCreateLeadForm } from './use-create-lead-form';

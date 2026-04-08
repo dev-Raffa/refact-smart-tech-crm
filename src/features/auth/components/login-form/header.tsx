@@ -1,4 +1,4 @@
-import { AppLogo } from '@/shared/components/global/logo';
+import { AppLogo } from '@/shared/components/common/logo';
 
 export function LoginHeader() {
   return (

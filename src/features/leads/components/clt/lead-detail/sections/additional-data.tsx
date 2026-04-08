@@ -1,7 +1,7 @@
 import { Globe, Database } from 'lucide-react';
 
 import type { LeadDetails } from '../../../../types/lead.model';
-import { CopyButton } from '@/shared/components/global/copy-button';
+import { CopyButton } from '@/shared/components/common/copy-button';
 import { MarketingBadges } from '../../../marketing-badges';
 
 export function AdditionalDataSection({

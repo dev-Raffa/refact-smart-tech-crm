@@ -19,7 +19,7 @@ import {
   FilePickerEmpty,
   FilePickerError,
   FilePickerButton
-} from '@/shared/components/global/file-picker';
+} from '@/shared/components/common/file-picker';
 
 import { FilesIcon } from 'lucide-react';
 import { useImportsForm } from './use-imports-form';

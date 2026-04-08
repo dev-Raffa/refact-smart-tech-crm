@@ -2,7 +2,7 @@ import { LeadsBoardLayout } from '../../lead-board-layout';
 import { LeadBoardColumn } from '../../lead-board-column';
 import type { LeadStage, GetLeadsParams } from '../../../types/lead.model';
 import { Separator } from '@/shared/components/ui/separator';
-import type { IBoardColumnConfig } from '@/shared/components/global/board/types';
+import type { IBoardColumnConfig } from '@/shared/components/common/board/types';
 import { StageBadgeColor } from '@/features/leads/consts/stage-badge-color';
 import { CreateInssLeadSheet } from '../create-lead-sheet/create-lead-sheet';
 import { PublicServantLeadCard } from '../lead-card';

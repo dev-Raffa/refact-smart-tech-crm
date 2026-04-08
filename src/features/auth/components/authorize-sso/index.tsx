@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router';
-import { SuspenseLoading } from '@/shared/components/global/suspense-loading';
+import { SuspenseLoading } from '@/shared/components/common/suspense-loading';
 import { UseAuthorizeSSO } from '../../hooks/use-mutations';
 
 export function AuthorizeSSO() {

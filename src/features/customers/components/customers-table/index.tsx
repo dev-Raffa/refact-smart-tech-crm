@@ -2,7 +2,7 @@ import {
   DataTable,
   DataTableContent,
   PaginationControllers
-} from '@/shared/components/global/datatable';
+} from '@/shared/components/common/datatable';
 
 import { useCustomersTable } from './use-customers-table';
 import { CustomersFilters } from '../customers-filters';

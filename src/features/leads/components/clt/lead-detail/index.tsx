@@ -21,7 +21,7 @@ import { CltDataSection } from './sections/clt-data';
 import { OffersDataSection } from './sections/offers-data';
 import { AdditionalDataSection } from './sections/additional-data';
 import { formatCurrencyBRL, formatDateOnly } from '@/shared/utils';
-import { CopyButton } from '@/shared/components/global/copy-button';
+import { CopyButton } from '@/shared/components/common/copy-button';
 import { getFirstNameAndLastName } from '@/shared/utils/get-first-&-last-name';
 
 type CltLeadSheetProps = {

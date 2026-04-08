@@ -6,7 +6,7 @@ import {
   BoardColumnFilters,
   BoardItem,
   BoardEmpty
-} from '@/shared/components/global/board';
+} from '@/shared/components/common/board';
 import { Input } from '@/shared/components/ui/input';
 import { Button } from '@/shared/components/ui/button';
 import {

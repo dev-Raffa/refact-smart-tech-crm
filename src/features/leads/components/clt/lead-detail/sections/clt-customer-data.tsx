@@ -2,7 +2,7 @@ import { maskDocument, maskZipCode, formatDateOnly } from '@/shared/utils';
 import { maskPhone } from '@/shared/utils/masks/mask-phone';
 
 import type { LeadDetails } from '../../../../types/lead.model';
-import { CopyButton } from '@/shared/components/global/copy-button';
+import { CopyButton } from '@/shared/components/common/copy-button';
 import { Badge } from '@/shared/components/ui/badge';
 import { formatGender } from '@/shared/utils/formaters/format-gender';
 import { DataField } from '../../../data-field';

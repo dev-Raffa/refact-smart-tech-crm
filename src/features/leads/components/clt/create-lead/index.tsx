@@ -40,7 +40,7 @@ import {
 import {
   InputBuilder,
   InputType
-} from '@/shared/components/global/input-builder';
+} from '@/shared/components/common/input-builder';
 import { maskDocument, maskPhone } from '@/shared/utils';
 import { useCreateCltLeadSheet } from './use-create-clt-lead-sheet';
 import { LeadChangeOperator } from '../../change-operator';

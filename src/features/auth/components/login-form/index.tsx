@@ -7,7 +7,7 @@ import { LoginHeader } from './header';
 import { CredentialsFields } from './credentials';
 import { LoginTermsAndServices } from './terms-and-services';
 import { formDraftService } from '@/shared/services/form-draft';
-import { SubmitingButton } from '@/shared/components/global/submiting-button';
+import { SubmitingButton } from '@/shared/components/common/submiting-button';
 
 export function LoginForm() {
   const { mutateAsync: login, isPending } = useLogin();

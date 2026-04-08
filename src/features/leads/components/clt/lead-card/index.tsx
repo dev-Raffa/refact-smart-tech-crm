@@ -27,7 +27,7 @@ import { PublicServantFlagsBadge } from '../../servants/flags-badge';
 import { PublicServantFinalizationReasonBadge } from '../../servants/finalization-reason-badge';
 import { FlowExecution } from '../flow-execution';
 import { MarketingBadges } from '../../marketing-badges';
-import { CopyButton } from '@/shared/components/global/copy-button';
+import { CopyButton } from '@/shared/components/common/copy-button';
 
 function keepFirstAndLastName(fullName?: string | null) {
   if (!fullName) return '';

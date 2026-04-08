@@ -1,4 +1,4 @@
-import { PageHeader } from '@/shared/components/global/page-header';
+import { PageHeader } from '@/shared/components/common/page-header';
 import { ChartAreaInteractive } from '../components/chart';
 import { StatsCards } from '../components/stats';
 

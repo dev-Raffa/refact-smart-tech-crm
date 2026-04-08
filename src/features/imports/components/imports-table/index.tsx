@@ -8,7 +8,7 @@ import {
   DataTable,
   DataTableContent,
   PaginationControllers
-} from '@/shared/components/global/datatable';
+} from '@/shared/components/common/datatable';
 
 import { importsColumns } from './columns';
 import { ImportsSkeleton } from '../imports-form/imports-form-skeleton';

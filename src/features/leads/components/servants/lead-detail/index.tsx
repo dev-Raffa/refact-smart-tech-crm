@@ -24,7 +24,7 @@ import { PaycheckUploadSection } from './sections/paycheck-upload';
 import { PaycheckDownloadSection } from './sections/paycheck-download';
 import { LeadFluxHistory } from '../../flux-history';
 import { getFirstNameAndLastName } from '@/shared/utils/get-first-&-last-name';
-import { CopyButton } from '@/shared/components/global/copy-button';
+import { CopyButton } from '@/shared/components/common/copy-button';
 import { formatCurrencyBRL, formatDateOnly } from '@/shared/utils';
 import { PublicServantAdditionalDataSection } from './sections/additional-data';
 
