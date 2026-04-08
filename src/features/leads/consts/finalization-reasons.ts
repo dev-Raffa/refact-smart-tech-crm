@@ -1,30 +1,30 @@
 export const LeadPublicServantFinalizationReasons = {
-  NoResponse: 'Sem resposta',
-  NoInterest: 'Sem interesse',
-  ClientNotResponding: 'Cliente não responde mais'
+  'Sem resposta': 'Sem resposta',
+  'Sem interesse': 'Sem interesse',
+  'Cliente não responde mais': 'Cliente não responde mais'
 } as const;
 
 export const LeadCltFinalizationReasons = {
-  NoInterest: 'Sem interesse',
-  LeaveItForLater: 'Vai deixar pra depois',
-  ClientNotResponding: 'Cliente não responde mais'
+  'Sem interesse': 'Sem interesse',
+  'Vai deixar pra depois': 'Vai deixar pra depois',
+  'Cliente não responde mais': 'Cliente não responde mais'
 } as const;
 
 export const LeadPublicServantDisqualificationReasons = {
-  NoMargin: 'Não tem margem',
-  NoPurchase: 'Não compra',
-  DoesNotPerformService: 'Não faz o orgão'
+  'Não tem margem': 'Não tem margem',
+  'Não compra': 'Não compra',
+  'Não faz o orgão': 'Não faz o orgão'
 } as const;
 
 export const LeadFinalizationReasons = {
-  None: 'Nenhum',
-  NoInterest: 'Sem interesse',
-  NoResponse: 'Sem resposta',
-  Abandoned: 'Abandonado',
-  NoPurchase: 'Sem compra',
-  NoMargin: 'Sem margem',
-  DoesNotPerformService: 'Não realiza serviço',
-  LeaveItForLater: 'Vai deixar pra depois'
+  Nenhum: 'Nenhum',
+  'Sem interesse': 'Sem interesse',
+  'Sem resposta': 'Sem resposta',
+  Abandonado: 'Abandonado',
+  'Não compra': 'Não compra',
+  'Não tem margem': 'Não tem margem',
+  'Não realiza serviço': 'Não realiza serviço',
+  'Vai deixar pra depois': 'Vai deixar pra depois'
 } as const;
 
 export type LeadPublicServantFinalizationReason =
