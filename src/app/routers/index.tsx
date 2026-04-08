@@ -78,15 +78,6 @@ export const routers = createBrowserRouter([
               );
               return { Component: LeadsPage };
             }
-          },
-          {
-            path: 'board-test',
-            lazy: async () => {
-              const { BoardTestPage } = await import(
-                '@/features/board-test/pages'
-              );
-              return { Component: BoardTestPage };
-            }
           }
         ]
       }

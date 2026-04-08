@@ -27,7 +27,7 @@ import { PublicServantTags } from './public-servant-tags';
 import { formatCurrencyBRL, formatDate } from '@/shared/utils';
 import { PublciServantLastStepBadge } from '../last-step-badge';
 import { PublicServantFlagsBadge } from '../flags-badge';
-import { PublicServantFinalizationReasonBadge } from '../finalization-reason-badge';
+import { FinalizationReasonBadge } from '../../finalization-reason-badge';
 import { FlowExecution } from '../flow-execution';
 import { MarketingBadges } from '../../marketing-badges';
 import { CopyButton } from '@/shared/components/common/copy-button';
@@ -107,7 +107,7 @@ export function PublicServantLeadCard({ lead }: PublicServantLeadCardProps) {
               />
               <PublicServantFlagsBadge lead={lead} />
               {lead.finalizationReason !== 'None' && (
-                <PublicServantFinalizationReasonBadge
+                <FinalizationReasonBadge
                   finalizationReason={lead.finalizationReason}
                 />
               )}

@@ -24,17 +24,11 @@ import { CltTags } from './clt-tags';
 import { formatCurrencyBRL, formatDate } from '@/shared/utils';
 import { CltLastStepBadge } from '../last-step-badge';
 import { PublicServantFlagsBadge } from '../../servants/flags-badge';
-import { PublicServantFinalizationReasonBadge } from '../../servants/finalization-reason-badge';
+import { FinalizationReasonBadge } from '../../finalization-reason-badge';
 import { FlowExecution } from '../flow-execution';
 import { MarketingBadges } from '../../marketing-badges';
 import { CopyButton } from '@/shared/components/common/copy-button';
-
-function keepFirstAndLastName(fullName?: string | null) {
-  if (!fullName) return '';
-  const names = fullName.trim().split(/\s+/);
-  if (names.length <= 1) return names[0] ?? '';
-  return `${names[0]} ${names[names.length - 1]}`;
-}
+import { getFirstNameAndLastName } from '@/shared/utils/get-first-&-last-name';
 
 type CltLeadCardProps = {
   lead: Lead;
@@ -44,7 +38,7 @@ export function CltLeadCard({ lead }: CltLeadCardProps) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const setAssistanceFlagMutation = useSetReceivingAssistanceFlagMutation();
   const openHuggyChatMutation = useOpenHuggyChatMutation();
-
+  const { first, last } = getFirstNameAndLastName(lead.customer.name);
   const openFlowSheet = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsSheetOpen(true);
@@ -77,7 +71,7 @@ export function CltLeadCard({ lead }: CltLeadCardProps) {
                 className="font-semibold text-sm leading-tight truncate text-zinc-900 dark:text-zinc-100"
                 title={lead.customer.name}
               >
-                {keepFirstAndLastName(lead.customer.name)}
+                {first} {last}
               </h3>
             </div>
             <div className=" flex items-center gap-1 text-xs text-muted-foreground hover:text-emerald-700 transition-colors truncate w-full">
@@ -104,7 +98,7 @@ export function CltLeadCard({ lead }: CltLeadCardProps) {
               />
               <PublicServantFlagsBadge lead={lead} />
               {lead.finalizationReason !== 'None' && (
-                <PublicServantFinalizationReasonBadge
+                <FinalizationReasonBadge
                   finalizationReason={lead.finalizationReason}
                 />
               )}
