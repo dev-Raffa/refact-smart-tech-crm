@@ -106,11 +106,9 @@ export function PublicServantLeadCard({ lead }: PublicServantLeadCardProps) {
                 status={lead.lastFlow.status}
               />
               <PublicServantFlagsBadge lead={lead} />
-              {lead.finalizationReason !== 'None' && (
-                <FinalizationReasonBadge
-                  finalizationReason={lead.finalizationReason}
-                />
-              )}
+              <FinalizationReasonBadge
+                finalizationReason={lead.finalizationReason}
+              />
             </div>
           </div>
         </CardHeader>
