@@ -1,7 +1,8 @@
 import { type ComponentProps, forwardRef } from 'react';
-import { usePermission } from '../../hooks/use-permissions';
-import type { PermissionAction } from '../../types';
+
 import { Button } from '@/shared/components/ui/button';
+import type { PermissionAction } from '@/shared/types/permissions';
+import { usePermission } from '@/shared/hooks/use-permissions';
 
 interface ActionButtonProps extends ComponentProps<typeof Button> {
   action: PermissionAction;
