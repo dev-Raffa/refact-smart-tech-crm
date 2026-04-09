@@ -33,6 +33,7 @@ export const SystemLayout = () => {
               '--header-height': '0px'
             } as React.CSSProperties
           }
+          defaultOpen={false}
         >
           <SystemSidebar variant="inset" />
           <SidebarInset>
