@@ -129,6 +129,15 @@ export function useExecuteFlowMutation() {
     meta: { successMessage: 'Fluxo executado com sucesso!' },
     onSuccess: (_, { leadId }) => {
       queryClient.invalidateQueries({ queryKey: ['leads', leadId] });
+      queryClient.invalidateQueries({ queryKey: ['leads'] });
+      setTimeout(
+        () => queryClient.invalidateQueries({ queryKey: ['leads'] }),
+        2500
+      );
+      setTimeout(
+        () => queryClient.invalidateQueries({ queryKey: ['leads'] }),
+        5000
+      );
     }
   });
 }

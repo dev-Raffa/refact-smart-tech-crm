@@ -86,7 +86,7 @@ export function LeadBoardColumn({
         <ColumnFilterMenu columnId={id} options={filters} />
       </BoardColumnFilters>
 
-      <div className="flex w-[320px] lg:w-[420px] flex-col pt-4 pb-4 px-4 flex-1 overflow-y-auto no-scrollbar relative">
+      <div className="flex w-[300px] lg:w-[360px] flex-col pt-4 pb-4 px-4 flex-1 overflow-y-auto no-scrollbar relative">
         {isLoading ? (
           <div className="flex flex-1 items-center justify-center">
             <Loader2 className="h-6 w-6 animate-spin text-emerald-600 opacity-60" />

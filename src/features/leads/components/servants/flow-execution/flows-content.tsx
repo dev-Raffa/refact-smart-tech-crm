@@ -9,7 +9,6 @@ export const FlowsContent = ({ lead }: { lead: Lead }) => {
     flows,
     loading,
     executing,
-    results,
     formState,
     handleExecute,
     updateForm,
@@ -50,7 +49,6 @@ export const FlowsContent = ({ lead }: { lead: Lead }) => {
             flow={flow}
             state={formState[flow.id] ?? {}}
             isExecuting={executing.has(flow.id)}
-            result={results.get(flow.id)}
             onExecute={handleExecute}
             onFormChange={updateForm}
           />

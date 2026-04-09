@@ -1,6 +1,5 @@
 import { Play, RefreshCw } from 'lucide-react';
 
-import { Badge } from '@/shared/components/ui/badge';
 import { Button } from '@/shared/components/ui/button';
 import {
   Card,
@@ -22,11 +21,7 @@ import {
   LeadPublicServantDisqualificationReasons
 } from '../../../consts/finalization-reasons';
 import type { LeadFinalizationReason } from '../../../consts/finalization-reasons';
-import type {
-  AvailableFlow,
-  FlowExecutionResult,
-  FlowFormState
-} from '../../../types/flow.types';
+import type { AvailableFlow, FlowFormState } from '../../../types/flow.types';
 import { FLOW_IDS } from '../../../types/flow.types';
 import type { Lead, LeadStage } from '../../../types/lead.model';
 
@@ -35,7 +30,6 @@ interface FlowCardProps {
   flow: AvailableFlow;
   state: FlowFormState;
   isExecuting: boolean;
-  result?: FlowExecutionResult;
   onExecute: (flow: AvailableFlow) => void;
   onFormChange: (flowId: string, data: Partial<FlowFormState>) => void;
 }
@@ -45,7 +39,6 @@ export function FlowCard({
   flow,
   state,
   isExecuting,
-  result,
   onExecute,
   onFormChange
 }: FlowCardProps) {
@@ -59,15 +52,15 @@ export function FlowCard({
 
   if (isStageChange) {
     return (
-      <Card className="border-zinc-200 dark:border-zinc-800 shadow-none">
-        <CardHeader>
+      <Card className="border-zinc-200 dark:border-zinc-800 shadow-none py-3 gap-y-4">
+        <CardHeader className="px-3">
           <CardTitle className="text-sm font-semibold">{flow.title}</CardTitle>
           <CardDescription className="text-xs line-clamp-2">
             {flow.description}
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 gap-8 items-center">
+        <CardContent className="px-3">
+          <div className="grid grid-cols-2 gap-4 items-center">
             <Select
               value={state.stage ?? leadStage ?? ''}
               onValueChange={(v) =>
@@ -102,15 +95,6 @@ export function FlowCard({
               </span>
             </Button>
           </div>
-
-          {result && (
-            <Badge
-              variant="outline"
-              className="text-[10px] py-0 h-5 font-normal bg-zinc-50 border-zinc-200 text-zinc-600"
-            >
-              {result.reason}
-            </Badge>
-          )}
         </CardContent>
       </Card>
     );
@@ -118,23 +102,23 @@ export function FlowCard({
 
   return (
     requiresReason && (
-      <Card className="border-zinc-200 dark:border-zinc-800 shadow-none">
-        <CardHeader>
+      <Card className="border-zinc-200 dark:border-zinc-800 shadow-none py-3 gap-y-4">
+        <CardHeader className="px-3">
           <CardTitle className="text-sm font-semibold">{flow.title}</CardTitle>
           <CardDescription className="text-xs line-clamp-2">
             {flow.description}
           </CardDescription>
         </CardHeader>
 
-        <CardContent>
-          <div className="grid grid-cols-2 gap-8 items-center">
+        <CardContent className="px-3">
+          <div className="grid grid-cols-2 gap-4 items-center">
             <Select
               value={state.reason ?? ''}
               onValueChange={(v) =>
                 onFormChange(flow.id, { reason: v as LeadFinalizationReason })
               }
             >
-              <SelectTrigger className="h-9 text-xs">
+              <SelectTrigger className="h-9 text-xs w-full">
                 <SelectValue placeholder="Selecione o motivo" />
               </SelectTrigger>
               <SelectContent>
@@ -172,15 +156,6 @@ export function FlowCard({
               </span>
             </Button>
           </div>
-
-          {result && (
-            <Badge
-              variant="outline"
-              className="text-[10px] py-0 h-5 font-normal bg-zinc-50 border-zinc-200 text-zinc-600"
-            >
-              {result.reason}
-            </Badge>
-          )}
         </CardContent>
       </Card>
     )
