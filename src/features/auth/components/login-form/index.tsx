@@ -17,7 +17,7 @@ export function LoginForm() {
   const form = useForm<LoginFormSchema>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
-      tenant: draft?.tenant || '',
+      tenant: draft?.tenant || 'smartconsig',
       username: '',
       password: ''
     }
