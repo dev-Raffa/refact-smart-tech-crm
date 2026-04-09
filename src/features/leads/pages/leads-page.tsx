@@ -32,6 +32,7 @@ export const LeadsPage = () => {
             className="w-full"
           >
             <TabsList className="p-1 mb-2">
+              {}
               <TabsTrigger asChild value="inss" className="px-6">
                 <ActionButton
                   variant={'ghost'}
@@ -49,22 +50,24 @@ export const LeadsPage = () => {
                 </ActionButton>
               </TabsTrigger>
             </TabsList>
-
-            <TabsContent
-              value="inss"
-              forceMount
-              className="mt-6 border-none p-0 outline-none flex-1 flex-col min-h-0 data-[state=active]:flex data-[state=inactive]:hidden"
-            >
-              <PublicServantLeadBoard />
-            </TabsContent>
-
-            <TabsContent
-              value="clt"
-              forceMount
-              className="mt-6 border-none p-0 outline-none flex-1 flex-col min-h-0 data-[state=active]:flex data-[state=inactive]:hidden"
-            >
-              <CLTLeadBoard />
-            </TabsContent>
+            {canManageServants && (
+              <TabsContent
+                value="inss"
+                forceMount
+                className="mt-6 border-none p-0 outline-none flex-1 flex-col min-h-0 data-[state=active]:flex data-[state=inactive]:hidden"
+              >
+                <PublicServantLeadBoard />
+              </TabsContent>
+            )}
+            {canManageCLT && (
+              <TabsContent
+                value="clt"
+                forceMount
+                className="mt-6 border-none p-0 outline-none flex-1 flex-col min-h-0 data-[state=active]:flex data-[state=inactive]:hidden"
+              >
+                <CLTLeadBoard />
+              </TabsContent>
+            )}
           </Tabs>
         )}
       </div>
