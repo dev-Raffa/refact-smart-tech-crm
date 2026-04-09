@@ -16,8 +16,6 @@ export const LeadsPage = () => {
   const canManageServants = can('Servants:manage');
   const canManageCLT = can('clt:manage');
 
-  console.log(canManageServants, canManageCLT);
-
   return (
     <>
       <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6 px-4 lg:px-6">

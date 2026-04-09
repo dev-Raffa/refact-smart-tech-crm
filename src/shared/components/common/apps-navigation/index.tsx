@@ -13,7 +13,7 @@ export const AppsNavigation = () => {
             href={
               !app.active ? `${app.href}/authorize/sso?token=${token}` : '#'
             }
-            target={!app.active ? '_blank' : undefined}
+            target={!app.active ? '_self' : undefined}
             rel={!app.active ? 'noopener noreferrer' : undefined}
             className={`
               group flex items-center h-full cursor-pointer p-1 rounded-full bg-background 
