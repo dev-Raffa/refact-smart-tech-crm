@@ -19,7 +19,7 @@ export const FlowExecution = ({ lead }: { lead: Lead }) => {
       <SheetTrigger asChild>
         <Button
           variant={'outline'}
-          className="w-full h-8 flex-1 bg-zinc-50 hover:bg-zinc-100 text-xs text-zinc-600 dark:bg-zinc-900 border-zinc-200"
+          className="w-full h-8 flex-1 bg-zinc-50 hover:bg-zinc-100 text-xs text-zinc-600 dark:text-zinc-300 dark:bg-zinc-900 border-zinc-200"
         >
           Ações
           <Play className="w-4 h-4 ml-2" />

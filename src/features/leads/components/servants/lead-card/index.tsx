@@ -128,7 +128,7 @@ export function PublicServantLeadCard({ lead }: PublicServantLeadCardProps) {
             onClick={openHuggyChat}
             variant="outline"
             disabled={openHuggyChatMutation.isPending}
-            className="h-8 flex-1 bg-zinc-50 hover:bg-zinc-100 text-xs text-zinc-600 dark:bg-zinc-900 border-zinc-200"
+            className="h-8 flex-1 bg-zinc-50 hover:bg-zinc-100 text-xs text-zinc-600 dark:text-zinc-300 dark:bg-zinc-900 border-zinc-200"
           >
             Chat
             <MessageSquare className="w-3.5 h-3.5 ml-1.5" />

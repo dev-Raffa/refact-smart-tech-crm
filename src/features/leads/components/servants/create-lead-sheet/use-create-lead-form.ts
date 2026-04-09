@@ -1,14 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
 import { z } from 'zod';
 
 import type { FileWithPreview } from '@/shared/components/common/file-picker/types';
 
-import {
-  useCreateInssLeadMutation,
-  useUploadLeadDocumentMutation
-} from '../../../hooks/use-mutations';
+import { useCreateInssLeadMutation } from '../../../hooks/use-mutations';
 
 const inssManualLeadFormSchema = z
   .object({
@@ -53,8 +49,6 @@ export type InssManualLeadFormValues = z.infer<typeof inssManualLeadFormSchema>;
 export function useCreateLeadForm(onSuccess?: () => void) {
   const { mutateAsync: createLead, isPending: isCreating } =
     useCreateInssLeadMutation();
-  const { mutateAsync: uploadDocument, isPending: isUploading } =
-    useUploadLeadDocumentMutation();
 
   const form = useForm<InssManualLeadFormValues>({
     resolver: zodResolver(inssManualLeadFormSchema),
@@ -71,43 +65,30 @@ export function useCreateLeadForm(onSuccess?: () => void) {
 
   const onSubmit = async (values: InssManualLeadFormValues) => {
     const fileWithPreview = values.contraCheque?.[0] as FileWithPreview;
-    const file = fileWithPreview.file;
+    const file = fileWithPreview?.file;
 
-    try {
-      const leadId = await createLead({
-        name: values.nome,
-        cpf: values.cpf,
-        phoneNumber: values.phoneNumber,
-        servantInformation: {
-          governmentLevel: values.orgao,
-          cityHall: values.prefeitura || '',
-          state: values.estado || ''
-        },
-        product: 'Inss',
-        stageName: 'NewLead',
-        operator: values.operator
-      });
+    await createLead({
+      name: values.nome,
+      cpf: values.cpf,
+      phoneNumber: values.phoneNumber,
+      servantInformation: {
+        governmentLevel: values.orgao,
+        cityHall: values.prefeitura || '',
+        state: values.estado || ''
+      },
+      product: 'Inss',
+      stageName: 'NewLead',
+      operator: values.operator,
+      file: file ? (file as File) : undefined
+    });
 
-      if (leadId) {
-        await uploadDocument({
-          leadId,
-          file: file as File
-        });
-
-        toast.success('Lead criado com sucesso!');
-        form.reset();
-        onSuccess?.();
-      }
-    } catch (error) {
-      console.error('Erro ao criar lead:', error);
-      // O erro já é tratado pelo interceptor/mutation meta geralmente,
-      // mas mantemos o log aqui para debug.
-    }
+    form.reset();
+    onSuccess?.();
   };
 
   return {
     form,
     onSubmit: form.handleSubmit(onSubmit),
-    isSubmitting: isCreating || isUploading
+    isSubmitting: isCreating
   };
 }

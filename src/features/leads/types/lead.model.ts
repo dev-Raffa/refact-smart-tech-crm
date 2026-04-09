@@ -263,6 +263,7 @@ export interface CreateInssLeadRequest {
     name: string;
     username: string;
   };
+  file?: File;
 }
 
 export interface CreateCltLeadRequest {

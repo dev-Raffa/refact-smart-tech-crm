@@ -180,6 +180,14 @@ export class LeadService {
         '/simulations',
         data
       );
+
+      if (leadId && data.file) {
+        await LeadService.uploadLeadDocument({
+          leadId,
+          file: data.file
+        });
+      }
+
       return leadId;
     } catch (error) {
       handleLeadError(error, 'createInssLead');
