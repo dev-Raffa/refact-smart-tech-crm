@@ -1,9 +1,7 @@
 import { Badge } from '@/shared/components/ui/badge';
-import type {
-  LeadLastFlowExecutionStatus,
-  LeadCltFlowName
-} from '@/features/leads/types/lead.model';
+import type { LeadLastFlowExecutionStatus } from '@/features/leads/types/lead.model';
 import { getCltBadgeConfig } from '../../utils/get-clt-badge-config';
+import type { LeadCltFlowName } from '../../consts/steps';
 
 export const CltLastStepBadge = ({
   step,
