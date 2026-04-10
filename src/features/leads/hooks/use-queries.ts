@@ -34,27 +34,11 @@ export function useLeadsQuery(params: GetLeadsParams, enabled = true) {
   });
 }
 
-export function useLeadFlowStepsQuery(leadId: string) {
-  return useQuery({
-    queryKey: ['leads', leadId, 'flow-steps'],
-    queryFn: () => LeadService.getFlowSteps(leadId),
-    enabled: !!leadId
-  });
-}
-
 export function useLeadDetailsQuery(leadId: string) {
   return useQuery({
     queryKey: ['leads', leadId, 'details'],
     queryFn: () => LeadService.getLeadDetails(leadId),
     enabled: !!leadId
-  });
-}
-
-export function useLeadPaySlipUrlQuery(name: string) {
-  return useQuery({
-    queryKey: ['leads', name, 'pay-slip-url'],
-    queryFn: () => LeadService.getPaySlipUrl(name),
-    enabled: !!name
   });
 }
 

@@ -14,11 +14,6 @@ import type {
   GetLeadsParams,
   MoveLeadParams,
   FlowStep,
-  LeadOperator,
-  CreateInssLeadRequest,
-  CreateCltLeadRequest,
-  UploadLeadDocumentParams,
-  SetApprovedBankParams,
   ChangeOperatorParams,
   LeadDetails,
   LeadFiltersValuesOptions
@@ -139,101 +134,11 @@ export class LeadService {
     }
   }
 
-  public static async setApprovedBank({
-    leadId,
-    data
-  }: SetApprovedBankParams): Promise<void> {
-    try {
-      await httpClient.post(`/simulations/${leadId}/approved-bank`, data);
-    } catch (error) {
-      handleLeadError(error, 'setApprovedBank');
-    }
-  }
-
-  public static async changeBankApproved({
-    leadId,
-    data
-  }: SetApprovedBankParams): Promise<void> {
-    try {
-      await httpClient.patch(
-        `/simulations/${leadId}/change-approved-bank`,
-        data
-      );
-    } catch (error) {
-      handleLeadError(error, 'changeBankApproved');
-    }
-  }
-
   public static async deleteSimulation(leadId: string): Promise<void> {
     try {
       await httpClient.delete(`/simulations/${leadId}`);
     } catch (error) {
       handleLeadError(error, 'deleteSimulation');
-    }
-  }
-
-  public static async createInssLead(
-    data: CreateInssLeadRequest
-  ): Promise<string> {
-    try {
-      const { data: leadId } = await httpClient.post<string>(
-        '/simulations',
-        data
-      );
-
-      if (leadId && data.file) {
-        await LeadService.uploadLeadDocument({
-          leadId,
-          file: data.file
-        });
-      }
-
-      return leadId;
-    } catch (error) {
-      handleLeadError(error, 'createInssLead');
-    }
-  }
-
-  public static async createCltLead(data: CreateCltLeadRequest): Promise<void> {
-    try {
-      await httpClient.post('/simulations/add-manually-payment', data);
-    } catch (error) {
-      handleLeadError(error, 'createCltLead');
-    }
-  }
-
-  public static async uploadLeadDocument({
-    leadId,
-    file
-  }: UploadLeadDocumentParams): Promise<void> {
-    try {
-      const formData = new FormData();
-      const formattedId = leadId.includes('-')
-        ? leadId
-        : leadId.replace(/^(.{8})(.{4})(.{4})(.{4})(.{12})$/, '$1-$2-$3-$4-$5');
-
-      formData.append('File', file);
-      formData.append('fileName', formattedId);
-
-      await httpClient.post('/files/import/document', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-    } catch (error) {
-      handleLeadError(error, 'uploadLeadDocument');
-    }
-  }
-
-  public static async getPaySlipUrl(leadId: string): Promise<string> {
-    try {
-      const { data } = await httpClient.get<string>(
-        `/documents/${encodeURIComponent(leadId)}`
-      );
-
-      return data;
-    } catch (error: any) {
-      handleLeadError(error, 'getPaySlipUrl');
     }
   }
 
@@ -253,22 +158,6 @@ export class LeadService {
       );
     } catch (error) {
       handleLeadError(error, 'changeOperator');
-    }
-  }
-
-  public static async getOperatorsByRole(
-    kind: string
-  ): Promise<LeadOperator[]> {
-    try {
-      const { data } = await httpClient.get<LeadOperatorDTO[]>(
-        '/daily-operation/based-on-role',
-        {
-          params: { Kind: kind }
-        }
-      );
-      return LeadMapper.toOperatorModelList(data);
-    } catch (error) {
-      handleLeadError(error, 'getOperatorsByRole');
     }
   }
 

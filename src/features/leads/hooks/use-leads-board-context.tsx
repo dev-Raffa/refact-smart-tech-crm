@@ -16,7 +16,7 @@ import { useLeadFiltersValuesOptionsQuery } from './use-queries';
 import type {
   LeadFiltersValuesOptions,
   LeadOperator,
-  LeadProduct
+  LeadSegments
 } from '../types/lead.model';
 
 interface LeadsBoardContextValue {
@@ -31,7 +31,7 @@ export const LeadsBoardContext = createContext<
 
 interface LeadsBoardProviderProps {
   children: ReactNode;
-  defaultProducts: LeadProduct[];
+  defaultProducts: LeadSegments[];
 }
 
 export function LeadsBoardProvider({

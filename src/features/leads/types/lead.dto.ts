@@ -8,7 +8,7 @@ export interface LeadTagsDTO {
   tagId: number;
   label: string;
   category: 'Audience' | 'Source';
-  product: 'Inss' | 'Clt';
+  product: 'Inss' | 'Clt' | 'PublicServant';
 }
 
 export interface LeadChatDTO {

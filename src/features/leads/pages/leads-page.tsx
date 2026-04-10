@@ -4,11 +4,11 @@ import {
   TabsList,
   TabsTrigger
 } from '@/shared/components/ui/tabs';
-import { PublicServantLeadBoard } from '../components/servants/lead-board';
 import { BriefcaseBusiness, Landmark } from 'lucide-react';
-import { CLTLeadBoard } from '../components/clt/lead-board';
 import { usePermission } from '@/shared/hooks/use-permissions';
 import { ActionButton } from '@/shared/components/common/action-button';
+import { CLTLeadBoard } from '../segments/clt/components/lead-board';
+import { PublicServantLeadBoard } from '../segments/public-servants/components/lead-board';
 
 export const LeadsPage = () => {
   const { can } = usePermission();

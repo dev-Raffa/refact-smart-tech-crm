@@ -3,7 +3,6 @@ import type {
   LeadDTO,
   LeadCustomerDTO,
   FlowStepDTO,
-  PartnerInformationsDTO,
   LeadOperatorDTO,
   LeadCustomerDetailsDTO,
   LeadTagsDTO,
@@ -13,27 +12,28 @@ import type {
 } from '../types/lead.dto';
 import type {
   Lead,
-  LeadProduct,
+  LeadSegments,
   LeadStage,
   GetLeadsParams,
   LeadCustomer,
   FlowStep,
-  PartnerInformations,
   LeadOperator,
   LeadDetails,
   LeadLastFlowExecutionStatus,
-  LeadPublicServantFlowName,
-  LeadCltFlowName,
-  LeadFiltersValuesOptions,
-  OfferInformation,
-  ProductOfferInformation,
-  LeadCltDetails
+  LeadFiltersValuesOptions
 } from '../types/lead.model';
 import { translateGovernamentLevel } from '../utils/translate-governamental-level';
 import { normalizeServantOrigin } from '../utils/normalize-servant-origin';
 import { getCustomerProneNumbers } from '../utils/get-customer-phone-number';
 import type { LeadFinalizationReason } from '../consts/finalization-reasons';
 import { parseEmoji } from '@/shared/utils/parse-emoji';
+import type { LeadPublicServantFlowName } from '../segments/public-servants/consts/steps';
+import type { LeadCltFlowName } from '../segments/clt/consts/steps';
+import type {
+  LeadCltDetails,
+  OfferInformation,
+  ProductOfferInformation
+} from '../segments/clt/types/models';
 
 export class LeadMapper {
   public static toModel(dto: LeadDTO): Lead {
@@ -44,7 +44,7 @@ export class LeadMapper {
       stageName: dto.stageName as LeadStage,
       approvedBank: dto.approvedBank,
       finalizationReason: dto.finalizationReason as LeadFinalizationReason,
-      products: dto.products as LeadProduct[],
+      products: dto.products as LeadSegments[],
       customer: LeadMapper.toCustomerModel(dto.customer),
       marketing: dto.customer.marketingDetails
         ? {
@@ -288,17 +288,7 @@ export class LeadMapper {
         : undefined,
       payslip: dto.customer.documentFileName ?? undefined,
       history: history.map(LeadMapper.toFlowStepModel),
-      offers: partnerInfo ? this.toProductOfferModel(partnerInfo) : undefined,
-      facta: partnerInfo?.factaUsefulInformations
-        ? {
-            formalizationCode:
-              partnerInfo.factaUsefulInformations.factaFormalizationCode ??
-              undefined,
-            formalizationLink:
-              partnerInfo.factaUsefulInformations.factaFormalizationLink ??
-              undefined
-          }
-        : undefined
+      offers: partnerInfo ? this.toProductOfferModel(partnerInfo) : undefined
     };
   }
 
@@ -382,16 +372,6 @@ export class LeadMapper {
     return dtos.map(LeadMapper.toFlowStepModel);
   }
 
-  public static toPartnerInformationsModel(
-    dto: PartnerInformationsDTO
-  ): PartnerInformations {
-    return {
-      bankName: dto.bankName,
-      status: dto.status,
-      updatedAt: dto.updatedAt
-    };
-  }
-
   public static toOperatorModel(dto: LeadOperatorDTO): LeadOperator {
     return {
       id: dto.id,
@@ -399,10 +379,6 @@ export class LeadMapper {
       username: dto.username,
       teamDetails: dto.teamDetails ?? undefined
     };
-  }
-
-  public static toOperatorModelList(dtos: LeadOperatorDTO[]): LeadOperator[] {
-    return dtos.map(LeadMapper.toOperatorModel);
   }
 
   public static toLeadFiltersValuesOptionsModel(

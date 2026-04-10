@@ -1,14 +1,14 @@
 import { useReducer } from 'react';
 import type {
   LeadFiltersValuesOptions,
-  LeadProduct,
+  LeadSegments,
   GetLeadsParams
 } from '../../types/lead.model';
 import type { LeadsTextFilterType } from './text-filter/use-text-filter';
 import { format, subDays } from 'date-fns';
 
 export interface LeadsFiltersState {
-  products: LeadProduct[];
+  products: LeadSegments[];
   isFilterOptionsLoading: boolean;
   filterOptions: LeadFiltersValuesOptions;
   withConversationStatus: 'All' | 'OnlyFinalized' | 'OnlyInProgress';
@@ -25,7 +25,7 @@ export interface LeadsFiltersState {
 }
 
 export type LeadsFiltersAction =
-  | { type: 'SET_PRODUCTS'; payload: LeadProduct[] }
+  | { type: 'SET_PRODUCTS'; payload: LeadSegments[] }
   | { type: 'SET_FILTER_OPTIONS'; payload: LeadFiltersValuesOptions }
   | { type: 'SET_STATUS'; payload: 'All' | 'OnlyFinalized' | 'OnlyInProgress' }
   | { type: 'SET_OPERATOR_IDS'; payload: string[] }
@@ -43,7 +43,7 @@ export type LeadsFiltersAction =
       type: 'SET_COLUMN_FILTER';
       payload: { columnId: string; filter: Partial<GetLeadsParams> };
     }
-  | { type: 'RESET_FILTERS'; payload: { products: LeadProduct[] } };
+  | { type: 'RESET_FILTERS'; payload: { products: LeadSegments[] } };
 
 function leadsFiltersReducer(
   state: LeadsFiltersState,
@@ -118,7 +118,7 @@ function leadsFiltersReducer(
   }
 }
 
-export function useLeadsFilters(defaultProducts: LeadProduct[]) {
+export function useLeadsFilters(defaultProducts: LeadSegments[]) {
   const now = new Date();
   const todayStr = format(now, 'yyyy-MM-dd');
   const startStr = format(subDays(now, 29), 'yyyy-MM-dd');

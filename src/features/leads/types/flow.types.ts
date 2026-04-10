@@ -49,8 +49,6 @@ export const FLOW_IDS = {
   SIMULATION_OFFERS: '461828'
 } as const;
 
-export type FlowId = (typeof FLOW_IDS)[keyof typeof FLOW_IDS];
-
 export const FLOW_STAGE_MAPPING: Record<string, LeadStage> = {
   NewLead: 'NewLead',
   Negotiation: 'Negotiation',
