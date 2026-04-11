@@ -1,3 +1,4 @@
+import type { Lead } from '@/features/leads/types/lead.model';
 import { z } from 'zod';
 
 export const CreatePublicServantLeadSchema = z
@@ -46,4 +47,8 @@ export interface LeadPublicServantDetails {
   governamentLevel?: string;
   cityHall?: string;
   state?: string;
+}
+
+export interface PublicServantLead extends Lead {
+  publicServantDetails: LeadPublicServantDetails;
 }

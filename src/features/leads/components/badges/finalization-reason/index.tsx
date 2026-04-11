@@ -2,7 +2,7 @@ import { Badge } from '@/shared/components/ui/badge';
 import { LeadBadgeColors } from '@/features/leads/consts/badge-colors';
 
 type FinalizationReasonBadgeProps = {
-  finalizationReason: string;
+  finalizationReason: string | null | undefined;
 };
 
 export function FinalizationReasonBadge({

@@ -1,31 +1,8 @@
+import type { CltLead } from '../types/models';
 import type { LeadDTO } from '@/features/leads/types/lead.dto';
-import type { CreatePublicServantLeadDto } from '../types/dtos';
-import type {
-  CreatePublicServantLead,
-  PublicServantLead
-} from '../types/models';
 
-export class PublicServantsLeadMapper {
-  public static toCreateDto(
-    data: CreatePublicServantLead
-  ): CreatePublicServantLeadDto {
-    return {
-      name: data.nome,
-      cpf: data.cpf,
-      phoneNumber: data.phoneNumber,
-      servantInformation: {
-        governmentLevel: data.orgao,
-        cityHall: data.prefeitura || '',
-        state: data.estado || ''
-      },
-      product: 'PublicServant',
-      stageName: 'NewLead',
-      operator: data.operator,
-      file: data.contraCheque?.[0] as File | undefined
-    };
-  }
-
-  public static toLead(dto: LeadDTO): PublicServantLead {
+export class CltLeadMapper {
+  public static toLead(dto: LeadDTO): CltLead {
     return {
       id: dto.id,
       date: dto.date,
@@ -56,12 +33,8 @@ export class PublicServantsLeadMapper {
             audience: 'NÃO INFORMADO'
           },
       operator: dto.operator || undefined,
-      publicServantDetails: {
-        governamentLevel:
-          dto.publicServantDetails?.governmentLevel || 'Não informado',
-        cityHall: dto.publicServantDetails?.cityHall || 'Não informado',
-        state: dto.publicServantDetails?.state || 'Não informado'
-      }
+      products: dto.products,
+      approvedBank: dto.approvedBank
     };
   }
 }

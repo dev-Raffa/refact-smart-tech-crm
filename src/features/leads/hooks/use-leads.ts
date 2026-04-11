@@ -1,29 +1,17 @@
-import { useLeadsQuery } from './use-queries';
 import { useLeadsBoardContext } from './use-leads-board-context';
-import type { LeadStage, Lead } from '../types/lead.model';
+import type { LeadStage, GetLeadsParams } from '../types/lead.model';
 import type { PaginatedResponse } from '@/shared/types/paginated-response';
-
 import type { InfiniteData } from '@tanstack/react-query';
 
-const EMPTY_PAGE: InfiniteData<PaginatedResponse<Lead>> = {
-  pages: [
-    {
-      pageNumber: 1,
-      pageSize: 30,
-      totalResults: 0,
-      totalPages: 0,
-      results: []
-    }
-  ],
-  pageParams: [1]
-};
-
-export function useLeads(stageId: LeadStage) {
+export function useLeads<T>(
+  stageId: LeadStage,
+  queryHook: (params: GetLeadsParams, enabled: boolean) => any
+) {
   const { state } = useLeadsBoardContext();
   const columnFilter = state.columnFilters[stageId] || {};
   const hasOperatorsSelected = state.operatorIds.length > 0;
 
-  const query = useLeadsQuery(
+  const query = queryHook(
     {
       ...state,
       ...columnFilter,
@@ -39,6 +27,19 @@ export function useLeads(stageId: LeadStage) {
     },
     hasOperatorsSelected
   );
+
+  const EMPTY_PAGE: InfiniteData<PaginatedResponse<T>> = {
+    pages: [
+      {
+        pageNumber: 1,
+        pageSize: 30,
+        totalResults: 0,
+        totalPages: 0,
+        results: []
+      }
+    ],
+    pageParams: [1]
+  };
 
   return {
     ...query,

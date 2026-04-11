@@ -1,6 +1,5 @@
 import { parse, startOfDay, endOfDay } from 'date-fns';
 import type {
-  LeadDTO,
   LeadCustomerDTO,
   FlowStepDTO,
   LeadOperatorDTO,
@@ -11,106 +10,25 @@ import type {
   ApprovedBanksDTO
 } from '../types/lead.dto';
 import type {
-  Lead,
-  LeadSegments,
-  LeadStage,
   GetLeadsParams,
-  LeadCustomer,
+  OldLeadCustomer,
   FlowStep,
-  LeadOperator,
+  OldLeadOperator,
   LeadDetails,
   LeadLastFlowExecutionStatus,
   LeadFiltersValuesOptions
 } from '../types/lead.model';
 import { translateGovernamentLevel } from '../utils/translate-governamental-level';
-import { normalizeServantOrigin } from '../utils/normalize-servant-origin';
 import { getCustomerProneNumbers } from '../utils/get-customer-phone-number';
-import type { LeadFinalizationReason } from '../consts/finalization-reasons';
 import { parseEmoji } from '@/shared/utils/parse-emoji';
-import type { LeadPublicServantFlowName } from '../segments/public-servants/consts/steps';
-import type { LeadCltFlowName } from '../segments/clt/consts/steps';
 import type {
   LeadCltDetails,
   OfferInformation,
   ProductOfferInformation
 } from '../segments/clt/types/models';
+import { removeDuplicatesInArray } from '@/shared/utils/remove-duplicates-in-array';
 
 export class LeadMapper {
-  public static toModel(dto: LeadDTO): Lead {
-    return {
-      id: dto.id,
-      date: dto.date,
-      availableBalance: dto.availableBalance,
-      stageName: dto.stageName as LeadStage,
-      approvedBank: dto.approvedBank,
-      finalizationReason: dto.finalizationReason as LeadFinalizationReason,
-      products: dto.products as LeadSegments[],
-      customer: LeadMapper.toCustomerModel(dto.customer),
-      marketing: dto.customer.marketingDetails
-        ? {
-            source: dto.customer.marketingDetails.source,
-            audience: dto.customer.marketingDetails.audience
-          }
-        : {
-            source: 'NÃO INFORMADO',
-            audience: 'NÃO INFORMADO'
-          },
-      operator: dto.operator
-        ? {
-            id: dto.operator.id,
-            name: dto.operator.name,
-            username: dto.operator.username,
-            teamDetails: dto.operator.teamDetails ?? undefined
-          }
-        : undefined,
-      lastFlow: dto.lastFlow
-        ? {
-            bank: dto.lastFlow.bank,
-            flowName: dto.lastFlow.flowName as
-              | LeadPublicServantFlowName
-              | LeadCltFlowName,
-            cadence: dto.lastFlow.cadence,
-            status: dto.lastFlow.status as LeadLastFlowExecutionStatus,
-            needsHumanHelp: dto.lastFlow.needsHumanHelp,
-            user: dto.lastFlow.user ?? '',
-            receivingAssistance: dto.lastFlow.receivingAssistance,
-            executedAt: dto.lastFlow.executedAt,
-            attempt: dto.lastFlow.attempt,
-            technicalResponseDetails:
-              dto.lastFlow.technicalResponseDetails ?? undefined
-          }
-        : {
-            bank: 'Não informado',
-            flowName: 'None',
-            cadence: 'none',
-            status: 'RunSuccessfully' as LeadLastFlowExecutionStatus,
-            needsHumanHelp: false,
-            user: '',
-            receivingAssistance: false,
-            executedAt: new Date().toISOString(),
-            attempt: 0
-          },
-      publicServantDetails: dto.publicServantDetails
-        ? {
-            governamentLevel: translateGovernamentLevel(
-              dto.publicServantDetails.governmentLevel
-            ),
-            cityHall: normalizeServantOrigin(dto.publicServantDetails.cityHall),
-            state: normalizeServantOrigin(dto.publicServantDetails.state)
-          }
-        : {
-            governamentLevel: 'Não informado',
-            cityHall: 'Não informado',
-            state: 'Não informado'
-          },
-      cltDetails: LeadMapper.toCltDetailsModel(dto.customer.cltDetails)
-    };
-  }
-
-  public static toModelList(dtos: LeadDTO[]): Lead[] {
-    return dtos.map(LeadMapper.toModel);
-  }
-
   public static toQueryParams(params: GetLeadsParams): Record<string, unknown> {
     const query: Record<string, unknown> = {
       'pageFilter.page': params.page,
@@ -121,7 +39,7 @@ export class LeadMapper {
       query.stages = params.stages.join(',');
     }
 
-    if (params.products) query.products = params.products;
+    if (params.products) query.product = params.products;
     if (params.operatorIds) query.operatorIds = params.operatorIds;
     if (params.source) query.source = params.source;
     if (params.audience) query.audience = params.audience;
@@ -233,7 +151,7 @@ export class LeadMapper {
     return query;
   }
 
-  public static toCustomerModel(dto: LeadCustomerDTO): LeadCustomer {
+  public static toCustomerModel(dto: LeadCustomerDTO): OldLeadCustomer {
     return {
       name: parseEmoji(dto.name),
       cpf: dto.cpf ?? 'Não informado',
@@ -372,7 +290,7 @@ export class LeadMapper {
     return dtos.map(LeadMapper.toFlowStepModel);
   }
 
-  public static toOperatorModel(dto: LeadOperatorDTO): LeadOperator {
+  public static toOperatorModel(dto: LeadOperatorDTO): OldLeadOperator {
     return {
       id: dto.id,
       name: dto.name,
@@ -385,8 +303,10 @@ export class LeadMapper {
     operators: LeadOperatorDTO[],
     tags: LeadTagsDTO[]
   ): LeadFiltersValuesOptions {
+    const uniqueOperators = removeDuplicatesInArray(operators, 'id');
+
     return {
-      operators: operators.map(LeadMapper.toOperatorModel),
+      operators: uniqueOperators.map(LeadMapper.toOperatorModel),
       sources: tags
         .filter((tag) => tag.category === 'Source')
         .map((tag) => tag.label),

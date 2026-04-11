@@ -16,7 +16,7 @@ import {
 } from '@/shared/components/ui/command';
 import { cn } from '@/shared/utils';
 import { useLeadsBoardContext } from '../../../hooks/use-leads-board-context';
-import type { LeadOperator } from '../../../types/lead.model';
+import type { OldLeadOperator } from '../../../types/lead.model';
 import { Skeleton } from '@/shared/components/ui/skeleton';
 
 export function LeadsOperatorsFilter() {
@@ -33,7 +33,7 @@ export function LeadsOperatorsFilter() {
   };
 
   const availableOperators = rawOperators?.filter(
-    (op): op is LeadOperator => !!op
+    (op): op is OldLeadOperator => !!op
   );
   const hasOnlyOneAvailableOperator = availableOperators?.length === 1;
 

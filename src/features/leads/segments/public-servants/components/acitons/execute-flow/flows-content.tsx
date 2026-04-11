@@ -2,9 +2,9 @@ import { RefreshCw } from 'lucide-react';
 import { FlowCard } from './flow-card';
 import { useFlowExecution } from './use-flow-execution';
 import { useEffect } from 'react';
-import type { Lead } from '@/features/leads/types/lead.model';
+import type { PublicServantLead } from '../../../types/models';
 
-export const FlowsContent = ({ lead }: { lead: Lead }) => {
+export const FlowsContent = ({ lead }: { lead: PublicServantLead }) => {
   const {
     flows,
     loading,

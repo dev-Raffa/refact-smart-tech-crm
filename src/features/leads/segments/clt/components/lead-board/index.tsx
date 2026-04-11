@@ -8,8 +8,10 @@ import type { IBoardColumnConfig } from '@/shared/components/common/board/types'
 
 import { CreateCltLeadSheet } from '../actions/create-lead';
 import { CltLeadCard } from '../lead-card';
+import { useCltLeadsQuery } from '../../hooks/use-queries';
 import { LeadsBoardLayout } from '@/features/leads/components/lead-board';
 import { LeadBoardColumn } from '@/features/leads/components/lead-board/column';
+import type { CltLead } from '../../types/models';
 
 const CLT_COLUMNS: IBoardColumnConfig<LeadStage, GetLeadsParams>[] = [
   {
@@ -79,10 +81,10 @@ const CLT_COLUMNS: IBoardColumnConfig<LeadStage, GetLeadsParams>[] = [
 
 export const CLTLeadBoard = () => {
   return (
-    <LeadsBoardLayout product="Clt">
+    <LeadsBoardLayout segment="Clt">
       {CLT_COLUMNS.map((col, index: number) => (
         <>
-          <LeadBoardColumn
+          <LeadBoardColumn<CltLead>
             key={col.id}
             id={col.id}
             title={col.title}
@@ -90,6 +92,7 @@ export const CLTLeadBoard = () => {
             color={col.color}
             canCreateLead={col.canCreateLead}
             createSheetComponent={<CreateCltLeadSheet />}
+            queryHook={useCltLeadsQuery}
             renderCard={(lead) => <CltLeadCard lead={lead} />}
           />
           {index !== CLT_COLUMNS.length - 1 && (

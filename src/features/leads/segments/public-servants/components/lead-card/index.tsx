@@ -15,7 +15,6 @@ import {
   useOpenHuggyChatMutation,
   useSetReceivingAssistanceFlagMutation
 } from '@/features/leads/hooks/use-mutations';
-import type { Lead } from '@/features/leads/types/lead.model';
 import { PublicServantsLeadDetails } from '../lead-detail';
 import { PublicServantTags } from './public-servant-tags';
 import { PublciServantLastStepBadge } from '../last-step-badge';
@@ -34,8 +33,10 @@ function keepFirstAndLastName(fullName?: string | null) {
   return `${names[0]} ${names[names.length - 1]}`;
 }
 
+import type { PublicServantLead } from '../../types/models';
+
 type PublicServantLeadCardProps = {
-  lead: Lead;
+  lead: PublicServantLead;
 };
 
 export function PublicServantLeadCard({ lead }: PublicServantLeadCardProps) {
@@ -51,7 +52,7 @@ export function PublicServantLeadCard({ lead }: PublicServantLeadCardProps) {
   const openHuggyChat = async (e: React.MouseEvent) => {
     e.stopPropagation();
 
-    if (lead.stageName === 'NewLead' && !lead.lastFlow?.receivingAssistance) {
+    if (lead.stageName === 'NewLead' && !lead.lastFlow.receivingAssistance) {
       setAssistanceFlagMutation.mutate(lead.id);
     }
 
@@ -100,7 +101,7 @@ export function PublicServantLeadCard({ lead }: PublicServantLeadCardProps) {
                 step={lead.lastFlow.flowName as LeadPublicServantFlowName}
                 status={lead.lastFlow.status}
               />
-              <FlagsBadge lead={lead} />
+              <FlagsBadge lastFlow={lead.lastFlow} />
               <FinalizationReasonBadge
                 finalizationReason={lead.finalizationReason}
               />
@@ -114,7 +115,7 @@ export function PublicServantLeadCard({ lead }: PublicServantLeadCardProps) {
           </div>
 
           <div className="w-full " onClick={(e) => e.stopPropagation()}>
-            <LeadChangeOperator lead={lead} />
+            <LeadChangeOperator leadId={lead.id} operator={lead.operator} />
           </div>
         </CardContent>
 

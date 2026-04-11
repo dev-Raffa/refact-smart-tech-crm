@@ -10,46 +10,50 @@ import {
 import type { IBoardColumnConfig } from '@/shared/components/common/board/types';
 import { Badge } from '@/shared/components/ui/badge';
 import { Button } from '@/shared/components/ui/button';
+import type { PaginatedResponse } from '@/shared/types/paginated-response';
 
 import type {
   LeadStage,
-  Lead,
-  GetLeadsParams
+  GetLeadsParams,
+  Lead
 } from '../../../types/lead.model';
 import { useMoveLeadMutation } from '../../../hooks/use-mutations';
 import { useLeads } from '../../../hooks/use-leads';
 import { ColumnFilterMenu } from './filter-column-menu';
 
-export interface LeadBoardColumnProps
+export interface LeadBoardColumnProps<T extends Lead>
   extends IBoardColumnConfig<LeadStage, GetLeadsParams> {
-  renderCard: (lead: Lead) => ReactNode;
+  renderCard: (lead: T) => ReactNode;
   createSheetComponent?: ReactNode;
+  queryHook: (params: GetLeadsParams, enabled: boolean) => any;
 }
 
-const MemoizedBoardItem = memo(
-  ({
-    lead,
-    renderCard
-  }: {
-    lead: Lead;
-    renderCard: (lead: Lead) => ReactNode;
-  }) => (
+function BoardItemContent<T extends Lead>({
+  lead,
+  renderCard
+}: {
+  lead: T;
+  renderCard: (lead: T) => ReactNode;
+}) {
+  return (
     <BoardItem id={lead.id} draggable>
       {renderCard(lead)}
     </BoardItem>
-  )
-);
-MemoizedBoardItem.displayName = 'MemoizedBoardItem';
+  );
+}
 
-export function LeadBoardColumn({
+const MemoizedBoardItem = memo(BoardItemContent) as typeof BoardItemContent;
+
+export function LeadBoardColumn<T extends Lead>({
   id,
   color,
   title,
   canCreateLead,
   filters = [],
   renderCard,
-  createSheetComponent
-}: LeadBoardColumnProps) {
+  createSheetComponent,
+  queryHook
+}: LeadBoardColumnProps<T>) {
   const { mutateAsync } = useMoveLeadMutation();
   const {
     data: leadsData,
@@ -57,9 +61,11 @@ export function LeadBoardColumn({
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage
-  } = useLeads(id);
+  } = useLeads<T>(id, queryHook);
 
-  const leads = leadsData?.pages.flatMap((page) => page.results) || [];
+  const leads =
+    leadsData?.pages.flatMap((page: PaginatedResponse<T>) => page.results) ||
+    [];
   const count = leadsData?.pages[0]?.totalResults || 0;
 
   const handleDrop = async (leadId: string) => {
@@ -101,7 +107,7 @@ export function LeadBoardColumn({
           />
         ) : (
           <>
-            {leads.map((lead: Lead) => (
+            {leads.map((lead: T) => (
               <MemoizedBoardItem
                 key={lead.id}
                 lead={lead}

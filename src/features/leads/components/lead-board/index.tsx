@@ -3,13 +3,14 @@ import { LeadsBoardProvider } from '../../hooks/use-leads-board-context';
 import { LeadsFilters } from '../leads-filters';
 import { Board } from '@/shared/components/common/board';
 import { BoardRefreshControl } from '../actions/board-refresh';
+import type { LeadSegments } from '../../types/lead.model';
 
 type LeadsBoardLayoutProps = {
-  product: 'Inss' | 'Clt';
+  segment: LeadSegments;
   children: ReactNode;
 };
 
-export function LeadsBoardLayout({ product, children }: LeadsBoardLayoutProps) {
+export function LeadsBoardLayout({ segment, children }: LeadsBoardLayoutProps) {
   const fixedScrollRef = useRef<HTMLDivElement>(null);
   const contentContainerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -40,7 +41,7 @@ export function LeadsBoardLayout({ product, children }: LeadsBoardLayoutProps) {
   }, []);
 
   return (
-    <LeadsBoardProvider defaultProducts={[product]}>
+    <LeadsBoardProvider defaultProducts={[segment]}>
       <div className="relative flex h-[calc(100vh-6rem)] w-full max-w-full flex-col overflow-hidden pb-6 flex-1">
         <div className="mb-6">
           <LeadsFilters />

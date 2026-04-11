@@ -4,18 +4,24 @@ import {
   keepPreviousData
 } from '@tanstack/react-query';
 import { LeadService } from '../services';
-import type { GetLeadsParams } from '../types/lead.model';
+import type { PaginatedResponse } from '@/shared/types/paginated-response';
 
-export function useLeadsQuery(params: GetLeadsParams, enabled = true) {
+export function useBaseLeadsPagination<T>(
+  queryKey: unknown[],
+  queryFn: (params: { pageParam?: number }) => Promise<PaginatedResponse<T>>,
+  enabled = true
+) {
   return useInfiniteQuery({
-    queryKey: ['leads', params],
+    queryKey,
     initialPageParam: 1,
     refetchInterval: 1000 * 30, // 30 seconds
     placeholderData: keepPreviousData,
     enabled,
-    queryFn: ({ pageParam = 1 }) =>
-      LeadService.getLeads({ ...params, page: pageParam as number }),
-    getNextPageParam: (lastPage, allPages) => {
+    queryFn,
+    getNextPageParam: (
+      lastPage: PaginatedResponse<T> | undefined,
+      allPages: PaginatedResponse<T>[]
+    ) => {
       if (!lastPage) return undefined;
 
       const totalReturned = allPages.reduce(
@@ -23,7 +29,9 @@ export function useLeadsQuery(params: GetLeadsParams, enabled = true) {
         0
       );
       const totalResults =
-        lastPage.totalResults ?? (lastPage as any).TotalResults ?? 0;
+        lastPage.totalResults ??
+        (lastPage as unknown as { TotalResults?: number }).TotalResults ??
+        0;
 
       if (totalReturned < totalResults) {
         return allPages.length + 1;

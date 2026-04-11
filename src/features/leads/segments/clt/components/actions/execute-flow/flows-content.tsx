@@ -7,11 +7,11 @@ import {
   AlertTitle
 } from '@/shared/components/ui/alert';
 
-import type { Lead } from '@/features/leads/types/lead.model';
 import { FlowCard } from './flow-card';
 import { useFlowExecution } from './use-flow-execution';
+import type { CltLead } from '../../../types/models';
 
-export function FlowsContent({ lead }: { lead: Lead }) {
+export function FlowsContent({ lead }: { lead: CltLead }) {
   const {
     flows,
     loading,

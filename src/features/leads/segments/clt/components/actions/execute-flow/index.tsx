@@ -10,10 +10,10 @@ import {
   SheetTrigger
 } from '@/shared/components/ui/sheet';
 
-import type { Lead } from '@/features/leads/types/lead.model';
+import type { CltLead } from '../../../types/models';
 import { FlowsContent } from './flows-content';
 
-export const CltLeadFlowExecution = ({ lead }: { lead: Lead }) => {
+export const CltLeadFlowExecution = ({ lead }: { lead: CltLead }) => {
   return (
     <Sheet>
       <SheetTrigger asChild>

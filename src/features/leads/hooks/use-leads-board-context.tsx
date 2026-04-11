@@ -15,14 +15,14 @@ import type {
 import { useLeadFiltersValuesOptionsQuery } from './use-queries';
 import type {
   LeadFiltersValuesOptions,
-  LeadOperator,
+  OldLeadOperator,
   LeadSegments
 } from '../types/lead.model';
 
 interface LeadsBoardContextValue {
   state: LeadsFiltersState;
   dispatch: React.Dispatch<LeadsFiltersAction>;
-  availableOperators: LeadOperator[];
+  availableOperators: OldLeadOperator[];
 }
 
 export const LeadsBoardContext = createContext<

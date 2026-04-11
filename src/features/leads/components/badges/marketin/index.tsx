@@ -2,7 +2,7 @@ import { Badge } from '@/shared/components/ui/badge';
 import { cn } from '@/shared/utils';
 
 interface MarketingBadgesProps {
-  marketing: {
+  marketing?: {
     audience: string;
     source: string;
   };
@@ -13,6 +13,8 @@ export const MarketingBadges = ({
   marketing,
   className
 }: MarketingBadgesProps) => {
+  if (!marketing) return null;
+
   return (
     <div
       className={cn('flex flex-col gap-1.5 items-end justify-start', className)}

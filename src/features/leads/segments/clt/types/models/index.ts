@@ -1,3 +1,4 @@
+import type { Lead } from '@/features/leads/types/lead.model';
 import { z } from 'zod';
 
 export const CreateCltLeadSchema = z.object({
@@ -71,4 +72,9 @@ export interface ProductOfferInformation {
   pix?: OfferInformation;
   cas?: OfferInformation;
   crefaz?: OfferInformation;
+}
+
+export interface CltLead extends Lead {
+  products: string[];
+  approvedBank?: string | null;
 }

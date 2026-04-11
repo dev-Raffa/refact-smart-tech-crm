@@ -11,14 +11,14 @@ import {
   FLOW_IDS,
   FLOW_STAGE_MAPPING
 } from '@/features/leads/types/flow.types';
-import type { Lead } from '@/features/leads/types/lead.model';
 import {
   useLeadDetailsQuery,
   useLeadFlowsQuery
 } from '@/features/leads/hooks/use-queries';
 import { useExecuteFlowMutation } from '@/features/leads/hooks/use-mutations';
+import type { PublicServantLead } from '../../../types/models';
 
-export function useFlowExecution(lead: Lead) {
+export function useFlowExecution(lead: PublicServantLead) {
   const { data: allFlows, isLoading: isLoadingFlows = true } =
     useLeadFlowsQuery();
   const { mutateAsync: executeFlow } = useExecuteFlowMutation();

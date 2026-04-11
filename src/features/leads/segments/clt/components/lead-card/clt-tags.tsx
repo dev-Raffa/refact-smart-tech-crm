@@ -1,17 +1,18 @@
-import type { Lead } from '@/features/leads/types/lead.model';
 import { Briefcase, Landmark } from 'lucide-react';
+
 type CltTagsProps = {
-  lead: Lead;
+  leadProducts: string[];
+  approvedBank: string | null | undefined;
 };
 
-export function CltTags({ lead }: CltTagsProps) {
+export function CltTags({ leadProducts, approvedBank }: CltTagsProps) {
   const removeBankPrefix = (text?: string | null) => {
     if (!text || text === 'None') return null;
     return text.replace(/^Banco\s+/, '');
   };
 
-  const products = lead.products.join(', ');
-  const bank = removeBankPrefix(lead.approvedBank);
+  const products = leadProducts.join(', ');
+  const bank = removeBankPrefix(approvedBank);
 
   return (
     <div className="w-full space-y-1.5">

@@ -16,19 +16,21 @@ import {
   PopoverContent,
   PopoverTrigger
 } from '@/shared/components/ui/popover';
-import type { Lead } from '@/features/leads/types/lead.model';
+import type { LeadOperator } from '@/features/leads/types/lead.model';
 import { useChangeOperatorMutation } from '@/features/leads/hooks/use-mutations';
 import { useLeadsBoardContext } from '@/features/leads/hooks/use-leads-board-context';
 
 interface LeadChangeOperatorProps {
-  lead?: Lead;
+  leadId?: string;
+  operator?: LeadOperator;
   value?: { id: string; name: string; username?: string };
   onChange?: (operator: { id: string; name: string; username: string }) => void;
   triggerClassName?: string;
 }
 
 export function LeadChangeOperator({
-  lead,
+  leadId,
+  operator,
   value,
   onChange,
   triggerClassName
@@ -37,11 +39,9 @@ export function LeadChangeOperator({
   const { availableOperators: operators } = useLeadsBoardContext();
   const changeOperatorMutation = useChangeOperatorMutation();
 
-  const currentOperatorId = lead?.operator?.id ?? value?.id ?? '';
-  const currentOperatorName =
-    lead?.operator?.name ?? value?.name ?? 'Sem operador';
+  const currentOperatorId = operator?.id ?? value?.id ?? '';
+  const currentOperatorName = operator?.name ?? value?.name ?? 'Sem operador';
 
-  // Logic to ensure the current operator is in the list even if not in the availableOperators
   const isCurrentInList =
     currentOperatorId && operators.some((op) => op.id === currentOperatorId);
 
@@ -51,8 +51,8 @@ export function LeadChangeOperator({
           { id: value.id, name: value.name, username: value.username || '' },
           ...operators
         ]
-      : !isCurrentInList && lead?.operator
-        ? [lead.operator, ...operators]
+      : !isCurrentInList && operator
+        ? [operator, ...operators]
         : operators;
 
   const handleSelect = (operatorId: string) => {
@@ -72,15 +72,15 @@ export function LeadChangeOperator({
       onChange({
         id: operator.id,
         name: operator.name,
-        username: operator.username
+        username: operator.username ?? ''
       });
-    } else if (lead) {
+    } else if (leadId) {
       changeOperatorMutation.mutate({
-        leadId: lead.id,
+        leadId: leadId,
         operator: {
           id: operator.id,
           name: operator.name,
-          username: operator.username
+          username: operator.username ?? ''
         }
       });
     }

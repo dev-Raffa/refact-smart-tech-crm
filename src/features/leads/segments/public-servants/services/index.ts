@@ -3,13 +3,23 @@ import type { CreatePublicServantLead } from '../types/models';
 import type { UploadPaySlipDto } from '../types/dtos';
 import { handleLeadError } from '@/features/leads/services/error-handler';
 import { PublicServantsLeadMapper } from './mapper';
+import { LeadService } from '@/features/leads/services';
+import type { GetLeadsParams } from '@/features/leads/types/lead.model';
 
 export class PublicServantLeadService {
+  public static async getLeads(params: GetLeadsParams) {
+    const response = await LeadService.getLeads(params);
+    return {
+      ...response,
+      results: response.results.map(PublicServantsLeadMapper.toLead)
+    };
+  }
+
   public static async createLead(
     data: CreatePublicServantLead
   ): Promise<string> {
+    const dto = PublicServantsLeadMapper.toCreateDto(data);
     try {
-      const dto = PublicServantsLeadMapper.toCreateDto(data);
       const { data: leadId } = await httpClient.post<string>(
         '/simulations',
         dto

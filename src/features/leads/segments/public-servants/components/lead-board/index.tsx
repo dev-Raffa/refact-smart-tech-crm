@@ -10,6 +10,8 @@ import type {
 import { LeadsBoardLayout } from '@/features/leads/components/lead-board';
 import { LeadBoardColumn } from '@/features/leads/components/lead-board/column';
 import { CreatePublicServantLeadSheet } from '../acitons/create-lead';
+import { usePublicServantLeadsQuery } from '../../hooks/use-queries';
+import type { PublicServantLead } from '../../types/models';
 
 const SERVANT_COLUMNS: IBoardColumnConfig<LeadStage, GetLeadsParams>[] = [
   {
@@ -66,10 +68,10 @@ const SERVANT_COLUMNS: IBoardColumnConfig<LeadStage, GetLeadsParams>[] = [
 
 export function PublicServantLeadBoard() {
   return (
-    <LeadsBoardLayout product="Inss">
+    <LeadsBoardLayout segment="PublicServant">
       {SERVANT_COLUMNS.map((col, index: number) => (
         <>
-          <LeadBoardColumn
+          <LeadBoardColumn<PublicServantLead>
             key={col.id}
             id={col.id}
             title={col.title}
@@ -77,6 +79,7 @@ export function PublicServantLeadBoard() {
             color={col.color}
             canCreateLead={col.canCreateLead}
             createSheetComponent={<CreatePublicServantLeadSheet />}
+            queryHook={usePublicServantLeadsQuery}
             renderCard={(lead) => <PublicServantLeadCard lead={lead} />}
           />
           {index !== SERVANT_COLUMNS.length - 1 && (

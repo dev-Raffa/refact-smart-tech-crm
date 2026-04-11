@@ -1,10 +1,7 @@
-import type { LeadFinalizationReason } from '../consts/finalization-reasons';
-import type { LeadCltFlowName } from '../segments/clt/consts/steps';
 import type {
   LeadCltDetails,
   ProductOfferInformation
 } from '../segments/clt/types/models';
-import type { LeadPublicServantFlowName } from '../segments/public-servants/consts/steps';
 import type { LeadPublicServantDetails } from '../segments/public-servants/types/models';
 
 export interface LeadMarketing {
@@ -12,14 +9,46 @@ export interface LeadMarketing {
   audience: string;
 }
 
+export interface LeadCustomer {
+  name: string;
+  cpf: string;
+}
+
+export interface LeadLastFlow {
+  flowName: string;
+  status: LeadLastFlowExecutionStatus;
+  receivingAssistance: boolean;
+  cadence: string;
+  needsHumanHelp: boolean;
+}
+
+export interface LeadOperator {
+  id: string;
+  name: string;
+  username?: string;
+}
+
 export interface LeadChat {
   chatId: string;
   contactId: string;
   channelId: string;
 }
+
+export interface Lead {
+  id: string;
+  date: string;
+  stageName: string;
+  availableBalance: number;
+  finalizationReason?: string | null;
+  customer: LeadCustomer;
+  lastFlow: LeadLastFlow;
+  marketing?: LeadMarketing;
+  operator?: LeadOperator;
+}
+
 export interface LeadDetails {
   id: string;
-  customer: LeadCustomer;
+  customer: OldLeadCustomer;
   publicServantDetails: LeadPublicServantDetails;
   cltDetails?: LeadCltDetails;
   marketing: LeadMarketing;
@@ -29,7 +58,7 @@ export interface LeadDetails {
   offers?: ProductOfferInformation;
 }
 
-export interface LeadCustomer {
+export interface OldLeadCustomer {
   name: string;
   cpf: string;
   phoneNumbers: string[] | string;
@@ -50,31 +79,13 @@ export interface LeadOperatorTeam {
   teamName: string;
 }
 
-export interface LeadOperator {
+export interface OldLeadOperator {
   id: string;
   name: string;
   username: string;
   teamDetails?: LeadOperatorTeam;
 }
-
-export interface LeadLastFlow {
-  bank: string;
-  flowName: LeadPublicServantFlowName | LeadCltFlowName;
-  cadence: string;
-  status: LeadLastFlowExecutionStatus;
-  needsHumanHelp: boolean;
-  user: string;
-  receivingAssistance: boolean;
-  executedAt: string;
-  attempt: number;
-  technicalResponseDetails?: {
-    error: string;
-    description: string;
-    jsonReturned: string;
-  };
-}
-
-export type LeadSegments = 'Inss' | 'Clt';
+export type LeadSegments = 'Inss' | 'Clt' | 'PublicServant';
 
 export type LeadStage =
   | 'None'
@@ -85,21 +96,6 @@ export type LeadStage =
   | 'Payed'
   | 'EmptyBalance';
 
-export interface Lead {
-  id: string;
-  date: string;
-  availableBalance: number;
-  stageName: LeadStage;
-  approvedBank: string;
-  finalizationReason: LeadFinalizationReason;
-  products: LeadSegments[];
-  customer: LeadCustomer;
-  marketing: LeadMarketing;
-  operator?: LeadOperator;
-  lastFlow: LeadLastFlow;
-  publicServantDetails: LeadPublicServantDetails;
-  cltDetails?: LeadCltDetails;
-}
 export type LeadLastFlowExecutionStatus =
   | 'RunSuccessfully'
   | 'RunningNow'
@@ -178,7 +174,7 @@ export interface ChangeOperatorParams {
 }
 
 export type LeadFiltersValuesOptions = {
-  operators: LeadOperator[];
+  operators: OldLeadOperator[];
   sources: string[];
   audiences: string[];
 };

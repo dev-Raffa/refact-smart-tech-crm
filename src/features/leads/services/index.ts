@@ -10,7 +10,6 @@ import type {
 } from '../types/lead.dto';
 import type { PaginatedResponse } from '@/shared/types/paginated-response';
 import type {
-  Lead,
   GetLeadsParams,
   MoveLeadParams,
   FlowStep,
@@ -27,7 +26,7 @@ import { handleLeadError } from './error-handler';
 export class LeadService {
   public static async getLeads(
     params: GetLeadsParams
-  ): Promise<PaginatedResponse<Lead>> {
+  ): Promise<PaginatedResponse<LeadDTO>> {
     try {
       const { data } = await httpClient.get<PaginatedResponse<LeadDTO>>(
         '/simulations',
@@ -36,10 +35,7 @@ export class LeadService {
         }
       );
 
-      return {
-        ...data,
-        results: LeadMapper.toModelList(data.results)
-      };
+      return data;
     } catch (error) {
       handleLeadError(error, 'getLeads');
     }

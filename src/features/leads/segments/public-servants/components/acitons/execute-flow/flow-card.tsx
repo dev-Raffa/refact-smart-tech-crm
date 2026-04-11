@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/shared/components/ui/select';
-import type { Lead, LeadStage } from '@/features/leads/types/lead.model';
+import type { LeadStage } from '@/features/leads/types/lead.model';
 import {
   FLOW_IDS,
   type AvailableFlow,
@@ -26,9 +26,10 @@ import {
   LeadPublicServantDisqualificationReasons,
   LeadPublicServantFinalizationReasons
 } from '../../../consts/finalization-reasons';
+import type { PublicServantLead } from '../../../types/models';
 
 interface FlowCardProps {
-  lead: Lead;
+  lead: PublicServantLead;
   flow: AvailableFlow;
   state: FlowFormState;
   isExecuting: boolean;

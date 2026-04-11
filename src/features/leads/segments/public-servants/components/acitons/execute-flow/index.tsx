@@ -11,9 +11,13 @@ import {
 } from '@/shared/components/ui/sheet';
 
 import { FlowsContent } from './flows-content';
-import type { Lead } from '@/features/leads/types/lead.model';
+import type { PublicServantLead } from '../../../types/models';
 
-export const PublicServantFlowExecution = ({ lead }: { lead: Lead }) => {
+export const PublicServantFlowExecution = ({
+  lead
+}: {
+  lead: PublicServantLead;
+}) => {
   return (
     <Sheet>
       <SheetTrigger asChild>

@@ -18,7 +18,7 @@ import {
   SelectValue
 } from '@/shared/components/ui/select';
 import { maskDocument } from '@/shared/utils/masks/mask-document';
-import type { Lead, LeadStage } from '@/features/leads/types/lead.model';
+import type { LeadStage } from '@/features/leads/types/lead.model';
 import {
   FLOW_IDS,
   type AvailableFlow,
@@ -30,9 +30,10 @@ import {
   type LeadFinalizationReason
 } from '@/features/leads/consts/finalization-reasons';
 import { LeadCltFinalizationReasons } from '../../../consts/finalization-reasons';
+import type { CltLead } from '../../../types/models';
 
 interface FlowCardProps {
-  lead: Lead;
+  lead: CltLead;
   flow: AvailableFlow;
   state: FlowFormState;
   isExecuting: boolean;

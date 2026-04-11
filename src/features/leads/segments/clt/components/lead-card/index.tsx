@@ -15,7 +15,6 @@ import { CltTags } from './clt-tags';
 import { formatCurrencyBRL, formatDate } from '@/shared/utils';
 import { CopyButton } from '@/shared/components/common/copy-button';
 import { getFirstNameAndLastName } from '@/shared/utils/get-first-&-last-name';
-import type { Lead } from '@/features/leads/types/lead.model';
 import {
   useOpenHuggyChatMutation,
   useSetReceivingAssistanceFlagMutation
@@ -29,8 +28,10 @@ import { LeadChangeOperator } from '@/features/leads/components/actions/change-o
 import { CltLeadFlowExecution } from '../actions/execute-flow';
 import { CltLeadDetails } from '../lead-detail';
 
+import type { CltLead } from '../../types/models';
+
 type CltLeadCardProps = {
-  lead: Lead;
+  lead: CltLead;
 };
 
 export function CltLeadCard({ lead }: CltLeadCardProps) {
@@ -46,7 +47,7 @@ export function CltLeadCard({ lead }: CltLeadCardProps) {
   const openHuggyChat = async (e: React.MouseEvent) => {
     e.stopPropagation();
 
-    if (lead.stageName === 'NewLead' && !lead.lastFlow?.receivingAssistance) {
+    if (lead.stageName === 'NewLead' && !lead.lastFlow.receivingAssistance) {
       setAssistanceFlagMutation.mutate(lead.id);
     }
 
@@ -95,7 +96,7 @@ export function CltLeadCard({ lead }: CltLeadCardProps) {
                 step={lead.lastFlow.flowName as LeadCltFlowName}
                 status={lead.lastFlow.status}
               />
-              <FlagsBadge lead={lead} />
+              <FlagsBadge lastFlow={lead.lastFlow} />
               <FinalizationReasonBadge
                 finalizationReason={lead.finalizationReason}
               />
@@ -104,12 +105,15 @@ export function CltLeadCard({ lead }: CltLeadCardProps) {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 gap-1 w-full items-center">
-            <CltTags lead={lead} />
+            <CltTags
+              leadProducts={lead.products}
+              approvedBank={lead.approvedBank}
+            />
             <MarketingBadges marketing={lead.marketing} />
           </div>
 
           <div className="w-full " onClick={(e) => e.stopPropagation()}>
-            <LeadChangeOperator lead={lead} />
+            <LeadChangeOperator leadId={lead.id} operator={lead.operator} />
           </div>
         </CardContent>
 

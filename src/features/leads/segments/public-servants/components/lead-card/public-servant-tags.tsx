@@ -1,8 +1,8 @@
-import type { Lead } from '@/features/leads/types/lead.model';
 import { Building2, Landmark } from 'lucide-react';
+import type { PublicServantLead } from '../../types/models';
 
 type PublicServantTagsProps = {
-  lead: Lead;
+  lead: PublicServantLead;
 };
 
 export function PublicServantTags({ lead }: PublicServantTagsProps) {
