@@ -57,7 +57,7 @@ function leadsFiltersReducer(
         ...state,
         filterOptions: action.payload,
         isFilterOptionsLoading: false,
-        operatorIds: action.payload.operators.map((op) => op.id)
+        operatorIds: action.payload.operators?.map((op) => op.id) || []
       };
     case 'SET_STATUS':
       return { ...state, withConversationStatus: action.payload };
